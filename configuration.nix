@@ -30,8 +30,9 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp0s31f6.useDHCP = true;
-  networking.interfaces.wlp4s0.useDHCP = true;
+  # comment out the following because I had very long wait times at startup, so maybe this is the problem? Might be done by networkmanager anyway
+  #networking.interfaces.enp0s31f6.useDHCP = true;
+  #networking.interfaces.wlp4s0.useDHCP = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -196,7 +197,7 @@
   virtualisation.virtualbox.host.enable = true;  # Note that I had to reboot before I could actually use Virtualbox. Or maybe     virtualisation.virtualbox.host.addNetworkInterface would have helped?
   users.extraGroups.vboxusers.members = [ "jan" "heidbrij" ];
 
-  #virtualisation.docker.enable = true;  # this supposedly caused hangs on bootup, try to reproduce and test with build-vm
+  virtualisation.docker.enable = true;
 
 
   environment.etc."vbox/networks.conf" = {
