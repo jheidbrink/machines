@@ -196,7 +196,7 @@
   virtualisation.virtualbox.host.enable = true;  # Note that I had to reboot before I could actually use Virtualbox. Or maybe     virtualisation.virtualbox.host.addNetworkInterface would have helped?
   users.extraGroups.vboxusers.members = [ "jan" "heidbrij" ];
 
-  virtualisation.docker.enable = true;
+  #virtualisation.docker.enable = true;  # this supposedly caused hangs on bootup, try to reproduce and test with build-vm
 
 
   environment.etc."vbox/networks.conf" = {
