@@ -76,13 +76,13 @@
   users.users.jan = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "video" ]; # wheel enables ‘sudo’ for the user. video allows to control brightess via `light`
+    extraGroups = [ "wheel" "video" "docker" ]; # wheel enables ‘sudo’ for the user. video allows to control brightess via `light`
   };
 
   users.users.heidbrij = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "video" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "video" "docker" ]; # Enable ‘sudo’ for the user.
   };
 
   # List packages installed in system profile. To search, run:
@@ -139,6 +139,8 @@
     pcmanfm
     pavucontrol
     mpv
+    bat
+    gnumake
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -193,6 +195,8 @@
 
   virtualisation.virtualbox.host.enable = true;  # Note that I had to reboot before I could actually use Virtualbox. Or maybe     virtualisation.virtualbox.host.addNetworkInterface would have helped?
   users.extraGroups.vboxusers.members = [ "jan" "heidbrij" ];
+
+  virtualisation.docker.enable = true;
 
 
   environment.etc."vbox/networks.conf" = {
