@@ -19,6 +19,8 @@
   # instead of the stianlagstad.no way, I take the following two lines https://nixos.org/manual/nixos/stable/index.html#sec-luks-file-systems
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/88086ce8-7295-420c-916f-ac87f6080b94";
 
+  boot.supportedFilesystems = [ "ntfs" ];  # I don't really care about this at boot time, but the NixOS Wiki uses this line for NTFS support in general
+
   networking.hostName = "schneebesen"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # not sure what wireless.enable does, but seems orthogonal or even conflicting with networkmanager, and I want networkmanager
@@ -142,6 +144,7 @@
     mpv
     bat
     gnumake
+    mupdf
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
