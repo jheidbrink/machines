@@ -145,7 +145,7 @@
     bat
     gnumake
     mupdf
-    (import ./custom_docker_compose.nix { inherit pkgs })
+    docker-compose
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
