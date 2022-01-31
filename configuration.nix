@@ -1,9 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
-
+let
+  unstable = import
+    (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/nixos-unstable)
+    { config = config.nixpkgs.config; };
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -146,6 +149,7 @@
     gnumake
     mupdf
     docker-compose
+    unstable.comma
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
