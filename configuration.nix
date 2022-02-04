@@ -150,6 +150,11 @@ in
     mupdf
     docker-compose
     unstable.comma
+    gdb
+    lldb
+    breakpad
+    libreoffice
+    openssl
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
