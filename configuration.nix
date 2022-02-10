@@ -155,6 +155,10 @@ in
     breakpad
     libreoffice
     openssl
+    flameshot
+    redshift
+    wavemon
+    gnome.seahorse
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
