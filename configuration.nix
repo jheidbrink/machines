@@ -90,7 +90,13 @@ in
   users.users.heidbrij = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "video" "docker" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "video" "docker" ];
+  };
+
+  users.users.magma = {
+    isNormalUser = true;
+    shell = pkgs.zsh;
+    extraGroups = [ "wheel" "video" "docker" ];
   };
 
   # List packages installed in system profile. To search, run:
