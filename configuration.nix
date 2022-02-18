@@ -3,9 +3,22 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 { config, pkgs, ... }:
 let
-  unstable = import
-    (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/nixos-unstable)
-    { config = config.nixpkgs.config; };
+  unstable = import (
+    pkgs.fetchFromGitHub {
+      owner = "nixos";
+      repo = "nixpkgs";
+      rev = "19574af0af3ffaf7c9e359744ed32556f34536bd";  # 2022-02-16 nixpkgs-unstable branch
+      sha256 =  "0v3c4r8v40jimicdxqvxnzmdypnafm2baam7z131zk6ljhb8jpg9";
+    }
+  ) { config = config.nixpkgs.config; };
+  master = import (
+    pkgs.fetchFromGitHub {
+      owner = "nixos";
+      repo = "nixpkgs";
+      rev = "6471f13deae7ca4e36a6aac5b6e5ae09004ab066";  # 2022-02-18 8h3 master branch (I want latest thunderbird)
+      sha256 = "0hn9yfq2qyp19b400y149ipplz8bzllvfgpllzajy4m1yyn5l59z";
+    }
+  ) { config = config.nixpkgs.config; };
 in
 {
   imports =
@@ -117,7 +130,7 @@ in
     alacritty  # associated with windows+t shortcut in i3
     gitAndTools.diff-so-fancy  # git is configured to use it
     stow  # needed by my dotfiles managing script
-    thunderbird
+    master.thunderbird
     fzf  # needed at least for zsh history search
     pass
     yubikey-manager
