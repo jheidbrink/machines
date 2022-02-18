@@ -167,6 +167,7 @@ in
     redshift
     wavemon
     gnome.seahorse
+    act
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
