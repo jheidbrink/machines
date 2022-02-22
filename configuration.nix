@@ -181,6 +181,7 @@ in
     wavemon
     gnome.seahorse
     act
+    nodejs
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
