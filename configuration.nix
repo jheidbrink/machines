@@ -176,6 +176,7 @@ in
     nodejs
     rclone
     ldns  # drill
+    neovim
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -190,7 +191,7 @@ in
   programs.iotop.enable = true;
   programs.iftop.enable = true;
   programs.sysdig.enable = true;
-  programs.neovim.enable = true;
+  #programs.neovim.enable = true;
   programs.chromium.enable = true;
   programs.wireshark.enable = true;
   programs.light.enable = true;
