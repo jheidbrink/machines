@@ -174,6 +174,8 @@ in
     gnome.seahorse
     act
     nodejs
+    rclone
+    ldns  # drill
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
