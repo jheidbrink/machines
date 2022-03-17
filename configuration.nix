@@ -7,8 +7,8 @@ let
     pkgs.fetchFromGitHub {
       owner = "nixos";
       repo = "nixpkgs";
-      rev = "a5aa6d9d0e9985b2f88c54783f4d685929bd8d9f";  # 2021-12-12 nixpkgs-unstable branch
-      sha256 = "145cfkc70y3pzp596hxpfllxgwpflw4lz2sh19d6lghybcc5w3nf";
+      rev = "c7d97d658e2f87ce54dac0ac6fe707fdf92f8445";  # 2022-03-14 nixpkgs-unstable branch
+      sha256 = "1p1zr6piwn4j0mvv3sriillxx2id41w8m5j98g2m2pzi1ahawk8f";
     }
   ) { config = config.nixpkgs.config; };
 in
