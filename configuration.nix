@@ -8,7 +8,7 @@ let
       owner = "nixos";
       repo = "nixpkgs";
       rev = "19574af0af3ffaf7c9e359744ed32556f34536bd";  # 2022-02-16 nixpkgs-unstable branch
-      sha256 =  "0v3c4r8v40jimicdxqvxnzmdypnafm2baam7z131zk6ljhb8jpg9";
+      sha256 = "0v3c4r8v40jimicdxqvxnzmdypnafm2baam7z131zk6ljhb8jpg9";
     }
   ) { config = config.nixpkgs.config; };
 in
@@ -177,6 +177,7 @@ in
     rclone
     ldns  # drill
     neovim
+    python39Packages.mypy
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
