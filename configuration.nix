@@ -17,6 +17,7 @@ let
   #    rev = "a8d00f5c038cf7ec54e7dac9c57b171c1217f008";  # 2022-03-12 release-21.11
   #    sha256 = "1ix6cknhlrwpawlakrsd3616rgy1calnds2h6wfqrv6cfdwsyzzc";
   #  };
+  syncrepos = (import ./bin/syncrepos.nix) { inherit pkgs; };
 in
 {
   imports =
@@ -189,6 +190,8 @@ in
     ldns  # drill
     neovim
     python39Packages.mypy
+    syncrepos
+    black
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
