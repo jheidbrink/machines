@@ -11,11 +11,19 @@ let
       sha256 = "01j7nhxbb2kjw38yk4hkjkkbmz50g3br7fgvad6b1cjpdvfsllds";
     }
   ) { config = config.nixpkgs.config; };
+  #home-manager = pkgs.fetchFromGitHub {
+  #    owner = "nix-community";
+  #    repo = "home-manager";
+  #    rev = "a8d00f5c038cf7ec54e7dac9c57b171c1217f008";  # 2022-03-12 release-21.11
+  #    sha256 = "1ix6cknhlrwpawlakrsd3616rgy1calnds2h6wfqrv6cfdwsyzzc";
+  #  };
 in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      #home-manager/nixos  <- this tries to use the one from fetchFromGitHub, but that doesnt work
+      <home-manager/nixos>  # we have to configure a home-manager channel for root user
     ];
 
   nixpkgs.config.allowUnfree = true;
@@ -90,6 +98,9 @@ in
     isNormalUser = true;
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "video" "docker" ]; # wheel enables ‘sudo’ for the user. video allows to control brightess via `light`
+  };
+  home-manager.users.jan = { pkgs, ...}: {
+    home.packages = [ pkgs.httpie ];
   };
 
   users.users.heidbrij = {
