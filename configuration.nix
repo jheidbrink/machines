@@ -194,6 +194,17 @@ in
     black
   ];
 
+  systemd.services.syncrepos-jan = {
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    description = "Start syncrepos for user jan";
+    serviceConfig = {
+      Type = "simple";
+      User = "jan";
+      ExecStart = "{syncrepos}/bin/syncrepos";
+    };
+  };
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
