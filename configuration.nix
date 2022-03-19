@@ -11,34 +11,16 @@ let
       sha256 = "01j7nhxbb2kjw38yk4hkjkkbmz50g3br7fgvad6b1cjpdvfsllds";
     }
   ) { config = config.nixpkgs.config; };
-  #home-manager = pkgs.fetchFromGitHub {
-  #    owner = "nix-community";
-  #    repo = "home-manager";
-  #    rev = "a8d00f5c038cf7ec54e7dac9c57b171c1217f008";  # 2022-03-12 release-21.11
-  #    sha256 = "1ix6cknhlrwpawlakrsd3616rgy1calnds2h6wfqrv6cfdwsyzzc";
-  #  };
-  # syncrepos = (import ./bin/syncrepos.nix) { inherit pkgs; };
-  syncrepos = pkgs.stdenv.mkDerivation {
-    name = "syncrepos";
-    buildInputs = [ pkgs.kbfs ];
-    unpackPhase = "true";  # skip unpack phase (just execute the `true` command)
-    installPhase = ''
-      mkdir -p $out/bin
-      ${pkgs.gnused}/bin/sed \
-        --regexp-extended \
-        -e 's@#!/usr/bin/env python3?$@#!${pkgs.python3}/bin/python3@' \
-        -e 's@"git"@"${pkgs.git}/bin/git"@g' \
-        ${./bin/syncrepos.py} \
-        > $out/bin/syncrepos
-      chmod +x $out/bin/syncrepos
-    '';
-  };
+  syncrepos_unwrapped = pkgs.writers.writePython3Bin "syncrepos.py" { flakeIgnore = [ "E265" "E501" ]; } (builtins.readFile ./bin/syncrepos.py);
+  syncrepos = pkgs.writers.writeDashBin "syncrepos" ''
+    export PATH=$PATH:${pkgs.git}/bin:${pkgs.kbfs}/bin
+    exec ${pkgs.python3}/bin/python3 ${syncrepos_unwrapped}/bin/syncrepos.py
+  '';
 in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      #home-manager/nixos  <- this tries to use the one from fetchFromGitHub, but that doesnt work
       <home-manager/nixos>  # we have to configure a home-manager channel for root user
     ];
 
@@ -209,13 +191,12 @@ in
     black
   ];
 
-  systemd.services.syncrepos-jan = {
+  systemd.user.services.syncrepos = {
     wantedBy = [ "multi-user.target" ];
     after = [ "network.target" ];
-    description = "Start syncrepos for user jan";
+    description = "Synchronize Users Git repositories";
     serviceConfig = {
       Type = "simple";
-      User = "jan";
       ExecStart = "${syncrepos}/bin/syncrepos";
     };
   };
