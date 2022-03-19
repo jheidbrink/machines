@@ -17,7 +17,22 @@ let
   #    rev = "a8d00f5c038cf7ec54e7dac9c57b171c1217f008";  # 2022-03-12 release-21.11
   #    sha256 = "1ix6cknhlrwpawlakrsd3616rgy1calnds2h6wfqrv6cfdwsyzzc";
   #  };
-  syncrepos = (import ./bin/syncrepos.nix) { inherit pkgs; };
+  # syncrepos = (import ./bin/syncrepos.nix) { inherit pkgs; };
+  syncrepos = pkgs.stdenv.mkDerivation {
+    name = "syncrepos";
+    buildInputs = [ pkgs.kbfs ];
+    unpackPhase = "true";  # skip unpack phase (just execute the `true` command)
+    installPhase = ''
+      mkdir -p $out/bin
+      ${pkgs.gnused}/bin/sed \
+        --regexp-extended \
+        -e 's@#!/usr/bin/env python3?$@#!${pkgs.python3}/bin/python3@' \
+        -e 's@"git"@"${pkgs.git}/bin/git"@g' \
+        ${./bin/syncrepos.py} \
+        > $out/bin/syncrepos
+      chmod +x $out/bin/syncrepos
+    '';
+  };
 in
 {
   imports =
@@ -201,7 +216,7 @@ in
     serviceConfig = {
       Type = "simple";
       User = "jan";
-      ExecStart = "{syncrepos}/bin/syncrepos";
+      ExecStart = "${syncrepos}/bin/syncrepos";
     };
   };
 
