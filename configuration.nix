@@ -189,6 +189,8 @@ in
     python39Packages.mypy
     syncrepos
     black
+    ripgrep
+    fzf
   ];
 
   systemd.user.services.syncrepos = {
