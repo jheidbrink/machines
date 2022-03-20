@@ -232,6 +232,11 @@ in
 
   services.keybase.enable = true;  # it seems this doesn't give keybase-gui yet
 
+  services.gitolite = {
+    enable = true;
+    adminPubkey = (builtins.readFile ./pubkeys/id_rsa_jan_at_toastbrot.pub);
+  };
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
