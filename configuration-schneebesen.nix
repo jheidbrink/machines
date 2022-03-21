@@ -11,7 +11,7 @@ let
       sha256 = "01j7nhxbb2kjw38yk4hkjkkbmz50g3br7fgvad6b1cjpdvfsllds";
     }
   ) { config = config.nixpkgs.config; };
-  syncrepos_unwrapped = pkgs.writers.writePython3Bin "syncrepos.py" { flakeIgnore = [ "E265" "E501" ]; } (builtins.readFile ../../bin/syncrepos.py);
+  syncrepos_unwrapped = pkgs.writers.writePython3Bin "syncrepos.py" { flakeIgnore = [ "E265" "E501" ]; } (builtins.readFile ./bin/syncrepos.py);
   syncrepos = pkgs.writers.writeDashBin "syncrepos" ''
     export PATH=$PATH:${pkgs.git}/bin:${pkgs.kbfs}/bin
     exec ${pkgs.python3}/bin/python3 ${syncrepos_unwrapped}/bin/syncrepos.py
@@ -42,7 +42,7 @@ in
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ./machines/schneebesen/hardware-configuration.nix
       <home-manager/nixos>  # we have to configure a home-manager channel for root user
     ];
 
@@ -146,7 +146,7 @@ in
         tagbar
         vim-colors-solarized
       ];
-      extraConfig = builtins.readFile ../../dotfiles/init.vim;
+      extraConfig = builtins.readFile ./dotfiles/init.vim;
     };
 
     programs.alacritty.enable = true;
@@ -289,7 +289,7 @@ in
 
   services.gitolite = {
     enable = true;
-    adminPubkey = (builtins.readFile ../../pubkeys/id_rsa_jan_at_toastbrot.pub);
+    adminPubkey = (builtins.readFile ./pubkeys/id_rsa_jan_at_toastbrot.pub);
   };
 
   # Open ports in the firewall.
