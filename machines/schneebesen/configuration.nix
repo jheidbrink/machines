@@ -243,6 +243,7 @@ in
     ripgrep
     fzf
     example-fzf-vim
+    aws
   ];
 
   systemd.user.services.syncrepos = {
