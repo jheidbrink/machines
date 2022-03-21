@@ -16,6 +16,28 @@ let
     export PATH=$PATH:${pkgs.git}/bin:${pkgs.kbfs}/bin
     exec ${pkgs.python3}/bin/python3 ${syncrepos_unwrapped}/bin/syncrepos.py
   '';
+  #shaunsingh = pkgs.fetchFromGitHub {
+  #  owner = "shaunsingh";
+  #  repo = "nix-darwin-dotfiles";
+  #  rev = "528a59f26d12278698bb946f8fb82a63711eec21";
+  #  sha256 = "00xhpnh3bljl5lnzqydw23gsg1k3byhvqy71zhczm20r0syn63c2";
+  #};
+  example-fzf-vim = pkgs.vim_configurable.customize {
+    name = "example-fzf-vim";
+    vimrcConfig = {
+      #plug.plugins = [ pkgs.vimPlugins.fzf-vim pkgs.vimPlugins.vim-fugitive ];
+      packages.myVimPackage = {
+        start = [ pkgs.vimPlugins.fzf-vim pkgs.vimPlugins.vim-fugitive ];
+      };
+      customRC = ''
+        nnoremap <silent> <leader>f :Files<CR>
+        nnoremap <silent> <leader>b :Buffers<CR>
+        nnoremap <silent> <leader>c :Commands<CR>
+        nnoremap <silent> <leader>g :Commits<CR>
+        nnoremap <leader>/ :Rg<Space>
+      '';
+    };
+  };
 in
 {
   imports =
@@ -98,7 +120,36 @@ in
     extraGroups = [ "wheel" "video" "docker" ]; # wheel enables ‘sudo’ for the user. video allows to control brightess via `light`
   };
   home-manager.users.jan = { pkgs, ...}: {
+    #config.themes.base16 = {
+    #  enable = true;
+    #  path = "${shaunsingh}/modules/themes/base16-carbon-dark.yaml";
+    #};
     home.packages = [ pkgs.httpie ];
+    programs.neovim = {
+      enable = true;
+      withPython3 = true;
+      extraPackages = [ ];
+      plugins = with pkgs.vimPlugins; [
+        fzf-vim
+        undotree
+        ultisnips
+        vim-snippets
+        ale
+        vim-better-whitespace
+        vim-fugitive
+        vim-nix
+        vim-go
+        deoplete-nvim
+        deoplete-clang
+        deoplete-jedi
+        tagbar
+        vim-colors-solarized
+      ];
+      extraConfig = builtins.readFile ./dotfiles/init.vim;
+    };
+
+    programs.alacritty.enable = true;
+
   };
 
   users.users.heidbrij = {
@@ -191,6 +242,7 @@ in
     black
     ripgrep
     fzf
+    example-fzf-vim
   ];
 
   systemd.user.services.syncrepos = {
@@ -220,6 +272,7 @@ in
   programs.wireshark.enable = true;
   programs.light.enable = true;
   programs.nm-applet.enable = true;
+
 
   # List services that you want to enable:
 
