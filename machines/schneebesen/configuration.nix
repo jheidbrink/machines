@@ -253,7 +253,7 @@ in
     description = "Synchronize Users Git repositories";
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${pkgs.dash}/bin/dash -c 'export SSH_AUTH_SOCK=$(${pkgs.gnupg}/bin/gpgconf --list-dirs agent-ssh-socket); ${syncrepos}/bin/syncrepos'";
+      ExecStart = "${pkgs.dash}/bin/dash -c 'export SSH_AUTH_SOCK=$(${pkgs.gnupg}/bin/gpgconf --list-dirs agent-ssh-socket); exec ${syncrepos}/bin/syncrepos'";
     };
   };
 
