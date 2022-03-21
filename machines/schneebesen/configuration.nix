@@ -249,11 +249,14 @@ in
 
   systemd.user.services.syncrepos = {
     wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
+    after = [ "network.target" "gpg-agent.service" ];
     description = "Synchronize Users Git repositories";
     serviceConfig = {
       Type = "simple";
       ExecStart = "${syncrepos}/bin/syncrepos";
+    };
+    environment = {
+      SSH_AUTH_SOCK = "/run/user/1001/gnupg/S.gpg-agent.ssh";
     };
   };
 
