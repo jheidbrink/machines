@@ -262,7 +262,6 @@ in
   # programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = true;
   };
   programs.zsh.enable = true;
   programs.git.enable = true;
@@ -274,6 +273,7 @@ in
   programs.wireshark.enable = true;
   programs.light.enable = true;
   programs.nm-applet.enable = true;
+  programs.ssh.startAgent = true;
 
 
   # List services that you want to enable:
