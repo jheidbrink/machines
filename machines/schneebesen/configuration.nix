@@ -253,10 +253,7 @@ in
     description = "Synchronize Users Git repositories";
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${syncrepos}/bin/syncrepos";
-    };
-    environment = {
-      SSH_AUTH_SOCK = "/run/user/1001/gnupg/S.gpg-agent.ssh";
+      ExecStart = "${pkgs.dash}/bin/dash -c 'export SSH_AUTH_SOCK=$(${pkgs.gnupg}/bin/gpgconf --list-dirs agent-ssh-socket); ${syncrepos}/bin/syncrepos'";
     };
   };
 
