@@ -16,36 +16,32 @@ let
     export PATH=$PATH:${pkgs.git}/bin:${pkgs.kbfs}/bin
     exec ${pkgs.python3}/bin/python3 ${syncrepos_unwrapped}/bin/syncrepos.py
   '';
-  #shaunsingh = pkgs.fetchFromGitHub {
-  #  owner = "shaunsingh";
-  #  repo = "nix-darwin-dotfiles";
-  #  rev = "528a59f26d12278698bb946f8fb82a63711eec21";
-  #  sha256 = "00xhpnh3bljl5lnzqydw23gsg1k3byhvqy71zhczm20r0syn63c2";
-  #};
-  example-fzf-vim = pkgs.vim_configurable.customize {
-    name = "example-fzf-vim";
+  myvim = pkgs.vim_configurable.customize {
+    name = "vim";
     vimrcConfig = {
-      #plug.plugins = [ pkgs.vimPlugins.fzf-vim pkgs.vimPlugins.vim-fugitive ];
-      packages.myVimPackage = {
-        start = [ pkgs.vimPlugins.fzf-vim pkgs.vimPlugins.vim-fugitive ];
+      packages.myVimPackage = with pkgs.vimPlugins; {
+        start = [
+          fzf-vim
+          undotree
+          ultisnips
+          vim-snippets
+          ale
+          vim-better-whitespace
+          vim-fugitive
+          vim-nix
+          vim-go
+          deoplete-nvim
+          deoplete-clang
+          deoplete-jedi
+          tagbar
+          vim-colors-solarized
+        ];
       };
-      customRC = ''
-        nnoremap <silent> <leader>f :Files<CR>
-        nnoremap <silent> <leader>b :Buffers<CR>
-        nnoremap <silent> <leader>c :Commands<CR>
-        nnoremap <silent> <leader>g :Commits<CR>
-        nnoremap <leader>/ :Rg<Space>
-      '';
+      customRC = builtins.readFile ./dotfiles/init.vim;
     };
   };
 in
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./machines/schneebesen/hardware-configuration.nix
-      <home-manager/nixos>  # we have to configure a home-manager channel for root user
-    ];
-
   nixpkgs.config.allowUnfree = true;
 
   # Use the systemd-boot EFI boot loader.
@@ -60,7 +56,7 @@ in
 
   boot.blacklistedKernelModules = [ "nouveau" ];
 
-  networking.hostName = "schneebesen"; # Define your hostname.
+  networking.hostName = "petrosilia"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # not sure what wireless.enable does, but seems orthogonal or even conflicting with networkmanager, and I want networkmanager
 
@@ -120,46 +116,8 @@ in
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "video" "docker" ]; # wheel enables ‘sudo’ for the user. video allows to control brightess via `light`
   };
-  home-manager.users.jan = { pkgs, ...}: {
-    #config.themes.base16 = {
-    #  enable = true;
-    #  path = "${shaunsingh}/modules/themes/base16-carbon-dark.yaml";
-    #};
-    home.packages = [ pkgs.httpie ];
-    programs.neovim = {
-      enable = true;
-      withPython3 = true;
-      extraPackages = [ ];
-      plugins = with pkgs.vimPlugins; [
-        fzf-vim
-        undotree
-        ultisnips
-        vim-snippets
-        ale
-        vim-better-whitespace
-        vim-fugitive
-        vim-nix
-        vim-go
-        deoplete-nvim
-        deoplete-clang
-        deoplete-jedi
-        tagbar
-        vim-colors-solarized
-      ];
-      extraConfig = builtins.readFile ./dotfiles/init.vim;
-    };
-
-    programs.alacritty.enable = true;
-
-  };
 
   users.users.heidbrij = {
-    isNormalUser = true;
-    shell = pkgs.zsh;
-    extraGroups = [ "wheel" "video" "docker" ];
-  };
-
-  users.users.magma = {
     isNormalUser = true;
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "video" "docker" ];
@@ -238,12 +196,12 @@ in
     rclone
     ldns  # drill
     neovim
+    myvim
     python39Packages.mypy
     syncrepos
     black
     ripgrep
     fzf
-    example-fzf-vim
     aws
   ];
 
