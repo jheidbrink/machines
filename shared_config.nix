@@ -1,0 +1,277 @@
+{ config, pkgs, ... }:
+let
+  unstable = import (
+    pkgs.fetchFromGitHub {
+      owner = "nixos";
+      repo = "nixpkgs";
+      rev = "9c5285c7810062bfa22c35bd4b3e573c787064e2";  # 2022-03-19 nixpkgs-unstable branch
+      sha256 = "19219i6fq82xzcdpgjpv7ahp7b8l634rcvzlmwk65cp07xp6w6g5";
+    }
+  ) { config = config.nixpkgs.config; };
+  syncrepos_unwrapped = pkgs.writers.writePython3Bin "syncrepos.py" { flakeIgnore = [ "E265" "E501" ]; } (builtins.readFile ./bin/syncrepos.py);
+  syncrepos = pkgs.writers.writeDashBin "syncrepos" ''
+    export PATH=$PATH:${pkgs.git}/bin:${pkgs.kbfs}/bin
+    exec ${pkgs.python3}/bin/python3 ${syncrepos_unwrapped}/bin/syncrepos.py
+  '';
+  myvim = pkgs.vim_configurable.customize {
+    name = "vim";
+    vimrcConfig = {
+      packages.myVimPackage = with pkgs.vimPlugins; {
+        start = [
+          fzf-vim
+          undotree
+          ultisnips
+          vim-snippets
+          ale
+          vim-better-whitespace
+          vim-fugitive
+          vim-nix
+          vim-go
+          deoplete-nvim
+          deoplete-clang
+          deoplete-jedi
+          tagbar
+          vim-colors-solarized
+        ];
+      };
+      customRC = builtins.readFile ./dotfiles/init.vim;
+    };
+  };
+  example-fzf-vim = pkgs.vim_configurable.customize {
+    name = "example-fzf-vim";
+    vimrcConfig = {
+      #plug.plugins = [ pkgs.vimPlugins.fzf-vim pkgs.vimPlugins.vim-fugitive ];
+      packages.myVimPackage = {
+        start = with pkgs.vimPlugins;[ fzf-vim vim-fugitive ];
+      };
+      customRC = ''
+        nnoremap <silent> <leader>f :Files<CR>
+        nnoremap <silent> <leader>b :Buffers<CR>
+        nnoremap <silent> <leader>c :Commands<CR>
+        nnoremap <silent> <leader>g :Commits<CR>
+        nnoremap <leader>/ :Rg<Space>
+      '';
+    };
+  };
+in
+{
+  nixpkgs.config.allowUnfree = true;
+
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 30;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  boot.supportedFilesystems = [ "ntfs" ];  # I don't really care about this at boot time, but the NixOS Wiki uses this line for NTFS support in general
+
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true;  # not sure what wireless.enable does, but seems orthogonal or even conflicting with networkmanager, and I want networkmanager
+
+  # Set your time zone.
+  time.timeZone = "Europe/Berlin";
+
+  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+  # Per-interface useDHCP will be mandatory in the future, so this generated config
+  # replicates the default behaviour.
+  networking.useDHCP = false;
+  # comment out the following because I had very long wait times at startup, so maybe this is the problem? Might be done by networkmanager anyway
+  #networking.interfaces.enp0s31f6.useDHCP = true;
+  #networking.interfaces.wlp4s0.useDHCP = true;
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "us";
+  };
+
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+
+
+  # Enable the GNOME Desktop Environment.
+  services.xserver.displayManager.gdm.enable = true;
+  #services.xserver.desktopManager.gnome.enable = true;
+
+  services.xserver.windowManager.i3.enable = true;
+  services.xserver.windowManager.i3.extraPackages = [ pkgs.dmenu pkgs.i3status pkgs.i3lock pkgs.i3blocks ];
+
+  # Configure keymap in X11
+  services.xserver.layout = "us";
+  services.xserver.xkbOptions = "eurosign:e, caps:escape";
+
+  # Enable CUPS to print documents.
+  # services.printing.enable = true;
+
+  # Enable sound.
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
+
+  # Enable touchpad support (enabled default in most desktopManager).
+  services.xserver.libinput.enable = true;
+  # Prevent tap-clicking: (from https://www.reddit.com/r/NixOS/comments/dwvtvz/disable_touchpad_clicking/f7ocis6/)
+  services.xserver.libinput.touchpad.clickMethod = "clickfinger";
+  services.xserver.libinput.touchpad.tapping = false;
+  services.xserver.libinput.touchpad.disableWhileTyping = true;
+
+  # needed for store VSCode auth token
+  services.gnome.gnome-keyring.enable = true;
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.jan = {
+    isNormalUser = true;
+    shell = pkgs.zsh;
+    extraGroups = [ "wheel" "video" "docker" ]; # wheel enables ‘sudo’ for the user. video allows to control brightess via `light`
+  };
+
+  users.users.heidbrij = {
+    isNormalUser = true;
+    shell = pkgs.zsh;
+    extraGroups = [ "wheel" "video" "docker" ];
+  };
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    wget
+    firefox
+    tree
+    jq
+    curl
+    python3Packages.argcomplete  # sourced from shell
+    python3Packages.virtualenvwrapper  # loaded by my zshrc
+    python3Packages.ipython
+    python3Packages.pip-tools
+    python3Packages.poetry
+    python3Packages.pylint
+    alacritty  # associated with windows+t shortcut in i3
+    gitAndTools.diff-so-fancy  # git is configured to use it
+    stow  # needed by my dotfiles managing script
+    thunderbird
+    fzf  # needed at least for zsh history search
+    pass
+    yubikey-manager
+    zoom-us
+    ncdu
+    kbfs  # Keybase filesystem, this also brings the git-remote-keybase binary
+    keybase-gui
+    xclip  # needed also for neovim clipboard support
+    vscode
+    vagrant
+    sqlite
+    gsimplecal  # also mapped to i3 keyboard shortcut
+    pv
+    htop
+    xorg.xkill
+    ansible
+    google-chrome
+    arp-scan
+    chromium
+    bazel_4
+    xorg.xmodmap
+    pwgen
+    gcc
+    go
+    graphviz
+    gnome.eog
+    file
+    unzip
+    gimp
+    pcmanfm
+    pavucontrol
+    mpv
+    bat
+    gnumake
+    mupdf
+    docker-compose
+    unstable.comma
+    gdb
+    lldb
+    breakpad
+    libreoffice
+    openssl
+    flameshot
+    redshift
+    wavemon
+    gnome.seahorse
+    act
+    nodejs
+    rclone
+    ldns  # drill
+    neovim
+    myvim
+    python39Packages.mypy
+    syncrepos
+    black
+    ripgrep
+    fzf
+    aws
+    pciutils
+    parted
+    Fabric  # for magma
+  ];
+
+  systemd.user.services.syncrepos = {
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" "gpg-agent.service" ];
+    description = "Synchronize Users Git repositories";
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.dash}/bin/dash -c 'export SSH_AUTH_SOCK=$(${pkgs.gnupg}/bin/gpgconf --list-dirs agent-ssh-socket); exec ${syncrepos}/bin/syncrepos'";
+    };
+  };
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+  programs.zsh.enable = true;
+  programs.git.enable = true;
+  programs.iotop.enable = true;
+  programs.iftop.enable = true;
+  programs.sysdig.enable = true;
+  programs.chromium.enable = true;
+  programs.wireshark.enable = true;
+  programs.light.enable = true;
+  programs.nm-applet.enable = true;
+
+  services.openssh.enable = true;
+  services.openssh.forwardX11 = true;
+  services.pcscd.enable = true;  # for Yubikey
+  services.keybase.enable = true;  # it seems this doesn't give keybase-gui yet
+  services.gitolite = {
+    enable = true;
+    adminPubkey = (builtins.readFile ./pubkeys/id_rsa_jan_at_toastbrot.pub);
+  };
+
+  # While restoring my home folder, the machine would go to sleep, so let's try https://discourse.nixos.org/t/stop-pc-from-sleep/5757/2
+  # Disable the GNOME3/GDM auto-suspend feature that cannot be disabled in GUI!
+  # If no user is logged in, the machine will power down after 20 minutes.
+  systemd.targets.sleep.enable = false;
+  systemd.targets.suspend.enable = false;
+  systemd.targets.hibernate.enable = false;
+  systemd.targets.hybrid-sleep.enable = false;
+
+  # Minimal configuration for NFS support with Vagrant. (from NixOS Wiki)
+  services.nfs.server.enable = true;
+  networking.firewall.extraCommands = ''
+    ip46tables -I INPUT 1 -i vboxnet+ -p tcp -m tcp --dport 2049 -j ACCEPT
+  '';
+
+  virtualisation.docker.enable = true;
+
+  virtualisation.virtualbox.host.enable = true;  # Note that I had to reboot before I could actually use Virtualbox. Or maybe     virtualisation.virtualbox.host.addNetworkInterface would have helped?
+  users.extraGroups.vboxusers.members = [ "jan" "heidbrij" ];
+  environment.etc."vbox/networks.conf" = {
+  mode = "0644";
+  text = ''
+    * 192.168.0.0/16
+  '';
+  };
+
+}
+
