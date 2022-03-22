@@ -210,6 +210,7 @@ in
     pciutils
     parted
     Fabric  # for magma
+    shellcheck  # should be used by Vim if Ale is installed
   ];
 
   systemd.user.services.syncrepos = {
