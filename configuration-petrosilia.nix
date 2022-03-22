@@ -203,6 +203,7 @@ in
     ripgrep
     fzf
     aws
+    pciutils
   ];
 
   systemd.user.services.syncrepos = {
