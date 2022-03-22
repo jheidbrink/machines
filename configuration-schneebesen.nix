@@ -246,6 +246,7 @@ in
     example-fzf-vim
     aws
     pciutils
+    parted
   ];
 
   systemd.user.services.syncrepos = {

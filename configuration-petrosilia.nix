@@ -204,6 +204,7 @@ in
     fzf
     aws
     pciutils
+    parted
   ];
 
   systemd.user.services.syncrepos = {
