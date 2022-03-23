@@ -40,7 +40,6 @@ let
   example-fzf-vim = pkgs.vim_configurable.customize {
     name = "example-fzf-vim";
     vimrcConfig = {
-      #plug.plugins = [ pkgs.vimPlugins.fzf-vim pkgs.vimPlugins.vim-fugitive ];
       packages.myVimPackage = {
         start = with pkgs.vimPlugins;[ fzf-vim vim-fugitive ];
       };
@@ -63,6 +62,9 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.supportedFilesystems = [ "ntfs" ];  # I don't really care about this at boot time, but the NixOS Wiki uses this line for NTFS support in general
+
+  boot.kernelModules = [ "acpi_call" ];  # from https://github.com/NixOS/nixos-hardware/blob/c326257692902fe57d3d0f513ebf9c405ccd02ad/common/pc/laptop/acpi_call.nix, from https://github.com/NixOS/nixos-hardware/blob/c326257692902fe57d3d0f513ebf9c405ccd02ad/lenovo/thinkpad/p14s/amd/gen2/default.nix
+  boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];  # from https://github.com/NixOS/nixos-hardware/blob/c326257692902fe57d3d0f513ebf9c405ccd02ad/common/pc/laptop/acpi_call.nix
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # not sure what wireless.enable does, but seems orthogonal or even conflicting with networkmanager, and I want networkmanager
