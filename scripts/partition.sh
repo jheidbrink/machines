@@ -46,4 +46,4 @@ mount /dev/disk/by-label/boot /mnt/boot
 
 
 echo "Now you can run:"
-echo "nixos-generate-config --root /mnt"
+echo "scripts/install_new_system.sh ${device}p2 <hostname>"
