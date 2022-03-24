@@ -200,7 +200,6 @@ in
     nodejs
     rclone
     ldns  # drill
-    neovim
     myvim
     python39Packages.mypy
     syncrepos
@@ -240,6 +239,30 @@ in
   programs.wireshark.enable = true;
   programs.light.enable = true;
   programs.nm-applet.enable = true;
+  programs.neovim = {
+    enable = true;
+    configure = {
+      customRC = (builtins.readFile ./dotfiles/init.vim);
+      packages.myVimPackage = with pkgs.vimPlugins; {
+        start = [
+          fzf-vim
+          undotree
+          ultisnips
+          vim-snippets
+          ale
+          vim-better-whitespace
+          vim-fugitive
+          vim-nix
+          vim-go
+          deoplete-nvim
+          deoplete-clang
+          deoplete-jedi
+          tagbar
+          vim-colors-solarized
+        ];
+      };
+    };
+  };
 
   services.openssh.enable = true;
   services.openssh.forwardX11 = true;
