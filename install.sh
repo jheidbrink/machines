@@ -4,6 +4,6 @@ set -eu
 
 host=$1
 
-cp -r * /etc/nixos/
-ln -sf configuration-$host.nix /etc/nixos/configuration.nix
+rsync --recursive --exclude=.mypy_cache ./ /etc/nixos/
+ln -sf configuration-"${host}".nix /etc/nixos/configuration.nix
 nixos-rebuild switch

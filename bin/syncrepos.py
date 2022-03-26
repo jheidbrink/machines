@@ -4,101 +4,109 @@
 Sync repos defined in ~/.config/sync_repos.json
 
 TODO:
+* warn when encountering unknown remotes, add missing remotes
 * think about error handling
 * offline mode
 * different intervals
 * Just fetch, merge and push all defined remotes?
+  - but then I couldn't use this script for initial clone
 """
 
 import argparse
 import json
+from dataclasses import dataclass
 import logging
 from pathlib import Path
 import subprocess
 import time
-from typing import List, NewType
+from typing import Union, cast
+
+RemoteName = str
+RemoteUrl = str
+
+RemoteData = dict[RemoteName, RemoteUrl]
+RepoData = dict[str, Union[str, RemoteData]]
+StoredConfig = list[RepoData]
 
 
-FetchRemote = NewType("FetchRemote", str)
-PushRemote = NewType("PushRemote", str)
-MergeRef = NewType("MergeRef", str)
+def loadconfig() -> StoredConfig:
+    logging.debug("Loading repos config from ~/.config/syncrepos.json")
+    with Path("~/.config/syncrepos.json").expanduser().open(encoding="utf8") as f:
+        return cast(StoredConfig, json.load(f))
+
+
+@dataclass
+class Remote:
+    name: str
+    url: str
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Repo:
     def __init__(
         self,
-        path: str,
-        fetch_targets: List[FetchRemote],
-        merge_refs: List[MergeRef],
-        push_targets: List[PushRemote],
+        path: Path,
+        remotes: list[Remote],
     ):
         self.path = path
-        self.fetch_targets = fetch_targets
-        self.merge_refs = merge_refs
-        self.push_targets = push_targets
+        self.remotes = remotes
+
+    @classmethod
+    def from_json(cls, repo_data: RepoData) -> "Repo":
+        return cls(
+            Path(cast(str, repo_data["path"])),
+            [Remote(name, url) for name, url in cast(RemoteData, repo_data["remotes"]).items()],
+        )
 
     def __str__(self):
         return f"Git repository {self.path}"
 
-    def _fetch(self, fetch_target: FetchRemote):
-        logging.debug("Running git fetch %s in %s", fetch_target, self.path)
-        subprocess.run(["git", "fetch", fetch_target], cwd=self.path, check=True)
+    def ensure_exists(self):
+        if not self.path.exists():
+            logging.warning("Path %s does not exist, cloning repository", self.path)
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            subprocess.run(["git", "clone", '--origin', self.remotes[0].name, self.remotes[0].url, self.path.name], cwd=self.path.parent, check=True)
+            for remote in self.remotes[1:]:
+                subprocess.run(["git", "remote", "add", remote.name, remote.url], cwd=self.path, check=True)
+
+    def _fetch(self, remote: Remote):
+        logging.debug("Running git fetch %s in %s", remote, self.path)
+        subprocess.run(["git", "fetch", str(remote)], cwd=self.path, check=True)
 
     def fetch_all(self):
-        for target in self.fetch_targets:
+        for remote in self.remotes:
             try:
-                self._fetch(target)
+                self._fetch(remote)
             except subprocess.CalledProcessError:
-                time.sleep(1)
+                logging.warning("%s: Fetching from remote %s failed", self, remote)
 
-    def merge_all(self):
-        for ref in self.merge_refs:
-            try:
-                self._merge(ref)
-            except subprocess.CalledProcessError:
-                time.sleep(1)
-
-    def _merge(self, merge_ref: MergeRef):
-        logging.debug("Running git merge --ff-only %s in %s", merge_ref, self.path)
-        if merge_ref:
-            subprocess.run(
-                ["git", "merge", "--ff-only", merge_ref],
-                cwd=self.path,
-                check=True,
-            )
-        else:
-            subprocess.run(["git", "merge", "--ff-only"], cwd=self.path, check=True)
+    # TODO: merge_all. idea: check all remote branches that contain our HEAD
+    def merge(self):
+        logging.debug("Running git merge --ff-only in %s", self.path)
+        subprocess.run(["git", "merge", "--ff-only"], cwd=self.path, check=True)
 
     def push_all(self):
-        for target in self.push_targets:
+        for remote in self.remotes:
             try:
-                self._push(target)
+                self._push(remote)
             except subprocess.CalledProcessError:
-                time.sleep(1)
+                logging.warning("%s: Pushing to remote %s failed", self, remote)
 
-    def _push(self, push_target: PushRemote):
-        logging.debug("running git push %s in %s", push_target, self.path)
-        subprocess.run(["git", "push", push_target], cwd=self.path, check=True)
+    def _push(self, remote: Remote):
+        logging.debug("running git push %s in %s", remote, self.path)
+        subprocess.run(["git", "push", str(remote)], cwd=self.path, check=True)
 
     def sync(self):
+        self.ensure_exists()
         self.fetch_all()
-        self.merge_all()
+        self.merge()
         self.push_all()
 
 
-def load_repos_config() -> List[Repo]:
-    logging.debug("Loading repos config from ~/.config/syncrepos.json")
-    with Path("~/.config/syncrepos.json").expanduser().open(encoding="utf8") as f:
-        repos_config = json.load(f)
-    return [
-        Repo(
-            item["path"],
-            [FetchRemote(ii) for ii in item["fetch_remotes"]],
-            [MergeRef(ii) for ii in item["merge_refs"]],
-            [PushRemote(ii) for ii in item["push_remotes"]],
-        )
-        for item in repos_config
-    ]
+def load_repos() -> list[Repo]:
+    return [Repo.from_json(repo_data) for repo_data in loadconfig()]
 
 
 def parse_args():
@@ -110,7 +118,7 @@ def parse_args():
 def main():
     logging.basicConfig(level=logging.DEBUG)
     args = parse_args()
-    repos = load_repos_config()
+    repos = load_repos()
 
     def sync_all_repos():
         for repo in repos:
