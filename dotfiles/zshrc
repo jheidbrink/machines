@@ -1,0 +1,406 @@
+# doc {{{
+# --- autoload ---
+# The flags -z and -k mark the function to be autoloaded in native or ksh emulation,
+# as if the option KSH_AUTOLOAD were unset or were set, respectively.
+# The -U flag can be traced back: autoload is equivalent to function -u,
+# which is equivalent to typeset -f.
+# typeset, in a nutshell, is used to:
+# Set or display attributes and values for shell parameters.
+# When -f is used in combination with -U:
+# [The -f flag causes] The names refer to functions rather than parameters.
+# The -u and -U flags cause the function to be marked for autoloading;
+# -U also causes alias expansion to be suppressed when the function is loaded.
+# compinit is the completion initialization function used by compsys,
+# the 'newer' Z-Shell completion system. See man zshcompsys for details.
+# doc }}}
+
+
+# For understanding which files get executed when:
+export SOURCED_HOME_ZSHRC_DATE=$(date)
+
+
+# TODO: look at https://gist.github.com/scottstanfield/fa1085c225069160225d18b1dc16ee1c
+
+# zshzle {{{
+# `man zshzle` (figuratively):
+#   when ZLE reads a sequence that is a prefix of a longer bound string,
+#   it waits KEYTIMEOUT * 10ms for next character
+# `man zshparam`:
+#   The  time  the  shell  waits,  in hundredths of seconds, for another key to be
+#   pressed when reading bound multi-character sequences.
+KEYTIMEOUT=2    #  wait 0.02s for sequence characters
+
+bindkey -e
+bindkey '^_' undo
+autoload -Uz copy-earlier-word
+zle -N copy-earlier-word
+bindkey "^[m" copy-earlier-word
+# zshzle }}}
+
+
+# stty {{{
+# ixon (-ixon)             Enable (disable) START/STOP output control.
+#                          Output is stopped by sending an ASCII DC3 and
+#                          started by sending an ASCII DC1.
+#
+# ixoff (-ixoff)           Request that the system send (not send)
+#                          START/STOP characters when the input queue is
+#                          nearly empty/full.
+# From https://stackoverflow.com/questions/6429515/stty-hupcl-ixon-ixoff
+# """ ixon and ixoff are used to insist that Ctrl-s and Ctrl-q be
+# interpreted as control flow (scroll lock) signals. They're the default
+# on most systems, but if you have a fast connection and/or don't anticipate
+# a volume of output that your terminal can't handle,
+# you're fine to turn them off.
+# I typically use stty -ixon -ixoff so I can reclaimthe Ctrl-s and Ctrl-q
+# key bindings for more modern purposes (e.g. "save" and "quit").
+stty -ixon -ixoff
+# stty }}}
+
+WORDCHARS='*?[]~&;!#$%^(){}<>'  # default: '*?_-.[]~=/&;!#$%^(){}<>'
+
+setopt INTERACTIVE_COMMENTS
+
+
+# History {{{
+HISTSIZE=90000
+HISTFILE=~/.zsh_history
+SAVEHIST=90000
+# hist_ignore_dups: dont store adjacent duplicate lines
+# hist_ignore_all_dups: remove copies of lines in history, keeping newly added one
+setopt hist_ignore_all_dups
+setopt extended_history   # save info like date, time that command run etc
+# append_history: append to histfile instead of overwriting
+# inc_append_history_time: like inc_append_history (append to histfile instantaneously)
+# but wait until command finishes so command duration is recorded correctly.
+setopt inc_append_history_time # write to histfile continuously
+setopt hist_reduce_blanks # prune syntactically meaningless blanks
+setopt hist_ignore_space # don't remember lines starting with space
+setopt hist_no_store # don't store history commands
+setopt no_hist_beep # dont beep when scrolling at end of history list
+unsetopt share_history  # I dont want to see commands from other parallel zsh sessions in my history. NixOS sets this option in /etc/zshrc, so disable it here.
+# History }}}
+
+
+fpath=(~/.zsh/functions ~/.zsh/completion ~/repositories/github.com/spwhitt/nix-zsh-completions $fpath)
+
+# Completion {{{
+#
+# init completion system
+autoload -Uz compinit
+autoload -Uz bashcompinit
+autoload -U complist
+compinit -u
+bashcompinit
+
+# TODO: is the following block necessary? what does it do? can i simplify it?
+for dirname in $fpath; do
+    case "$dirname" in
+        ~/.zsh*) fns=( $dirname/*~*~(N.x:t) ) ;;
+        *) fns=( $dirname/*~*~(N.:t)  ) ;;
+    esac
+    (( $#fns )) && autoload "$fns[@]"
+done
+
+zstyle ':completion:*' menu select
+zstyle ":completion:*:commands" rehash true
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+ZLS_COLOURS=$LS_COLORS
+LISTPROMPT=""
+zstyle ':completion:*' completer _expand _expand_alias _complete _correct _approximate
+zstyle ':completion:*' accept-exact continue
+zstyle ':completion:*' insert-unambiguous true
+zstyle ':completion:*' use-cache false
+zstyle ':completion:*' file-sort name
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' list-packed true
+zstyle ':completion:*' list-separator '##'
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=** r:|=** l:|=*'
+zstyle ':completion:*' menu select=0 select=long-list
+zstyle ':completion:*' original false
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+zstyle ':completion:*' squeeze-slashes true
+zstyle ':completion:*' verbose true
+zstyle ':completion:*:approximate:::' max-errors 3 numeric
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:options' auto-description 'specify: %d'
+zstyle ':completion:*:descriptions' format $'%{\e[0;36m%}%d%{\e[0m%}'
+zstyle ':completion:*:messages' format $'%{\e[0;36m%}%d%{\e[0m%}'
+zstyle ':completion:*:warnings' format $'%{\e[1;31m%}no matches found!%{\e[0m%}'
+zstyle ':completion:*:corrections' format $'%{\e[0;36m%}%d (errors: %e)%{\e[0m%}'
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack named-directories path-directories
+zstyle ':completion:*:functions' ignored-patterns '_*'
+zstyle ':completion:*:rm:*' ignore-line true
+zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns '*?.o' '*?.c~' '*?.old' '*?.pro'
+zstyle ':completion:*:man:*' separate-sections true
+# Completion }}}
+
+
+# Colors {{{
+if [ -x /usr/bin/dircolors ]; then
+    eval "$(dircolors -b ~/.config/dircolors/dircolors.ansi-dark)"
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+# Colors }}}
+
+
+# Prompt {{{
+autoload -U colors
+# `man zshcontrib`: This function initializes several associative arrays to map color
+# names to (and from) the ANSI standard eight-color terminal codes. These are used
+# by the prompt theme system (see above).
+colors
+
+autoload -Uz promptinit
+promptinit
+
+setopt  NO_BEEP
+setopt prompt_subst
+
+autoload -Uz vcs_info  # read `man zshcontrib`
+vcs_indicator() {
+  vcs_info
+  if [ -n "$vcs_info_msg_0_" ]; then
+    git_replaced=${vcs_info_msg_0_/git/±}
+    hg_replaced=${git_replaced/hg/☿}
+    echo ${hg_replaced}
+  fi
+}
+
+zstyle ':vcs_info:*' actionformats \
+    '[%s %F{2}%b%F{3}|%F{1}%a%f] '
+zstyle ':vcs_info:*' formats       \
+    '[%s %F{2}%b%f]'
+zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
+zstyle ':vcs_info:*' enable git cvs svn hg
+
+
+statuscode_indicator='%F{red}%(?..%? )%f'
+
+function keymap_indicator() {
+    if [[ -n $KEYMAP ]] && [[ $KEYMAP != 'main' ]]
+    then
+        echo "%F{yellow}[$KEYMAP]%f "
+    fi
+}
+
+function network_namespace_indicator() {
+    netns=$(ip netns identify $$)
+    if [[ -n "${netns:-}" ]]; then
+        echo " (netns: $netns)"
+    fi
+}
+
+if [[ -f $HOME/repositories/github.com/jonmosco/kube-ps1/kube-ps1.sh ]] && command -v kubectl > /dev/null
+then
+source $HOME/repositories/github.com/jonmosco/kube-ps1/kube-ps1.sh
+export PS1='
+${statuscode_indicator}\
+%(1j.(%j jobs) .)\
+[%*] \
+%F{green}%n%f@%F{blue}%m%f\
+$(network_namespace_indicator)\
+ $(kube_ps1)
+%40<...<% %~%F{red}:%f '
+else
+export PS1='
+${statuscode_indicator}\
+%(1j.(%j jobs) .)\
+[%*] \
+%F{green}%n%f@%F{blue}%m%f\
+$(network_namespace_indicator)
+%40<...<% %~%F{red}:%f '
+fi
+
+
+export RPS1='\
+$(keymap_indicator)\
+$(vcs_indicator)'
+
+
+function zle-reset-prompt() {
+    zle reset-prompt
+}
+
+zle -N zle-keymap-select zle-reset-prompt
+
+# Prompt }}}
+
+autoload zmv
+
+#  Options {{{
+zstyle ':completion:*' rehash true  # automatically find commands in path
+setopt auto_cd   #  typing a directory CDs to it
+setopt correct
+# Options }}}
+
+
+#  Aliases {{{
+if [ -d ~/.shell_aliases.d ]
+then
+  for a in ~/.shell_aliases.d/*; do source $a; done
+fi
+# Aliases }}}
+
+
+BASE16_SHELL="$HOME/.config/base16-shell/base16-brewer.dark.sh"
+[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+
+
+function ff () {
+    find -iname "*$1*" | egrep --ignore-case --invert-match --initial-tab --null --color=auto '\.git|\.svn'
+}
+
+if command -v virtualenvwrapper_lazy.sh > /dev/null
+then
+  source virtualenvwrapper_lazy.sh
+fi
+
+if [[ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]];
+then
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  typeset -A ZSH_HIGHLIGHT_STYLES
+  ZSH_HIGHLIGHT_STYLES[comment]='fg=cyan'
+fi
+
+# zsh-histdb {{{
+if [[ -f $HOME/repositories/github.com/larkery/zsh-histdb/sqlite-history.zsh ]]
+then
+  source $HOME/repositories/github.com/larkery/zsh-histdb/sqlite-history.zsh
+  autoload -Uz add-zsh-hook
+
+  histdb-fzf-widget() {
+    local selected
+    setopt localoptions noglobsubst noposixbuiltins pipefail 2> /dev/null
+    selected=( $(histdb --sep 999 | awk -F'999' '{print $4}' |
+      FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
+
+    LBUFFER=$selected
+    zle redisplay
+    typeset -f zle-line-init >/dev/null && zle zle-line-init
+
+    return $ret
+  }
+
+  zle     -N   histdb-fzf-widget
+  bindkey '^s' histdb-fzf-widget
+
+fi
+# zsh-histdb }}}
+
+# TODO: evaluate this and possibly install again
+# source /var/local/repositories/github.com/willghatch/zsh-snippets/snippets.plugin.zsh
+
+
+setopt extendedglob
+bindkey -M isearch " " self-insert
+
+export LIBVIRT_DEFAULT_URI="qemu:///system"
+
+# Node {{{
+#source /usr/share/nvm/init-nvm.sh
+#nvm use node
+# Node }}}
+
+if command -v fasd > /dev/null;
+then
+  eval "$(fasd --init auto)"
+fi
+
+if command -v direnv > /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
+
+# fzf {{{
+if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
+    # this will bind C-T, C-R and M-C
+    source /usr/share/fzf/key-bindings.zsh
+fi
+
+if [[ -f /usr/share/fzf/completion.zsh ]]; then
+    # this will bind C-I (and tab) to fzf-completion (instead of expand-or-complete)
+    # -> **<tab> fuzzy-searches files -> not really needed because of C-T?
+    #   -> yes it is because you can ls /etc/**<tab>, but C-T searches in pwd. Also C-T is not command-aware, so if you call after a cd, it also lists files
+    # -> kill <tab> is different now - better?
+    #   -> could remove the old completion options for kill
+    #
+    # The behaviour is somethat incosistent, with unset, export, unalias,
+    # you need to tab after **, while for kill it directly uses its own completion.
+    source /usr/share/fzf/completion.zsh
+fi
+
+if [ -n "${commands[fzf-share]}" ];
+then
+  source "$(fzf-share)/key-bindings.zsh"
+  source "$(fzf-share)/completion.zsh"
+fi
+# fzf }}}
+
+function testgitrepo() {
+  mkdir testgitrepo && cd testgitrepo && git init
+  echo hallo > hallo.txt && git add hallo.txt && git commit -m hallo
+  git checkout -b foo
+  echo foo > foo.txt && git add foo.txt && git commit -m foofoo
+  git checkout master
+  echo bar > bar.txt && git add bar.txt && git commit -m barbar
+}
+
+
+function dotfiles_workingcopy() {
+    cd $(mktemp -d) && git clone gitolite@localhost:dotfiles && cd dotfiles
+}
+
+function fixup() {
+  local_file=$1
+  (
+    set -e
+    local commit=$( git rev-list -1 HEAD -- "${file}" )
+    echo "${file} was last changed in ${commit}"
+    git commit --fixup "${commit}" -- "${file}"
+    git rebase -i --autosquash "${commit}~1"
+  )
+}
+
+# from Christian Pulvermacher¬
+# Usage: input | f [filter commands]¬
+function f() {
+  TMPFILE=$(mktemp)
+  cat - > "$TMPFILE"
+
+  selected_query=$(fzf \
+      --color light \
+      --print-query \
+      --query="$*" \
+      --preview="bash -c {q} < $TMPFILE" \
+      --preview-window='up:99%' \
+      --bind 'pgdn:preview-page-down,pgup:preview-page-up' \
+      < /dev/null)
+
+    #--preview="{q} <<< '$stdin'" # fails with any argument
+  if [ $? -gt 1 ]; then
+    rm "$TMPFILE"
+    return 1
+  fi
+  echo "... | $selected_query"
+  cat "$TMPFILE" | bash -c $selected_query
+  rm "$TMPFILE"
+}
+
+
+if [[ -d ~/.zshrc.d ]];
+then
+  for f in ~/.zshrc.d/*; do source $f; done
+fi
+
+
+# Use bash completions for commands where zsh completions are not available:
+source $HOME/repositories/github.com/3v1n0/zsh-bash-completions-fallback/zsh-bash-completions-fallback.plugin.zsh
+
+# vim: set foldmethod=marker:
+# vim: shiftwidth=2:tabstop=2:softtabstop=2

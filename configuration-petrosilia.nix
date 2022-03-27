@@ -7,10 +7,62 @@
   imports = [
     ./shared_config.nix
     ./machines/petrosilia/hardware-configuration.nix
+    <home-manager/nixos>
   ];
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/45cd0923-da26-433c-a7ad-5564e90ce9cb";
 
   networking.hostName = "petrosilia"; # Define your hostname.
+
+  home-manager.users.jan = {
+    programs.zsh = {
+      enable = true;
+      plugins = [
+        {
+          name = "zsh-histdb";
+          src = pkgs.fetchFromGitHub {
+            owner = "larkery";
+            repo = "zsh-histdb";
+            rev = "30797f0c50c31c8d8de32386970c5d480e5ab35d";
+            sha256 = "1f7xz4ykbdhmjwzcc3yakxwjb0bkn2zlm8lmk6mbdy9kr4bha0ix";
+          };
+        }
+        {
+          name = "zsh-histdb-fzf";
+          src = pkgs.fetchFromGitHub {
+            owner = "m42e";
+            repo = "zsh-histdb-fzf";
+            rev = "ce502edb676c5c064448d504e33e813323f8ca13";
+            sha256 = "0q5kcf26sig96hd1938iyicfmlivy5yj9569zjxyg6d5ykz2m7a8";
+          };
+          file = "fzf-histdb.zsh";
+        }
+        # fzf-tab
+      ];
+      history.share = false;
+      enableAutosuggestions = true;
+      initExtra = ''
+        # zsh-histdb {{{
+        export PATH=$PATH:${pkgs.sqlite}/bin
+        autoload -Uz add-zsh-hook
+        # zsh-histdb }}}
+
+        bindkey '^R' histdb-fzf-widget
+
+        # zsh-histdb-with-zsh-autosuggestions {{{
+        _zsh_autosuggest_strategy_histdb_top_here() {
+            local query="select commands.argv from
+        history left join commands on history.command_id = commands.rowid
+        left join places on history.place_id = places.rowid
+        where places.dir LIKE '$(sql_escape $PWD)%'
+        and commands.argv LIKE '$(sql_escape $1)%'
+        group by commands.argv order by count(*) desc limit 1"
+            suggestion=$(_histdb_query "$query")
+        }
+        ZSH_AUTOSUGGEST_STRATEGY=histdb_top_here
+        # zsh-histdb-with-zsh-autosuggestions }}}
+      '';
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
