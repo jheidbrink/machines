@@ -15,7 +15,6 @@
 
   home-manager.users.jan = {
     programs.zsh = {
-      enable = true;
       plugins = [
         {
           name = "zsh-histdb";
