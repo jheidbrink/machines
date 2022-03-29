@@ -212,6 +212,8 @@ in
     Fabric  # for magma
     shellcheck  # should be used by Vim if Ale is installed
     nix-prefetch-git  # helpful for rev and sha in pkgs.fetchFromGitHub
+    dfc
+    moreutils
   ];
 
   systemd.user.services.syncrepos = {
