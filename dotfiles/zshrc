@@ -317,31 +317,6 @@ if command -v direnv > /dev/null; then
 fi
 
 
-# fzf {{{
-if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
-    # this will bind C-T, C-R and M-C
-    source /usr/share/fzf/key-bindings.zsh
-fi
-
-if [[ -f /usr/share/fzf/completion.zsh ]]; then
-    # this will bind C-I (and tab) to fzf-completion (instead of expand-or-complete)
-    # -> **<tab> fuzzy-searches files -> not really needed because of C-T?
-    #   -> yes it is because you can ls /etc/**<tab>, but C-T searches in pwd. Also C-T is not command-aware, so if you call after a cd, it also lists files
-    # -> kill <tab> is different now - better?
-    #   -> could remove the old completion options for kill
-    #
-    # The behaviour is somethat incosistent, with unset, export, unalias,
-    # you need to tab after **, while for kill it directly uses its own completion.
-    source /usr/share/fzf/completion.zsh
-fi
-
-if [ -n "${commands[fzf-share]}" ];
-then
-  source "$(fzf-share)/key-bindings.zsh"
-  source "$(fzf-share)/completion.zsh"
-fi
-# fzf }}}
-
 function testgitrepo() {
   mkdir testgitrepo && cd testgitrepo && git init
   echo hallo > hallo.txt && git add hallo.txt && git commit -m hallo
