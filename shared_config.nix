@@ -4,7 +4,7 @@ let
     pkgs.fetchFromGitHub {
       owner = "nixos";
       repo = "nixpkgs";
-      rev = "9c5285c7810062bfa22c35bd4b3e573c787064e2";  # 2022-03-19 nixpkgs-unstable branch
+      rev = "9c5285c7810062bfa22c35bd4b3e573c787064e2";  # 2022-03-19 nixos-unstable branch
       sha256 = "19219i6fq82xzcdpgjpv7ahp7b8l634rcvzlmwk65cp07xp6w6g5";
     }
   ) { config = config.nixpkgs.config; };

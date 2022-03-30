@@ -20,14 +20,14 @@ for i, line in enumerate(lines):
         break
 
 assert re.match(r'^\s*repo = "nixpkgs";$', lines[owner_lineno + 1])
-rev_regex = r'^\s*rev = "(\w+)";  # ((\d{4})-(\d{2})-(\d{2})) nixpkgs-unstable branch$'
+rev_regex = r'^\s*rev = "(\w+)";  # ((\d{4})-(\d{2})-(\d{2})) nixos-unstable branch$'
 rev_match = re.match(rev_regex, lines[owner_lineno + 2])
 rev, date_s, year_s, month_s, day_s = rev_match.groups()
 
 sha_match = re.match(r'^\s*sha256 = (\S+);$', lines[owner_lineno + 3])
 sha256 = sha_match.groups()[0]
 
-nixpkgs_path = Path("~/repositories/github.com/NixOS/nixpkgs-unstable").expanduser()
+nixpkgs_path = Path("~/repositories/github.com/NixOS/nixpkgs--nixos-unstable").expanduser()
 
 subprocess.run(['git', 'fetch'], cwd=nixpkgs_path, check=True)
 subprocess.run(['git', 'merge', '--ff-only'], cwd=nixpkgs_path, check=True)
