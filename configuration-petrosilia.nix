@@ -13,6 +13,9 @@
 
   networking.hostName = "petrosilia"; # Define your hostname.
 
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
   home-manager.users.jan = {
     programs.zsh = {
       plugins = [
