@@ -4,8 +4,8 @@ let
     pkgs.fetchFromGitHub {
       owner = "nixos";
       repo = "nixpkgs";
-      rev = "663d7e31c7f4a9d23623fdda2fd69cc650563514";  # 2022-03-27 nixos-unstable branch
-      sha256 = "10zl58s56pg9javjjqq7w8hp4dvf5dcjfkldcbfhqhv2zcblrbgr";
+      rev = "855e992a7af8461486f81906fca2a9ee1956c4cf";  # 2022-03-29 nixos-unstable branch
+      sha256 = "1dv7mmdjb6lsyywa4qjiyp4pmhwl45ss2b62bgxkndxs6mky8p0k";
     }
   ) { config = config.nixpkgs.config; };
   syncrepos_unwrapped = pkgs.writers.writePython3Bin "syncrepos.py" { flakeIgnore = [ "E265" "E501" ]; } (builtins.readFile ./bin/syncrepos.py);
