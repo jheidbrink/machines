@@ -31,10 +31,10 @@
         {
           name = "zsh-histdb-fzf";
           src = pkgs.fetchFromGitHub {
-            owner = "m42e";
+            owner = "jheidbrink";
             repo = "zsh-histdb-fzf";
-            rev = "ce502edb676c5c064448d504e33e813323f8ca13";
-            sha256 = "0q5kcf26sig96hd1938iyicfmlivy5yj9569zjxyg6d5ykz2m7a8";
+            rev = "d61040cbc11179614f2cfc1239906d62b0f7b734";
+            sha256 = "0rvxyi30cwc9hsf8gb1x9s35di8vb63yfxzpr0r9va721yyn7402";
           };
           file = "fzf-histdb.zsh";
         }
