@@ -165,7 +165,7 @@ let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
 " w0rp/ale {{{
 let g:ale_linters = { 'python': ['pylint'], 'haskell': ['hlint', 'stack-build']}
-let g:ale_python_pylint_options = "--disable=missing-docstring --disable=miscellaneous --disable=invalid-name --disable=too-few-public-methods --max-args=6"
+let g:ale_python_pylint_options = "--disable=missing-docstring --disable=miscellaneous --disable=invalid-name --disable=too-few-public-methods --max-args=7 --disable=line-too-long"
 " w0rp/ale }}}
 
 " davidhalter/jedi-vim {{{
