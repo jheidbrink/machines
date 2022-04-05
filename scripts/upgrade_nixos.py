@@ -7,6 +7,7 @@ import subprocess
 import sys
 
 config_path = Path(sys.argv[1])
+unstable_age_days = int(sys.argv[2])
 
 
 with config_path.open(encoding="utf8") as f:
@@ -34,7 +35,7 @@ nixpkgs_path = Path("~/repositories/github.com/NixOS/nixpkgs--nixos-unstable").e
 subprocess.run(["git", "fetch"], cwd=nixpkgs_path, check=True)
 subprocess.run(["git", "merge", "--ff-only"], cwd=nixpkgs_path, check=True)
 
-before = datetime.now() - timedelta(days=3)
+before = datetime.now() - timedelta(days=unstable_age_days)
 print(before)
 
 result = subprocess.run(
