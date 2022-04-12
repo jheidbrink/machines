@@ -80,6 +80,11 @@ in
   #networking.interfaces.enp0s31f6.useDHCP = true;
   #networking.interfaces.wlp4s0.useDHCP = true;
 
+  networking.extraHosts =
+    ''
+      127.0.0.2 bazel.cache
+    '';
+
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
