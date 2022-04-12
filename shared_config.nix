@@ -219,6 +219,7 @@ in
     nix-prefetch-git  # helpful for rev and sha in pkgs.fetchFromGitHub
     dfc
     moreutils
+    terraform
   ];
 
   systemd.user.services.syncrepos = {
