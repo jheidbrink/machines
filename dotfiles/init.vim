@@ -78,6 +78,10 @@ set sidescrolloff=1
 
 " Colors and Fonts settings {{{
 syntax on
+hi DiffAdd      ctermfg=NONE          ctermbg=Green
+hi DiffChange   ctermfg=NONE          ctermbg=NONE
+hi DiffDelete   ctermfg=LightBlue     ctermbg=Red
+hi DiffText     ctermfg=Yellow        ctermbg=Red
 " }}}
 
 
