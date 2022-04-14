@@ -211,7 +211,7 @@ in
     black
     ripgrep
     fzf
-    aws
+    awscli2
     pciutils
     parted
     Fabric  # for magma
