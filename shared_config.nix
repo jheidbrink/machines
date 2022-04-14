@@ -220,6 +220,7 @@ in
     dfc
     moreutils
     terraform
+    jetbrains.idea-community
   ];
 
   systemd.user.services.syncrepos = {
