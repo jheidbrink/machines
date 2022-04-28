@@ -226,6 +226,22 @@ in
     youtube-dl
   ];
 
+  # Allow the user run a program to poweroff the system. (Copied and adapted from https://discourse.nixos.org/t/how-to-configure-nixos-to-allow-a-program-to-trigger-shutdown/11582)
+  security.polkit = {
+    extraConfig = ''
+      polkit.addRule(function(action, subject) {
+          if (action.id == "org.freedesktop.systemd1.manage-units" ||
+              action.id == "org.freedesktop.systemd1.manage-unit-files") {
+              if (action.lookup("unit") == "suspend.target") {
+                  if (subject.isInGroup("wheel")) {
+                      return polkit.Result.YES;
+                  }
+              }
+          }
+      });
+    '';
+  };
+
   systemd.user.services.syncrepos = {
     wantedBy = [ "multi-user.target" ];
     after = [ "network.target" "gpg-agent.service" ];
