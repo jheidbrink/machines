@@ -221,6 +221,9 @@ in
     moreutils
     terraform
     jetbrains.idea-community
+    dropbox
+    wine
+    youtube-dl
   ];
 
   systemd.user.services.syncrepos = {
