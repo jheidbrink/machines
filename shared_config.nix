@@ -52,6 +52,9 @@ let
       '';
     };
   };
+  git-merge-keep-theirs = pkgs.writeDashBin "git-merge-keep-theirs" ''
+    mv -f $3 $2
+    '';
 in
 {
   nixpkgs.config.allowUnfree = true;
