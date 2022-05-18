@@ -260,6 +260,26 @@ in
     };
   };
 
+  # kill-all-containers copied from https://github.com/containerd/containerd/issues/5502#issuecomment-1019937241  TODO: can this be removed in 22.05?
+  systemd.services.kill-all-docker-containers = {
+    description = "Kill all docker containers to prevent shutdown lag";
+    enable = true;
+    unitConfig = {
+      DefaultDependencies = false;
+      RequiresMountsFor = "/";
+    };
+    before = [ "shutdown.target" "reboot.target" "halt.target" "final.target" ];
+    wantedBy = [ "shutdown.target" "reboot.target" "halt.target" "final.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = pkgs.writeScript "docker-kill-all" ''
+        #! ${pkgs.runtimeShell} -e
+        ${pkgs.docker}/bin/docker ps --format '{{.ID}}' | xargs ${pkgs.docker}/bin/docker kill
+      '';
+    };
+  };
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
