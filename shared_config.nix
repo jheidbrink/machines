@@ -234,6 +234,8 @@ in
     makefile2graph
     packer
     mosh
+    frp
+    tmux
   ];
 
   # Allow the user run a program to poweroff the system. (Copied and adapted from https://discourse.nixos.org/t/how-to-configure-nixos-to-allow-a-program-to-trigger-shutdown/11582)
