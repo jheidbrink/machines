@@ -3,11 +3,17 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
+let
+  home-manager = builtins.fetchTarball {
+    url = "https://github.com/nix-community/home-manager/archive/d93d56ab8c1c6aa575854a79b9d2f69d491db7d0.tar.gz";  # 2022-05-02 release-21.11 branch
+    sha256 = "1fi27zabvqlyc2ggg7wr01j813gs46rswg1i897h9hqkbgqsjkny";
+  };
+in
 {
   imports = [
     ./shared_config.nix
     ./machines/petrosilia/hardware-configuration.nix
-    <home-manager/nixos>
+    (import "${home-manager}/nixos")
   ];
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/45cd0923-da26-433c-a7ad-5564e90ce9cb";
 
