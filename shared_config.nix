@@ -1,19 +1,5 @@
 { config, pkgs, ... }:
 let
-  unstable = import (
-    pkgs.fetchFromGitHub {
-      owner = "nixos";
-      repo = "nixpkgs";
-      rev = "b6966d911da89e5a7301aaef8b4f0a44c77e103c";  # 2022-04-06 nixos-unstable branch
-      sha256 = "04z7wr2hr1l7l9qaf87bn2i3p6gn6b0k7wnmk3yi9klhz6scnp5v";
-    }
-  ) { config = config.nixpkgs.config; };
-  release2205 = import (
-    builtins.fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/787b1647a91a1d14b749d8c904ebf629afe5548d.tar.gz";  # 2022-05-25 release-22.05 branch
-      sha256 = "119vrkdad181vdj52shqccynm8943yig5ksi5rp6m20iiakm3bnz";
-    }
-  ) { config = config.nixpkgs.config; };
   syncrepos_unwrapped = pkgs.writers.writePython3Bin "syncrepos.py" { flakeIgnore = [ "E265" "E501" ]; } (builtins.readFile ./bin/syncrepos.py);
   syncrepos = pkgs.writers.writeDashBin "syncrepos" ''
     export PATH=$PATH:${pkgs.git}/bin:${pkgs.kbfs}/bin
@@ -200,7 +186,7 @@ in
     gnumake
     mupdf
     docker-compose
-    release2205.comma
+    comma
     gdb
     lldb
     breakpad
