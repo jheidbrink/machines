@@ -4,12 +4,12 @@ let
     owner = "haidaraM";
     repo = "ansible-playbook-grapher";
     rev = "1d804bbb01eab5c07d42f6eb4917e1d643e3c4b3";
-    sha256 = pkgs.lib.fakeSha256;
+    sha256 = "spAI/eF+U5VMTj7ac7s01xZ5wEfyHAQ6jFyCvcEU6mE=";
   };
-  ansible-playbook-grapher = pkgs.pythonPackages.buildPythonApplication {
+  ansible-playbook-grapher = pkgs.python3Packages.buildPythonApplication {
     pname = "ansible-playbook-grapher";
     version = "1.1.2-dev";
-    propagatedBuildInputs = [];
+    propagatedBuildInputs = [ pkgs.python3Packages.ansible ];
     src = ansible-playbook-grapher_repo_v1_1_2-dev;
   };
   syncrepos_unwrapped = pkgs.writers.writePython3Bin "syncrepos.py" { flakeIgnore = [ "E265" "E501" ]; } (builtins.readFile ./bin/syncrepos.py);
