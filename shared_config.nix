@@ -169,7 +169,7 @@ in
     google-chrome
     arp-scan
     chromium
-    bazel_4
+    bazel_5
     xorg.xmodmap
     pwgen
     gcc
