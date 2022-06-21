@@ -9,7 +9,10 @@ let
   ansible-playbook-grapher = pkgs.python3Packages.buildPythonApplication {
     pname = "ansible-playbook-grapher";
     version = "1.1.2-dev";
-    propagatedBuildInputs = [ pkgs.python3Packages.ansible ];
+    buildInputs = [ pkgs.graphviz ];
+    propagatedBuildInputs = with pkgs.python3Packages; [ ansible-core colour lxml ];
+    doCheck = false;
+    doInstallCheck = false;
     src = ansible-playbook-grapher_repo_v1_1_2-dev;
   };
   syncrepos_unwrapped = pkgs.writers.writePython3Bin "syncrepos.py" { flakeIgnore = [ "E265" "E501" ]; } (builtins.readFile ./bin/syncrepos.py);
