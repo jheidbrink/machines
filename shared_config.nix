@@ -1,5 +1,13 @@
 { config, pkgs, ... }:
 let
+  unstable = import (
+    pkgs.fetchFromGitHub {
+      owner = "nixos";
+      repo = "nixpkgs";
+      rev = "b6966d911da89e5a7301aaef8b4f0a44c77e103c";  # 2022-04-06 nixos-unstable branch
+      sha256 = "04z7wr2hr1l7l9qaf87bn2i3p6gn6b0k7wnmk3yi9klhz6scnp5v";
+    }
+  );
   ansible-playbook-grapher_repo_v1_1_2-dev = pkgs.fetchFromGitHub {
     owner = "haidaraM";
     repo = "ansible-playbook-grapher";
