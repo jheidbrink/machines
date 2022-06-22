@@ -4,8 +4,8 @@ let
     pkgs.fetchFromGitHub {
       owner = "nixos";
       repo = "nixpkgs";
-      rev = "b6966d911da89e5a7301aaef8b4f0a44c77e103c";  # 2022-04-06 nixos-unstable branch
-      sha256 = "04z7wr2hr1l7l9qaf87bn2i3p6gn6b0k7wnmk3yi9klhz6scnp5v";
+      rev = "0d68d7c857fe301d49cdcd56130e0beea4ecd5aa";  # 2022-06-19 nixos-unstable branch
+      sha256 = "1lq2lirv5mkx74aly30xfhdwz7jq9hv4nrs49j693pv96z0p63gf";
     }
   );
   ansible-playbook-grapher_repo_v1_1_2-dev = pkgs.fetchFromGitHub {
