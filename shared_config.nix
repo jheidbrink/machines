@@ -189,9 +189,9 @@ in
     htop
     xorg.xkill
     ansible
-    google-chrome
+    #google-chrome
     arp-scan
-    chromium
+    #chromium
     bazel_5
     xorg.xmodmap
     pwgen
@@ -317,7 +317,7 @@ in
   programs.iotop.enable = true;
   programs.iftop.enable = true;
   programs.sysdig.enable = true;
-  programs.chromium.enable = true;
+  #programs.chromium.enable = true;
   programs.wireshark.enable = true;
   programs.light.enable = true;
   programs.nm-applet.enable = true;
