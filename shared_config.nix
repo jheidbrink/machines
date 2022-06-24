@@ -1,13 +1,13 @@
 { config, pkgs, ... }:
 let
   unstable = import (
-    pkgs.fetchFromGitHub {
-      owner = "nixos";
-      repo = "nixpkgs";
-      rev = "0d68d7c857fe301d49cdcd56130e0beea4ecd5aa";  # 2022-06-19 nixos-unstable branch
+    builtins.fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/0d68d7c857fe301d49cdcd56130e0beea4ecd5aa.tar.gz";  # 2022-06-19 nixos-unstable branch
       sha256 = "1lq2lirv5mkx74aly30xfhdwz7jq9hv4nrs49j693pv96z0p63gf";
     }
-  );
+  ) { config = config.nixpkgs.config; };
+
+
   ansible-playbook-grapher_repo_v1_1_2-dev = pkgs.fetchFromGitHub {
     owner = "haidaraM";
     repo = "ansible-playbook-grapher";
@@ -241,7 +241,7 @@ in
     jetbrains.idea-community
     dropbox
     wine
-    youtube-dl
+    unstable.youtube-dl
     nix-index
     gcc
     openvpn
