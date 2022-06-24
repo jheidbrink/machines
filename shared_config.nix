@@ -368,6 +368,7 @@ in
   networking.firewall.extraCommands = ''
     ip46tables -I INPUT 1 -i vboxnet+ -p tcp -m tcp --dport 2049 -j ACCEPT
   '';
+  networking.firewall.allowedTCPPorts = [ 5678 ];
 
   virtualisation.docker.enable = true;
   virtualisation.docker.extraOptions = "--insecure-registry 192.168.60.1:5678";   #  Virtualbox network for magma VM
