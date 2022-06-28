@@ -146,13 +146,13 @@ in
   users.users.jan = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "video" "docker" ]; # wheel enables ‘sudo’ for the user. video allows to control brightess via `light`
+    extraGroups = [ "wheel" "video" "docker" "lxd" ]; # wheel enables ‘sudo’ for the user. video allows to control brightess via `light`
   };
 
   users.users.heidbrij = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "video" "docker" ];
+    extraGroups = [ "wheel" "video" "docker" "lxd" ];
   };
 
   # List packages installed in system profile. To search, run:
@@ -372,6 +372,8 @@ in
 
   virtualisation.docker.enable = true;
   virtualisation.docker.extraOptions = "--insecure-registry 192.168.60.1:5678";   #  Virtualbox network for magma VM
+
+  virtualisation.lxd.enable = true;
 
   services.dockerRegistry.enable = true;
   services.dockerRegistry.listenAddress = "192.168.60.1";  # Virtualbox network for magma VM
