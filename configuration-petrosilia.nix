@@ -5,8 +5,8 @@
 { config, pkgs, ... }:
 let
   home-manager = builtins.fetchTarball {
-    url = "https://github.com/nix-community/home-manager/archive/d93d56ab8c1c6aa575854a79b9d2f69d491db7d0.tar.gz";  # 2022-05-02 release-21.11 branch
-    sha256 = "1fi27zabvqlyc2ggg7wr01j813gs46rswg1i897h9hqkbgqsjkny";
+    url = "https://github.com/nix-community/home-manager/archive/4a3d01fb53f52ac83194081272795aa4612c2381.tar.gz";  # 2022-06-25 release-22.05 branch
+    sha256 = "0sdirpwqk61hnq8lvz4r2j60fxpcpwc8ffmicail2n4h6zifcn9n";
   };
 in
 {
@@ -23,6 +23,7 @@ in
   services.blueman.enable = true;
 
   home-manager.users.jan = {
+    services.dunst.enable = true;
     programs.zsh = {
       plugins = [
         {
