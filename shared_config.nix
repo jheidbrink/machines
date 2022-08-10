@@ -191,7 +191,7 @@ in
     ansible
     #google-chrome
     arp-scan
-    #chromium
+    chromium
     bazel_5
     xorg.xmodmap
     pwgen
