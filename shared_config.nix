@@ -259,6 +259,7 @@ in
     unixtools.xxd
     libnotify
     speechd # for spd-say as notification in shell scripts
+    haskellPackages.git-annex
   ];
 
   # Allow the user run a program to poweroff the system. (Copied and adapted from https://discourse.nixos.org/t/how-to-configure-nixos-to-allow-a-program-to-trigger-shutdown/11582)
