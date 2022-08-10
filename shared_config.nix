@@ -383,6 +383,7 @@ in
   environment.etc."vbox/networks.conf" = {
   mode = "0644";
   text = ''
+    * 3001::/64
     * 192.168.0.0/16
   '';
   };
