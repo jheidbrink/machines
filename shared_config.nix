@@ -14,11 +14,11 @@ let
     rev = "1d804bbb01eab5c07d42f6eb4917e1d643e3c4b3";
     sha256 = "spAI/eF+U5VMTj7ac7s01xZ5wEfyHAQ6jFyCvcEU6mE=";
   };
-  ansible-playbook-grapher = pkgs.python3Packages.buildPythonApplication {
+  ansible-playbook-grapher = pkgs.python310Packages.buildPythonApplication {
     pname = "ansible-playbook-grapher";
     version = "1.1.2-dev";
     buildInputs = [ pkgs.graphviz ];
-    propagatedBuildInputs = with pkgs.python3Packages; [ ansible-core colour lxml ];
+    propagatedBuildInputs = with pkgs.python310Packages; [ ansible-core colour lxml ];
     doCheck = false;
     doInstallCheck = false;
     src = ansible-playbook-grapher_repo_v1_1_2-dev;
@@ -26,7 +26,7 @@ let
   syncrepos_unwrapped = pkgs.writers.writePython3Bin "syncrepos.py" { flakeIgnore = [ "E265" "E501" ]; } (builtins.readFile ./bin/syncrepos.py);
   syncrepos = pkgs.writers.writeDashBin "syncrepos" ''
     export PATH=$PATH:${pkgs.git}/bin:${pkgs.kbfs}/bin
-    exec ${pkgs.python3}/bin/python3 ${syncrepos_unwrapped}/bin/syncrepos.py
+    exec ${pkgs.python310}/bin/python3 ${syncrepos_unwrapped}/bin/syncrepos.py
   '';
   myvim = pkgs.vim_configurable.customize {
     name = "vim";
@@ -163,12 +163,12 @@ in
     tree
     jq
     curl
-    python3Packages.argcomplete  # sourced from shell
-    python3Packages.virtualenvwrapper  # loaded by my zshrc
-    python3Packages.ipython
-    python3Packages.pip-tools
-    python3Packages.poetry
-    python3Packages.pylint
+    python310Packages.argcomplete  # sourced from shell
+    python310Packages.virtualenvwrapper  # loaded by my zshrc
+    python310Packages.ipython
+    python310Packages.pip-tools
+    python310Packages.poetry
+    python310Packages.pylint
     alacritty  # associated with windows+t shortcut in i3
     gitAndTools.diff-so-fancy  # git is configured to use it
     stow  # needed by my dotfiles managing script
