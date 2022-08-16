@@ -357,7 +357,7 @@ in
   services.keybase.enable = true;  # it seems this doesn't give keybase-gui yet
   services.gitolite = {
     enable = true;
-    adminPubkey = (builtins.readFile ./pubkeys/id_rsa_jan_at_toastbrot.pub);
+    adminPubkey = builtins.readFile ./pubkeys/id_rsa_jan_at_toastbrot.pub;
   };
 
   # While restoring my home folder, the machine would go to sleep, so let's try https://discourse.nixos.org/t/stop-pc-from-sleep/5757/2
