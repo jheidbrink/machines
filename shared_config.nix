@@ -360,14 +360,6 @@ in
     adminPubkey = builtins.readFile ./pubkeys/id_rsa_jan_at_toastbrot.pub;
   };
 
-  # While restoring my home folder, the machine would go to sleep, so let's try https://discourse.nixos.org/t/stop-pc-from-sleep/5757/2
-  # Disable the GNOME3/GDM auto-suspend feature that cannot be disabled in GUI!
-  # If no user is logged in, the machine will power down after 20 minutes.
-  systemd.targets.sleep.enable = false;
-  systemd.targets.suspend.enable = false;
-  systemd.targets.hibernate.enable = false;
-  systemd.targets.hybrid-sleep.enable = false;
-
   # Minimal configuration for NFS support with Vagrant. (from NixOS Wiki)
   services.nfs.server.enable = true;
   networking.firewall.extraCommands = ''
