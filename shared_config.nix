@@ -113,6 +113,7 @@ in
   };
 
   services.upower.enable = true;
+  services.tlp.enable = true; # TLP power management daemon
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
