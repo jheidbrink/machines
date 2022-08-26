@@ -25,6 +25,7 @@ in
   home-manager.users.jan = {
     services.dunst.enable = true;
     programs.zsh = {
+      enable = false;
       plugins = [
         {
           name = "zsh-histdb";
