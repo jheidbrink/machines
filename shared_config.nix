@@ -252,7 +252,7 @@ in
     jetbrains.idea-community
     dropbox
     wine
-    unstable.youtube-dl
+    unstable.youtube-dl  # doesn't work, even from unstable. I think this is because the youtube-dl maintainers don't do proper releases
     nix-index
     gcc
     openvpn
