@@ -374,6 +374,7 @@ in
           deoplete-jedi
           tagbar
           vim-colors-solarized
+          vim-surround
         ];
       };
     };
