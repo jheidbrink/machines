@@ -281,7 +281,6 @@ in
     zip
     easyeffects
     helvum
-    fasd
     redshift
     gh
     ltrace
