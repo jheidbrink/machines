@@ -7,6 +7,7 @@ let
     }
   ) { config = config.nixpkgs.config; };
 
+  bininfo = pkgs.writeShellScriptBin "bininfo" (builtins.readFile ./scripts/bininfo);
 
   ansible-playbook-grapher_repo_v1_1_2-dev = pkgs.fetchFromGitHub {
     owner = "haidaraM";
@@ -284,6 +285,9 @@ in
     redshift
     gh
     ltrace
+    cachix
+    _1password-gui
+    bininfo
   ];
 
   # Allow the user run a program to poweroff the system. (Copied and adapted from https://discourse.nixos.org/t/how-to-configure-nixos-to-allow-a-program-to-trigger-shutdown/11582)

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# combines which, readlink and file
+
+set -euo pipefail
+
+binary=$1
+binary_location=$(which "$binary")
+echo "Binary $1 is at $binary_location"
+
+if [[ -L "$binary_location" ]]
+then
+    link_target=$(readlink --canonicalize "$binary_location")
+    echo "$binary_location points to $link_target"
+    binary_location=$link_target
+fi
+
+file "$binary_location"
