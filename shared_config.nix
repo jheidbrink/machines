@@ -287,6 +287,9 @@ in
     cachix
     _1password-gui
     bininfo
+    dhcp
+    tcpdump
+    wireshark
   ];
 
   programs.java.enable = true;
