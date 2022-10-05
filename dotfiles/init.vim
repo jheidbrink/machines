@@ -105,6 +105,7 @@ if has("autocmd")
   autocmd BufRead,BufNewFile *.ino set filetype=arduino
   autocmd FileType text setlocal textwidth=0 tabstop=2 softtabstop=2 shiftwidth=2 expandtab
   autocmd FileType python setlocal foldmethod=indent
+  autocmd FileType sh setlocal shiftwidth=2 tabstop=2 expandtab softtabstop=2
   autocmd FileType cpp setlocal foldmethod=syntax
   autocmd FileType cpp setlocal number
   autocmd BufRead,BufNewFile *.strace set filetype=strace
