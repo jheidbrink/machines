@@ -71,6 +71,9 @@ let
   git-merge-keep-theirs = pkgs.writers.writeDashBin "git-merge-keep-theirs" ''
     mv -f $3 $2
     '';
+  bazel = pkgs.writers.writeDashBin "bazel" ''
+    ${pkgs.bazelisk}/bin/bazelisk
+  '';
 in
 {
   nixpkgs.config.allowUnfree = true;
@@ -204,7 +207,7 @@ in
     #google-chrome
     arp-scan
     chromium
-    bazel_5
+    bazel
     xorg.xmodmap
     pwgen
     gcc
