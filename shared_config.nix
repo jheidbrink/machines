@@ -68,7 +68,7 @@ let
       '';
     };
   };
-  git-merge-keep-theirs = pkgs.writeDashBin "git-merge-keep-theirs" ''
+  git-merge-keep-theirs = pkgs.writers.writeDashBin "git-merge-keep-theirs" ''
     mv -f $3 $2
     '';
 in
@@ -290,6 +290,7 @@ in
     dhcp
     tcpdump
     wireshark
+    git-merge-keep-theirs
   ];
 
   programs.java.enable = true;
