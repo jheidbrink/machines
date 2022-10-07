@@ -294,6 +294,7 @@ in
     tcpdump
     wireshark
     git-merge-keep-theirs
+    sequoia
   ];
 
   programs.java.enable = true;
