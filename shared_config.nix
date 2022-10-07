@@ -353,6 +353,7 @@ in
     enableSSHSupport = true;
   };
   programs.zsh.enable = true;
+  programs.fish.enable = true;
   programs.git.enable = true;
   programs.iotop.enable = true;
   programs.iftop.enable = true;
