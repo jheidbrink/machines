@@ -157,6 +157,13 @@ in
   # needed for store VSCode auth token
   services.gnome.gnome-keyring.enable = true;
 
+  services.redshift.enable = true;  # this is a user service that still needs to be enabled by the respective users
+  services.redshift.temperature.day = 4800;
+
+  # location info is used by redshift
+  location.latitude = 52.5;
+  location.longitude = 13.4;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jan = {
     isNormalUser = true;
@@ -231,7 +238,6 @@ in
     libreoffice
     openssl
     flameshot
-    redshift
     wavemon
     gnome.seahorse
     act
