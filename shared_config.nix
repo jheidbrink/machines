@@ -301,6 +301,7 @@ in
     wireshark
     git-merge-keep-theirs
     sequoia
+    nmap
   ];
 
   programs.java.enable = true;
