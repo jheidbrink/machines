@@ -302,6 +302,7 @@ in
     git-merge-keep-theirs
     sequoia
     nmap
+    sshpass
   ];
 
   programs.java.enable = true;
