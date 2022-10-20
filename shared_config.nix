@@ -259,7 +259,6 @@ in
     dfc
     moreutils
     terraform
-    jetbrains.idea-community
     dropbox
     wine
     unstable.youtube-dl  # doesn't work, even from unstable. I think this is because the youtube-dl maintainers don't do proper releases

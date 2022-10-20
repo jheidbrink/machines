@@ -88,6 +88,10 @@ in
   #  ed25519PrivateKeyFile = "/var/secrets/retiolum/ed25519_key.priv";
   #};
 
+  environment.systemPackages = [
+    pkgs.jetbrains.idea-ultimate
+  ];
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
