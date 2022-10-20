@@ -23,6 +23,8 @@ in
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
+  services.system-config-printer.enable = true;
+
   home-manager.users.jan = {
     services.dunst.enable = true;
     programs.zsh = {
