@@ -23,6 +23,10 @@ in
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.hplip pkgs.epson-escpr pkgs.gutenprint ];
+  };
   services.system-config-printer.enable = true;
 
   home-manager.users.jan = {
