@@ -303,6 +303,7 @@ in
     sequoia
     nmap
     sshpass
+    libfaketime
   ];
 
   programs.java.enable = true;
