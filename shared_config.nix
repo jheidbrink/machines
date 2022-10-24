@@ -139,12 +139,6 @@ in
 
   # Enable pipewire. Copied this block from https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
   security.rtkit.enable = true; # rtkit is optional but recommended
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
