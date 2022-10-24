@@ -410,9 +410,9 @@ in
 
   virtualisation.lxd.enable = true;
 
-  services.dockerRegistry.enable = true;
-  services.dockerRegistry.listenAddress = "192.168.60.1";  # Virtualbox network for magma VM
-  services.dockerRegistry.port = 5678;
+  #services.dockerRegistry.enable = true;
+  #services.dockerRegistry.listenAddress = "192.168.60.1";  # Virtualbox network for magma VM
+  #services.dockerRegistry.port = 5678;
 
   virtualisation.virtualbox.host.enable = true;  # Note that I had to reboot before I could actually use Virtualbox. Or maybe     virtualisation.virtualbox.host.addNetworkInterface would have helped?
   users.extraGroups.vboxusers.members = [ "jan" "heidbrij" ];
