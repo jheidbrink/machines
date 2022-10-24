@@ -135,8 +135,7 @@ in
   services.xserver.layout = "us";
   services.xserver.xkbOptions = "eurosign:e, caps:escape";
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
+
 
   # Enable pipewire. Copied this block from https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
   security.rtkit.enable = true; # rtkit is optional but recommended
