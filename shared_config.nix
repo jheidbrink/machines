@@ -296,6 +296,7 @@ in
     nmap
     sshpass
     libfaketime
+    dive
   ];
 
   programs.java.enable = true;
