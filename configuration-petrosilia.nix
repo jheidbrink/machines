@@ -14,7 +14,7 @@ in
     ./shared_config.nix
     ./machines/petrosilia/hardware-configuration.nix
     (import "${home-manager}/nixos")
-    #./retiolum.nix
+    ./retiolum.nix
   ];
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/45cd0923-da26-433c-a7ad-5564e90ce9cb";
 
@@ -99,12 +99,12 @@ in
     };
   };
 
-  #networking.retiolum.ipv4 = "10.243.143.11";
-  #networking.retiolum.ipv6 = "42:0:3c46:2dfc:6991:79ff:a57a:9984";
-  #services.tinc.networks.retiolum = {
-  #  rsaPrivateKeyFile = "/var/secrets/retiolum/rsa_key.priv";
-  #  ed25519PrivateKeyFile = "/var/secrets/retiolum/ed25519_key.priv";
-  #};
+  networking.retiolum.ipv4 = "10.243.143.11";
+  networking.retiolum.ipv6 = "42:0:3c46:2dfc:6991:79ff:a57a:9984";
+  services.tinc.networks.retiolum = {
+    rsaPrivateKeyFile = "/var/secrets/retiolum/rsa_key.priv";
+    ed25519PrivateKeyFile = "/var/secrets/retiolum/ed25519_key.priv";
+  };
 
   environment.systemPackages = [
     pkgs.jetbrains.idea-ultimate
