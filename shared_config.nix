@@ -298,6 +298,7 @@ in
     libfaketime
     dive
     libcgroup
+    xdot
   ];
 
   programs.java.enable = true;
