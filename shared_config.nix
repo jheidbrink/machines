@@ -297,6 +297,7 @@ in
     sshpass
     libfaketime
     dive
+    libcgroup
   ];
 
   programs.java.enable = true;
