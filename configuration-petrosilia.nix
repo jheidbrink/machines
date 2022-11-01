@@ -48,6 +48,17 @@ in
   services.system-config-printer.enable = true;
 
   home-manager.users.jan = {
+    xdg.mimeApps = {
+      enable = true;
+      associations.added = {
+        "application/pdf" = ["mupdf.desktop"];
+        "application/zip" = ["lxqt-archiver.desktop"];
+      };
+      defaultApplications = {
+        "application/pdf" = ["mupdf.desktop"];
+        "application/zip" = ["lxqt-archiver.desktop"];
+      };
+    };
     services.dunst.enable = true;
     programs.zsh = {
       enable = false;
@@ -99,6 +110,20 @@ in
     };
   };
 
+  home-manager.users.heidbrij = {
+    xdg.mimeApps = {
+      enable = true;
+      associations.added = {
+        "application/pdf" = ["mupdf.desktop"];
+        "application/zip" = ["lxqt-archiver.desktop"];
+      };
+      defaultApplications = {
+        "application/pdf" = ["mupdf.desktop"];
+        "application/zip" = ["lxqt-archiver.desktop"];
+      };
+    };
+  };
+
   networking.retiolum.ipv4 = "10.243.143.11";
   networking.retiolum.ipv6 = "42:0:3c46:2dfc:6991:79ff:a57a:9984";
   services.tinc.networks.retiolum = {
@@ -109,6 +134,9 @@ in
   environment.systemPackages = [
     pkgs.jetbrains.idea-ultimate
     pkgs.pulseaudio  # this gives me pactl but doesn't run pulseaudio
+    pkgs.lxqt.lxqt-archiver
+    pkgs.pantheon.evince
+    pkgs.xcalib
   ];
 
   # This value determines the NixOS release from which the default
