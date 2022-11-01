@@ -315,6 +315,7 @@ in
     dive
     libcgroup
     xdot
+    nushell
   ];
 
   programs.java.enable = true;
