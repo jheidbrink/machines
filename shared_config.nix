@@ -15,6 +15,22 @@ let
     rev = "1d804bbb01eab5c07d42f6eb4917e1d643e3c4b3";
     sha256 = "spAI/eF+U5VMTj7ac7s01xZ5wEfyHAQ6jFyCvcEU6mE=";
   };
+  selenized = pkgs.fetchFromGitHub {
+    owner = "jan-warchol";
+    repo = "selenized";
+    rev = "df1c7f1f94f22e2c717f8224158f6f4097c5ecbe";
+    sha256 = "3dZ2LMv0esbzJvfrtWWbO9SFotXj3UeizjMxO6vs73M=";
+  };
+  alacritty-config-selenized = pkgs.writeText "alacritty-selenized.yml" ''
+    font:
+      size: 10
+
+    import:
+      - ${selenized}/terminals/alacritty/selenized-light.yml
+  '';
+  alacritty-light = pkgs.writers.writeDashBin "alacritty" ''
+    ${pkgs.alacritty}/bin/alacritty --config-file ${alacritty-config-selenized}
+  '';
   ansible-playbook-grapher = pkgs.python310Packages.buildPythonApplication {
     pname = "ansible-playbook-grapher";
     version = "1.1.2-dev";
@@ -184,7 +200,7 @@ in
     python310Packages.pip-tools
     python310Packages.poetry
     python310Packages.pylint
-    alacritty  # associated with windows+t shortcut in i3
+    alacritty-light  # associated with windows+t shortcut in i3
     gitAndTools.diff-so-fancy  # git is configured to use it
     stow  # needed by my dotfiles managing script
     thunderbird
