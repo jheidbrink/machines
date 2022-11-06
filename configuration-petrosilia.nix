@@ -49,14 +49,26 @@ in
 
   home-manager.users.jan = {
     xdg.mimeApps = {
+      # look at https://github.com/Mic92/dotfiles/blob/master/nixpkgs-config/modules/default-apps.nix
+      # and https://github.com/lovesegfault/nix-config/blob/master/users/bemeurer/graphical/firefox.nix
       enable = true;
-      associations.added = {
-        "application/pdf" = ["mupdf.desktop"];
-        "application/zip" = ["lxqt-archiver.desktop"];
-      };
+      #associations.added = {
+      #  "application/pdf" = ["mupdf.desktop"];
+      #  "application/zip" = ["lxqt-archiver.desktop"];
+      #};
       defaultApplications = {
         "application/pdf" = ["mupdf.desktop"];
         "application/zip" = ["lxqt-archiver.desktop"];
+        "application/x-extension-htm" = "firefox.desktop";
+        "application/x-extension-html" = "firefox.desktop";
+        "application/x-extension-shtml" = "firefox.desktop";
+        "application/x-extension-xht" = "firefox.desktop";
+        "application/x-extension-xhtml" = "firefox.desktop";
+        "application/xhtml+xml" = "firefox.desktop";
+        "text/html" = "firefox.desktop";
+        "x-scheme-handler/chrome" = "firefox.desktop";
+        "x-scheme-handler/http" = "firefox.desktop";
+        "x-scheme-handler/https" = "firefox.desktop";
       };
     };
     services.dunst.enable = true;
@@ -113,13 +125,23 @@ in
   home-manager.users.heidbrij = {
     xdg.mimeApps = {
       enable = true;
-      associations.added = {
-        "application/pdf" = ["mupdf.desktop"];
-        "application/zip" = ["lxqt-archiver.desktop"];
-      };
+      #associations.added = {
+      #  "application/pdf" = ["mupdf.desktop"];
+      #  "application/zip" = ["lxqt-archiver.desktop"];
+      #};
       defaultApplications = {
         "application/pdf" = ["mupdf.desktop"];
         "application/zip" = ["lxqt-archiver.desktop"];
+        "application/x-extension-htm" = "firefox.desktop";
+        "application/x-extension-html" = "firefox.desktop";
+        "application/x-extension-shtml" = "firefox.desktop";
+        "application/x-extension-xht" = "firefox.desktop";
+        "application/x-extension-xhtml" = "firefox.desktop";
+        "application/xhtml+xml" = "firefox.desktop";
+        "text/html" = "firefox.desktop";
+        "x-scheme-handler/chrome" = "firefox.desktop";
+        "x-scheme-handler/http" = "firefox.desktop";
+        "x-scheme-handler/https" = "firefox.desktop";
       };
     };
   };
