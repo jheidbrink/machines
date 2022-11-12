@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   unstable = import (
     builtins.fetchTarball {
@@ -7,94 +7,8 @@ let
     }
   ) { config = config.nixpkgs.config; };
 
-  bininfo = pkgs.writeShellScriptBin "bininfo" (builtins.readFile ./scripts/bininfo);
+  programs = (import programs/programs.nix) { inherit pkgs lib; };
 
-  ansible-playbook-grapher_repo_v1_1_2-dev = pkgs.fetchFromGitHub {
-    owner = "haidaraM";
-    repo = "ansible-playbook-grapher";
-    rev = "1d804bbb01eab5c07d42f6eb4917e1d643e3c4b3";
-    sha256 = "spAI/eF+U5VMTj7ac7s01xZ5wEfyHAQ6jFyCvcEU6mE=";
-  };
-  selenized = pkgs.fetchFromGitHub {
-    owner = "jan-warchol";
-    repo = "selenized";
-    rev = "df1c7f1f94f22e2c717f8224158f6f4097c5ecbe";
-    sha256 = "3dZ2LMv0esbzJvfrtWWbO9SFotXj3UeizjMxO6vs73M=";
-  };
-  nns = pkgs.writers.writeDashBin "nns" ''
-    network_namespace=$1
-    shift
-    sudo -E ${pkgs.iproute2}/bin/ip netns exec "$network_namespace" sudo -E -u "$USER" "$@"
-  '';
-  alacritty-config-selenized = pkgs.writeText "alacritty-selenized.yml" ''
-    font:
-      size: 10
-
-    import:
-      - ${selenized}/terminals/alacritty/selenized-light.yml
-  '';
-  alacritty-light = pkgs.writers.writeDashBin "alacritty" ''
-    ${pkgs.alacritty}/bin/alacritty --config-file ${alacritty-config-selenized}
-  '';
-  ansible-playbook-grapher = pkgs.python310Packages.buildPythonApplication {
-    pname = "ansible-playbook-grapher";
-    version = "1.1.2-dev";
-    buildInputs = [ pkgs.graphviz ];
-    propagatedBuildInputs = with pkgs.python310Packages; [ ansible-core colour lxml ];
-    doCheck = false;
-    doInstallCheck = false;
-    src = ansible-playbook-grapher_repo_v1_1_2-dev;
-  };
-  syncrepos_unwrapped = pkgs.writers.writePython3Bin "syncrepos.py" { flakeIgnore = [ "E265" "E501" ]; } (builtins.readFile ./bin/syncrepos.py);
-  syncrepos = pkgs.writers.writeDashBin "syncrepos" ''
-    export PATH=$PATH:${pkgs.git}/bin:${pkgs.kbfs}/bin
-    exec ${pkgs.python310}/bin/python3 ${syncrepos_unwrapped}/bin/syncrepos.py
-  '';
-  myvim = pkgs.vim_configurable.customize {
-    name = "vim";
-    vimrcConfig = {
-      packages.myVimPackage = with pkgs.vimPlugins; {
-        start = [
-          fzf-vim
-          undotree
-          ultisnips
-          vim-snippets
-          ale
-          vim-better-whitespace
-          vim-fugitive
-          vim-nix
-          vim-go
-          deoplete-nvim
-          deoplete-clang
-          deoplete-jedi
-          tagbar
-          vim-colors-solarized
-        ];
-      };
-      customRC = builtins.readFile ./dotfiles/init.vim;
-    };
-  };
-  example-fzf-vim = pkgs.vim_configurable.customize {
-    name = "example-fzf-vim";
-    vimrcConfig = {
-      packages.myVimPackage = {
-        start = with pkgs.vimPlugins;[ fzf-vim vim-fugitive ];
-      };
-      customRC = ''
-        nnoremap <silent> <leader>f :Files<CR>
-        nnoremap <silent> <leader>b :Buffers<CR>
-        nnoremap <silent> <leader>c :Commands<CR>
-        nnoremap <silent> <leader>g :Commits<CR>
-        nnoremap <leader>/ :Rg<Space>
-      '';
-    };
-  };
-  git-merge-keep-theirs = pkgs.writers.writeDashBin "git-merge-keep-theirs" ''
-    mv -f $3 $2
-    '';
-  bazel = pkgs.writers.writeDashBin "bazel" ''
-    ${pkgs.bazelisk}/bin/bazelisk
-  '';
 in
 {
   nixpkgs.config.allowUnfree = true;
@@ -207,7 +121,7 @@ in
     python310Packages.pip-tools
     python310Packages.poetry
     python310Packages.pylint
-    alacritty-light  # associated with windows+t shortcut in i3
+    programs.alacritty-light  # associated with windows+t shortcut in i3
     gitAndTools.diff-so-fancy  # git is configured to use it
     stow  # needed by my dotfiles managing script
     thunderbird
@@ -260,9 +174,9 @@ in
     nodejs
     rclone
     ldns  # drill
-    myvim
+    programs.myvim
     python39Packages.mypy
-    syncrepos
+    programs.syncrepos
     black
     ripgrep
     fzf
@@ -310,11 +224,11 @@ in
     ltrace
     cachix
     _1password-gui
-    bininfo
+    programs.bininfo
     dhcp
     tcpdump
     wireshark
-    git-merge-keep-theirs
+    programs.git-merge-keep-theirs
     sequoia
     nmap
     sshpass
@@ -323,7 +237,8 @@ in
     libcgroup
     xdot
     nushell
-    nns
+    programs.nns
+    qemu_nographic
   ];
 
   programs.java.enable = true;
@@ -350,7 +265,7 @@ in
     description = "Synchronize Users Git repositories";
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${pkgs.dash}/bin/dash -c 'export SSH_AUTH_SOCK=$(${pkgs.gnupg}/bin/gpgconf --list-dirs agent-ssh-socket); exec ${syncrepos}/bin/syncrepos'";
+      ExecStart = "${pkgs.dash}/bin/dash -c 'export SSH_AUTH_SOCK=$(${pkgs.gnupg}/bin/gpgconf --list-dirs agent-ssh-socket); exec ${programs.syncrepos}/bin/syncrepos'";
     };
   };
 
@@ -444,17 +359,13 @@ in
 
   virtualisation.virtualbox.host.enable = true;  # Note that I had to reboot before I could actually use Virtualbox. Or maybe     virtualisation.virtualbox.host.addNetworkInterface would have helped?
   users.extraGroups.vboxusers.members = [ "jan" "heidbrij" ];
-  environment.etc."vbox/networks.conf" = {
-
-  environment.sessionVariables = {
-    GREP_OPTIONS = "--color=always";
-  };
-
-  mode = "0644";
-  text = ''
+  environment.etc."vbox/networks.conf".text = ''
     * 3001::/64
     * 192.168.0.0/16
   '';
+
+  environment.sessionVariables = {
+    GREP_OPTIONS = "--color=always";
   };
 
 }
