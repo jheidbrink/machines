@@ -195,6 +195,7 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     nixos-generators
+    nixos-shell
     wget
     firefox
     tree
