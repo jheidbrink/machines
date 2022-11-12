@@ -21,6 +21,11 @@ let
     rev = "df1c7f1f94f22e2c717f8224158f6f4097c5ecbe";
     sha256 = "3dZ2LMv0esbzJvfrtWWbO9SFotXj3UeizjMxO6vs73M=";
   };
+  nns = pkgs.writers.writeDashBin "nns" ''
+    network_namespace=$1
+    shift
+    sudo -E ${pkgs.iproute2}/bin/ip netns exec "$network_namespace" sudo -E -u "$USER" "$@"
+  '';
   alacritty-config-selenized = pkgs.writeText "alacritty-selenized.yml" ''
     font:
       size: 10
@@ -316,6 +321,7 @@ in
     libcgroup
     xdot
     nushell
+    nns
   ];
 
   programs.java.enable = true;
