@@ -159,6 +159,7 @@ in
     pkgs.lxqt.lxqt-archiver
     pkgs.pantheon.evince
     pkgs.xcalib
+    pkgs.bazel-remote
   ];
 
   # This value determines the NixOS release from which the default
