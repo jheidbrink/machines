@@ -445,6 +445,11 @@ in
   virtualisation.virtualbox.host.enable = true;  # Note that I had to reboot before I could actually use Virtualbox. Or maybe     virtualisation.virtualbox.host.addNetworkInterface would have helped?
   users.extraGroups.vboxusers.members = [ "jan" "heidbrij" ];
   environment.etc."vbox/networks.conf" = {
+
+  environment.sessionVariables = {
+    GREP_OPTIONS = "--color=always";
+  };
+
   mode = "0644";
   text = ''
     * 3001::/64
