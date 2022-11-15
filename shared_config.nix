@@ -238,7 +238,8 @@ in
     xdot
     nushell
     programs.nns
-    qemu_nographic
+    programs.qemu_nographic
+    stun
   ];
 
   programs.java.enable = true;
