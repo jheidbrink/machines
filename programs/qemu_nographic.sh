@@ -7,8 +7,8 @@ function log() {
 }
 
 image=$1;
-shift && amount_memory=${1:-8G}
-shift && amount_cpus=${1:-4}
+amount_memory=${2:-8G}
+amount_cpus=${3:-4}
 log "Starting qemu with image $image"
 qemu-system-x86_64 \
   -machine accel=kvm,type=q35 \

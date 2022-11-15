@@ -1,8 +1,9 @@
 { pkgs, lib }:
 rec {
-  qemu_nographic = pkgs.writeDashBin "qemu_nographic"  ''
-    export PATH="${lib.makeBinPath [ pkgs.bash pkgs.qemu ]}";
-    (builtins.readFile "qemu_nographic.sh")
+  qemu_nographic_sh = pkgs.writeShellScriptBin "qemu_nographic.sh" (builtins.readFile ./qemu_nographic.sh);
+  qemu_nographic = pkgs.writers.writeDashBin "qemu_nographic"  ''
+    export PATH=${lib.makeBinPath [ pkgs.bash pkgs.qemu ]};
+    ${qemu_nographic_sh}/bin/qemu_nographic.sh "$@"
   '';
   nns = pkgs.writers.writeDashBin "nns" ''
     network_namespace=$1
