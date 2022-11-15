@@ -239,7 +239,6 @@ in
     nushell
     programs.nns
     programs.qemu_nographic
-    stun
   ];
 
   programs.java.enable = true;
