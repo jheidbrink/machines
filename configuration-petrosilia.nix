@@ -161,6 +161,7 @@ in
     pkgs.pantheon.evince
     pkgs.xcalib
     pkgs.bazel-remote
+    pkgs.rustup
   ];
 
   # This value determines the NixOS release from which the default
