@@ -144,7 +144,6 @@ in
     #google-chrome
     arp-scan
     chromium
-    bazel
     xorg.xmodmap
     pwgen
     gcc

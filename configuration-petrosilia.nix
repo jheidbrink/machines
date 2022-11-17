@@ -162,6 +162,7 @@ in
     pkgs.xcalib
     pkgs.bazel-remote
     pkgs.rustup
+    pkgs.bazel_5
   ];
 
   # This value determines the NixOS release from which the default
