@@ -154,6 +154,7 @@ in
   };
 
   environment.systemPackages = [
+    pkgs.meld
     pkgs.jetbrains.idea-ultimate
     pkgs.pulseaudio  # this gives me pactl but doesn't run pulseaudio
     pkgs.lxqt.lxqt-archiver
