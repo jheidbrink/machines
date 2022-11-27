@@ -8,46 +8,7 @@ let
     url = "https://github.com/nix-community/home-manager/archive/4a3d01fb53f52ac83194081272795aa4612c2381.tar.gz";  # 2022-06-25 release-22.05 branch
     sha256 = "0sdirpwqk61hnq8lvz4r2j60fxpcpwc8ffmicail2n4h6zifcn9n";
   };
-in
-{
-  imports = [
-    ./shared_config.nix
-    ./machines/petrosilia/hardware-configuration.nix
-    (import "${home-manager}/nixos")
-    ./retiolum.nix
-  ];
-  boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/45cd0923-da26-433c-a7ad-5564e90ce9cb";
-
-  networking.hostName = "petrosilia"; # Define your hostname.
-
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.hsphfpd.enable = true;  # https://discourse.nixos.org/t/is-pipewire-ready-for-using/11578/6
-  services.blueman.enable = true;
-
-  services.pipewire  = { # https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-  environment.etc = { # https://nixos.wiki/wiki/PipeWire#Bluetooth_Configuration
-    "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
-      bluez_monitor.properties = {
-        ["bluez5.enable-sbc-xq"] = true,
-        ["bluez5.enable-msbc"] = true,
-        ["bluez5.enable-hw-volume"] = true,
-        ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
-      }
-    '';
-  };
-
-  services.printing = {
-    enable = true;
-    drivers = [ pkgs.hplip pkgs.epson-escpr pkgs.gutenprint ];
-  };
-  services.system-config-printer.enable = true;
-
-  home-manager.users.jan = {
+  standard_user_hm_config = {
     xdg.mimeApps = {
       # look at https://github.com/Mic92/dotfiles/blob/master/nixpkgs-config/modules/default-apps.nix
       # and https://github.com/lovesegfault/nix-config/blob/master/users/bemeurer/graphical/firefox.nix
@@ -121,30 +82,47 @@ in
       '';
     };
   };
+in
+{
+  imports = [
+    ./shared_config.nix
+    ./machines/petrosilia/hardware-configuration.nix
+    (import "${home-manager}/nixos")
+    ./retiolum.nix
+  ];
+  boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/45cd0923-da26-433c-a7ad-5564e90ce9cb";
 
-  home-manager.users.heidbrij = {
-    xdg.mimeApps = {
-      enable = true;
-      #associations.added = {
-      #  "application/pdf" = ["mupdf.desktop"];
-      #  "application/zip" = ["lxqt-archiver.desktop"];
-      #};
-      defaultApplications = {
-        "application/pdf" = ["mupdf.desktop"];
-        "application/zip" = ["lxqt-archiver.desktop"];
-        "application/x-extension-htm" = "firefox.desktop";
-        "application/x-extension-html" = "firefox.desktop";
-        "application/x-extension-shtml" = "firefox.desktop";
-        "application/x-extension-xht" = "firefox.desktop";
-        "application/x-extension-xhtml" = "firefox.desktop";
-        "application/xhtml+xml" = "firefox.desktop";
-        "text/html" = "firefox.desktop";
-        "x-scheme-handler/chrome" = "firefox.desktop";
-        "x-scheme-handler/http" = "firefox.desktop";
-        "x-scheme-handler/https" = "firefox.desktop";
-      };
-    };
+  networking.hostName = "petrosilia"; # Define your hostname.
+
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.hsphfpd.enable = true;  # https://discourse.nixos.org/t/is-pipewire-ready-for-using/11578/6
+  services.blueman.enable = true;
+
+  services.pipewire  = { # https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
   };
+  environment.etc = { # https://nixos.wiki/wiki/PipeWire#Bluetooth_Configuration
+    "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
+      bluez_monitor.properties = {
+        ["bluez5.enable-sbc-xq"] = true,
+        ["bluez5.enable-msbc"] = true,
+        ["bluez5.enable-hw-volume"] = true,
+        ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
+      }
+    '';
+  };
+
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.hplip pkgs.epson-escpr pkgs.gutenprint ];
+  };
+  services.system-config-printer.enable = true;
+
+  home-manager.users.jan = standard_user_hm_config;
+  home-manager.users.heidbrij = standard_user_hm_config;
 
   networking.retiolum.ipv4 = "10.243.143.11";
   networking.retiolum.ipv6 = "42:0:3c46:2dfc:6991:79ff:a57a:9984";
