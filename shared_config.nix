@@ -238,7 +238,6 @@ in
     programs.nns
     programs.qemu_nographic
     xorg.xdpyinfo
-    programs.i3bindings  # doesnt work
   ];
 
   programs.java.enable = true;

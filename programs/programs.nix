@@ -33,11 +33,6 @@ rec {
   alacritty-light = pkgs.writers.writeDashBin "alacritty" ''
     ${pkgs.alacritty}/bin/alacritty --config-file ${alacritty-config-selenized}
   '';
-  dmenu_hotkeys_py = pkgs.writers.writePython3Bin "dmenu_hotkeys.py" { flakeIgnore = [ "E501" "E265" ]; } (builtins.readFile ./dmenu_hotkeys.py);
-  i3bindings = pkgs.writers.writeDashBin "i3bindings" ''
-    export PATH=${lib.makeBinPath [ pkgs.coreutils pkgs.rofi ]}
-    ${dmenu_hotkeys_py}/bin/dmenu_hotkeys.py i3
-  '';
   ansible-playbook-grapher = pkgs.python310Packages.buildPythonApplication {
     pname = "ansible-playbook-grapher";
     version = "1.1.2-dev";
