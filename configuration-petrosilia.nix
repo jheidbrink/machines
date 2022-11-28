@@ -100,7 +100,9 @@ in
 
   networking.hostName = "petrosilia"; # Define your hostname.
 
-  services.xserver.dpi = 150;  # obtained by querying screen size and resolution with xrandr
+  # services.xserver.dpi = 150;  # obtained by querying screen size and resolution with xrandr
+  # while 150 correspnds to reality, I don't have enough space, so choose 120
+  services.xserver.dpi = 120;
   # TODO: understand how this behaves with different screens
   # Why do I have to configure this at all? Can X not calculate that itself?
 
