@@ -58,6 +58,7 @@ in
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
+
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   #services.xserver.desktopManager.gnome.enable = true;
@@ -237,7 +238,6 @@ in
     nushell
     programs.nns
     programs.qemu_nographic
-    xorg.xdpyinfo
   ];
 
   programs.java.enable = true;

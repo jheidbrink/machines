@@ -9,12 +9,6 @@ let
     sha256 = "0sdirpwqk61hnq8lvz4r2j60fxpcpwc8ffmicail2n4h6zifcn9n";
   };
   standard_user_hm_config = {
-    home.pointerCursor = {
-      x11.enable = true;
-      name = "Adwaita";
-      package = pkgs.gnome.adwaita-icon-theme;
-      size = 32;
-    };
     xdg.mimeApps = {
       # look at https://github.com/Mic92/dotfiles/blob/master/nixpkgs-config/modules/default-apps.nix
       # and https://github.com/lovesegfault/nix-config/blob/master/users/bemeurer/graphical/firefox.nix
@@ -99,12 +93,6 @@ in
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/45cd0923-da26-433c-a7ad-5564e90ce9cb";
 
   networking.hostName = "petrosilia"; # Define your hostname.
-
-  services.xserver.dpi = 150;  # obtained by querying screen size and resolution with xrandr
-  # TODO: understand how this behaves with different screens
-  # Why do I have to configure this at all? Can X not calculate that itself?
-
-  # TODO: This does not work -> xdpyinfo | grep dots still says "120x120 dots per inch"
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.hsphfpd.enable = true;  # https://discourse.nixos.org/t/is-pipewire-ready-for-using/11578/6

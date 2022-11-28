@@ -25,7 +25,7 @@ rec {
   };
   alacritty-config-selenized = pkgs.writeText "alacritty-selenized.yml" ''
     font:
-      size: 8
+      size: 10
 
     import:
       - ${selenized}/terminals/alacritty/selenized-light.yml
