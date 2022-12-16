@@ -239,6 +239,7 @@ in
     programs.nns
     programs.qemu_nographic
     html-tidy
+    programs.nixs
   ];
 
   programs.java.enable = true;

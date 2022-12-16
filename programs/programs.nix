@@ -92,4 +92,8 @@ rec {
   bazel = pkgs.writers.writeDashBin "bazel" ''
     ${pkgs.bazelisk}/bin/bazelisk
   '';
+  nixs = pkgs.writeShellScriptBin "nixs" ''
+    export NIX_SHELL_INFO=$1
+    nix-shell -p $1 --run zsh
+  '';
 }
