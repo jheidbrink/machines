@@ -238,6 +238,7 @@ in
     nushell
     programs.nns
     programs.qemu_nographic
+    html-tidy
   ];
 
   programs.java.enable = true;
