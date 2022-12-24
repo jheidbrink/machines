@@ -141,6 +141,7 @@ in
     pkgs.bazel-remote
     pkgs.rustup
     pkgs.bazel_5
+    pkgs.aptly
   ];
 
   # This value determines the NixOS release from which the default
