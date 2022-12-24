@@ -58,7 +58,6 @@ in
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   #services.xserver.desktopManager.gnome.enable = true;
@@ -349,8 +348,8 @@ in
   '';
   networking.firewall.allowedTCPPorts = [ 5678 ];
 
-  virtualisation.docker.enable = true;
-  virtualisation.docker.extraOptions = "--insecure-registry 192.168.60.1:5678";   #  Virtualbox network for magma VM
+  #virtualisation.docker.enable = true;
+  #virtualisation.docker.extraOptions = "--insecure-registry 192.168.60.1:5678";   #  Virtualbox network for magma VM
 
   virtualisation.lxd.enable = true;
 
