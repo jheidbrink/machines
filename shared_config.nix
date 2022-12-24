@@ -173,7 +173,7 @@ in
     nodejs
     rclone
     ldns  # drill
-    programs.myvim
+    programs.vim.myvim
     python39Packages.mypy
     programs.syncrepos
     black

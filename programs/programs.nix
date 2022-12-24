@@ -1,5 +1,6 @@
 { pkgs, lib }:
 rec {
+  vim = (import ./vim.nix) { inherit pkgs  lib; };
   qemu_nographic_sh = pkgs.writeShellScriptBin "qemu_nographic.sh" (builtins.readFile ./qemu_nographic.sh);
   qemu_nographic = pkgs.writers.writeDashBin "qemu_nographic"  ''
     export PATH=${lib.makeBinPath [ pkgs.bash pkgs.qemu ]};
@@ -47,45 +48,6 @@ rec {
     export PATH=$PATH:${pkgs.git}/bin:${pkgs.kbfs}/bin
     exec ${pkgs.python310}/bin/python3 ${syncrepos_unwrapped}/bin/syncrepos.py
   '';
-  myvim = pkgs.vim_configurable.customize {
-    name = "vim";
-    vimrcConfig = {
-      packages.myVimPackage = with pkgs.vimPlugins; {
-        start = [
-          fzf-vim
-          undotree
-          ultisnips
-          vim-snippets
-          ale
-          vim-better-whitespace
-          vim-fugitive
-          vim-nix
-          vim-go
-          deoplete-nvim
-          deoplete-clang
-          deoplete-jedi
-          tagbar
-          vim-colors-solarized
-        ];
-      };
-      customRC = builtins.readFile ../dotfiles/init.vim;
-    };
-  };
-  example-fzf-vim = pkgs.vim_configurable.customize {
-    name = "example-fzf-vim";
-    vimrcConfig = {
-      packages.myVimPackage = {
-        start = with pkgs.vimPlugins;[ fzf-vim vim-fugitive ];
-      };
-      customRC = ''
-        nnoremap <silent> <leader>f :Files<CR>
-        nnoremap <silent> <leader>b :Buffers<CR>
-        nnoremap <silent> <leader>c :Commands<CR>
-        nnoremap <silent> <leader>g :Commits<CR>
-        nnoremap <leader>/ :Rg<Space>
-      '';
-    };
-  };
   git-merge-keep-theirs = pkgs.writers.writeDashBin "git-merge-keep-theirs" ''
     mv -f $3 $2
     '';
