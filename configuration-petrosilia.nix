@@ -5,10 +5,11 @@
 { config, pkgs, ... }:
 let
   home-manager = builtins.fetchTarball {
-    url = "https://github.com/nix-community/home-manager/archive/4a3d01fb53f52ac83194081272795aa4612c2381.tar.gz";  # 2022-06-25 release-22.05 branch
-    sha256 = "0sdirpwqk61hnq8lvz4r2j60fxpcpwc8ffmicail2n4h6zifcn9n";
+    url = "https://github.com/nix-community/home-manager/archive/89a8ba0b5b43b3350ff2e3ef37b66736b2ef8706.tar.gz";  # 2022-12-28 release-22.11 branch
+    sha256 = "sha256:0p5n9dflr37rd5fl5wag8dyzxrx270lv1vm3991798ba0vq5p9n5";
   };
   standard_user_hm_config = {
+    home.stateVersion = "22.05";
     xdg.mimeApps = {
       # look at https://github.com/Mic92/dotfiles/blob/master/nixpkgs-config/modules/default-apps.nix
       # and https://github.com/lovesegfault/nix-config/blob/master/users/bemeurer/graphical/firefox.nix
@@ -113,6 +114,18 @@ in
         ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
       }
     '';
+  };
+
+  i18n.extraLocaleSettings = {
+    LC_COLLATE = "C.UTF-8";
+    LC_ADDRESS = "de_DE.UTF8";
+    LC_IDENTIFICATION = "de_DE.UTF-8";
+    LC_MONETARY = "de_DE.UTF-8";
+    LC_NAME = "de_DE.UTF-8";
+    LC_NUMERIC = "de_DE.UTF-8";
+    LC_PAPER = "de_DE.UTF-8";
+    LC_TELEPHONE = "de_DE.UTF-8";
+    LC_TIME = "de_DE.UTF-8";
   };
 
   services.printing = {
