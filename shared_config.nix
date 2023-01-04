@@ -239,6 +239,7 @@ in
     programs.qemu_nographic
     html-tidy
     programs.nixs
+    xorg.xdpyinfo
   ];
 
   programs.java.enable = true;
