@@ -9,7 +9,6 @@ let
     sha256 = "sha256:0p5n9dflr37rd5fl5wag8dyzxrx270lv1vm3991798ba0vq5p9n5";
   };
   standard_user_hm_config = {
-    imports = [ ./wayland.nix ];
     home.stateVersion = "22.05";
     xdg.mimeApps = {
       # look at https://github.com/Mic92/dotfiles/blob/master/nixpkgs-config/modules/default-apps.nix
@@ -91,6 +90,7 @@ in
     ./machines/petrosilia/hardware-configuration.nix
     (import "${home-manager}/nixos")
     ./retiolum.nix
+    ./sway.nix
   ];
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/45cd0923-da26-433c-a7ad-5564e90ce9cb";
 
