@@ -8,6 +8,7 @@
       ./machines/schneebesen/hardware-configuration.nix
       <home-manager/nixos>  # we have to configure a home-manager channel for root user
       ./shared_config.nix
+      ./xorg.nix
     ];
 
   # instead of the stianlagstad.no way, I take the following two lines https://nixos.org/manual/nixos/stable/index.html#sec-luks-file-systems
@@ -16,9 +17,6 @@
   boot.blacklistedKernelModules = [ "nouveau" ];
 
   networking.hostName = "schneebesen"; # Define your hostname.
-
-  services.xserver.windowManager.i3.enable = true;
-  services.xserver.windowManager.i3.extraPackages = [ pkgs.dmenu pkgs.i3status pkgs.i3lock pkgs.i3blocks ];
 
   home-manager.users.jan = { pkgs, ...}: {
     home.packages = [ pkgs.httpie ];

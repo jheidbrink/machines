@@ -133,12 +133,10 @@ in
     gsimplecal  # also mapped to i3 keyboard shortcut
     pv
     htop
-    xorg.xkill
     ansible
     #google-chrome
     arp-scan
     chromium
-    xorg.xmodmap
     pwgen
     gcc
     go
@@ -234,7 +232,6 @@ in
     programs.qemu_nographic
     html-tidy
     programs.nixs
-    xorg.xdpyinfo
   ];
 
   programs.java.enable = true;
