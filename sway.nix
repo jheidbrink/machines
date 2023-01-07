@@ -41,25 +41,28 @@ let
 
 in
 {
-  environment.systemPackages = with pkgs; [
-    alacritty           # gpu accelerated terminal
-    sway
+  environment.systemPackages = [
+    pkgs.sway
     dbus-sway-environment
     configure-gtk
-    wayland
-    chromium
-    glib                      # gsettings
-    dracula-theme             # gtk theme
-    gnome3.adwaita-icon-theme # default gnome cursors
-    swaylock
-    swayidle
-    grim                      # screenshot functionality
-    slurp                     # screenshot functionality
-    wl-clipboard
-    bemenu
+    pkgs.wayland
+    pkgs.chromium
+    pkgs.glib                      # gsettings
+    pkgs.dracula-theme             # gtk theme
+    pkgs.gnome3.adwaita-icon-theme # default gnome cursors
+    pkgs.swaylock
+    pkgs.swayidle
+    pkgs.grim                      # screenshot functionality
+    pkgs.slurp                     # screenshot functionality
+    pkgs.wl-clipboard
+    pkgs.bemenu
+    pkgs.iwgtk
   ];
 
 
+  environment.etc = {
+    "sway/config".source = ./files/sway_config;
+  };
 
   services.pipewire = {
     enable = true;
@@ -80,7 +83,7 @@ in
     wlr.enable = true;
     # gtk portal needed to make gtk apps happy
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    gtkUsePortal = true;
+    gtkUsePortal = true;  # this has been deprecated
   };
 
   # enable sway window manager
