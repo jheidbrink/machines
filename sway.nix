@@ -34,7 +34,7 @@ let
       in ''
         export XDG_DATA_DIRS=${datadir}:$XDG_DATA_DIRS
         gnome_schema=org.gnome.desktop.interface
-        gsettings set $gnome_schema gtk-theme 'Dracula'
+        gsettings set $gnome_schema gtk-theme $1
         '';
   };
 
@@ -57,6 +57,9 @@ in
     pkgs.wl-clipboard
     pkgs.bemenu
     pkgs.iwgtk
+    pkgs.kanshi
+    pkgs.i3status
+    pkgs.j4-dmenu-desktop
   ];
 
 

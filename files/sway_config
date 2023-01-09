@@ -8,25 +8,26 @@ for_window [class="^zoom$" title="^.*(?<!Zoom Meeting)$"] floating enable
 
 set $editor gvim
 set $term alacritty
+set $Locker 'swaylock -f -c 000000'
 
 set $mod Mod4
 
 bindsym $mod+Return exec $term
 
-### colors
-
-set $Background        #282a36
-set $CurrentLine       #44475a
-set $Selection         #44475a
-set $Foreground        #f8f8f2
-set $Comment           #6272a4
-set $Cyan              #8be9fd
-set $Green             #50fa7b
-set $Orange            #ffb86c
-set $Pink              #ff79c6
-set $Purple            #bd93f9
-set $Red               #ff5555
-set $Yellow            #f1fa8c
+#### colors
+#
+#set $Background        #282a36
+#set $CurrentLine       #44475a
+#set $Selection         #44475a
+#set $Foreground        #f8f8f2
+#set $Comment           #6272a4
+#set $Cyan              #8be9fd
+#set $Green             #50fa7b
+#set $Orange            #ffb86c
+#set $Pink              #ff79c6
+#set $Purple            #bd93f9
+#set $Red               #ff5555
+#set $Yellow            #f1fa8c
 
 # _JAVA_AWT_WM_NONREPARENTING=1 needed to make java apps
 # play nice with tiling wm
@@ -46,16 +47,17 @@ set $menu _JAVA_AWT_WM_NONREPARENTING=1 bemenu-run \
           --af=$Foreground
 
 
-output * bg $Background solid_color
-
-client.focused            $CurrentLine   $CurrentLine     $Foreground   $Purple       $CurrentLine
-client.focused_inactive   $Background    $Background      $Foreground   $Background   $Background
-client.unfocused          $Background    $Background      $Foreground   $Background   $Background
-client.urgent             $Red           $Red             $Foreground   $Purple       $Red
+#output * bg $Background solid_color
+#
+#client.focused            $CurrentLine   $CurrentLine     $Foreground   $Purple       $CurrentLine
+#client.focused_inactive   $Background    $Background      $Foreground   $Background   $Background
+#client.unfocused          $Background    $Background      $Foreground   $Background   $Background
+#client.urgent             $Red           $Red             $Foreground   $Purple       $Red
 
 
 # Start menu
-bindsym $mod+d exec $menu
+bindsym $mod+shift+m exec $menu
+bindsym $mod+m exec j4-dmenu-desktop
 
 # Start control panels
 bindsym $mod+Shift+d exec iwgtk; exec pavucontrol; exec blueman-manager
@@ -65,18 +67,14 @@ bindsym $mod+c exec grim  -g "$(slurp)" /tmp/$(date +'%H:%M:%S.png')
 # Kill focused window
 bindsym $mod+Shift+q kill
 
+# # set font
+# font pango:SourceCodePro Regular 11
 
-
-# set font
-font pango:SourceCodePro Regular 11
-
-
-bindsym XF86MonBrightnessDown exec light -U 10
-bindsym XF86MonBrightnessUp   exec light -A 10
+bindsym XF86MonBrightnessDown exec light -U 1
+bindsym XF86MonBrightnessUp   exec light -A 1
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-
 
 
 # Drag floating windows by holding down $mod and left mouse button.
@@ -178,37 +176,54 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+#bar {
+#    position top
+#    status_command while python /etc/nixos/dotfiles/sway/status_command.py; do sleep 5; done
+#    height 25
+#    #colors {
+#    #    background $Background
+#    #    statusline $Foreground
+#    #    focused_workspace $Purple $Purple $Foreground
+#    #    urgent_workspace $Red $Red $Foreground
+#    #    inactive_workspace $Background $Background $Foreground
+#    #}
+#}
 bar {
-    position top
-    status_command while python /etc/nixos/dotfiles/sway/status_command.py; do sleep 5; done
-    height 25
-    colors {
-        background $Background
-        statusline $Foreground
-        focused_workspace $Purple $Purple $Foreground
-        urgent_workspace $Red $Red $Foreground
-        inactive_workspace $Background $Background $Foreground
-    }
+    status_command i3status
 }
 
 # Import the WAYLAND_DISPLAY env var from sway into the systemd user session.
 exec dbus-sway-environment
 
 # lock keybind
-bindsym $mod+F1 exec 'swaylock -f -c 000000'
+bindsym $mod+F1 exec $Locker
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id sway exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+y mode "$mode_system"
 
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
-
 exec swayidle -w \
-         timeout 300 'swaylock -f -c 000000' \
+         timeout 300 $Locker \
          timeout 600 'swaymsg "output * dpms off"' \
               resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -f -c 000000'
+         before-sleep $Locker
 
 # set gtk settings
-exec configure-gtk
+exec configure-gtk Adwaita
 
 # run kanshi which handles display hotswapping
 exec_always "pkill kanshi; kanshi -c /etc/nixos/host_specific_config_kanshi"
