@@ -60,6 +60,8 @@ in
     pkgs.kanshi
     pkgs.i3status
     pkgs.j4-dmenu-desktop
+    pkgs.wdisplays
+    pkgs.wlr-randr
   ];
 
 
