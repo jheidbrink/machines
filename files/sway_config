@@ -1,6 +1,13 @@
 # Some copy & pasting from https://github.com/danielbarter/nixos-config/blob/eb2dbe4001fcc18825b0c146e1139ffff2bd0e8c/dotfiles/sway/config
 # and from my ~/.config/i3/config
 
+
+# or input <identifier>
+input "type:keyboard" {
+    xkb_layout us
+    xkb_options caps:escape
+}
+
 no_focus [title="zoom" class="zoom"]
 # The following is a "negative lookahead assertion" (https://faq.i3wm.org/question/2067/focus-on-a-window-of-a-certain-class-unless-it-has-a-certain-title.1.html)
 for_window [class="^zoom$" title="^.*(?<!Zoom Meeting)$"] floating enable
