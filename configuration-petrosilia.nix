@@ -151,7 +151,6 @@ in
     pkgs.pulseaudio  # this gives me pactl but doesn't run pulseaudio
     pkgs.lxqt.lxqt-archiver
     pkgs.pantheon.evince
-    pkgs.xcalib
     pkgs.bazel-remote
     pkgs.rustup
     pkgs.bazel_5
