@@ -25,6 +25,13 @@ in
 
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
+  # from https://discourse.nixos.org/t/nvd-simple-nix-nixos-version-diff-tool/12397/34
+  system.activationScripts.report-changes = ''
+    PATH=$PATH:${lib.makeBinPath [  pkgs.nix ]}
+    echo "+++++CHANGES++++++"
+    nix --extra-experimental-features nix-command store diff-closures $(ls -dv /nix/var/nix/profiles/system-*-link/|tail -2)
+  '';
+
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # not sure what wireless.enable does, but seems orthogonal or even conflicting with networkmanager, and I want networkmanager
 
