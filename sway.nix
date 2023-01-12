@@ -42,7 +42,6 @@ let
 in
 {
   environment.systemPackages = [
-    pkgs.sway
     dbus-sway-environment
     configure-gtk
     pkgs.wayland
@@ -88,13 +87,18 @@ in
     wlr.enable = true;
     # gtk portal needed to make gtk apps happy
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    gtkUsePortal = true;  # this has been deprecated
   };
 
   # enable sway window manager
   programs.sway = {
     enable = true;
-    wrapperFeatures.gtk = true;
+    # extraSessionCommands are taken from Github User xunam: https://github.com/NixOS/nixpkgs/issues/57602#issuecomment-753851568
+    extraSessionCommands = ''
+        source /etc/profile
+        test -f $HOME/.profile && source $HOME/.profile
+        export MOZ_ENABLE_WAYLAND=1
+        systemctl --user import-environment
+      '';
   };
 
 }
