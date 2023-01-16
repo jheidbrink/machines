@@ -20,13 +20,13 @@ set $mod Mod4
 
 bindsym $mod+Return exec $term
 
-gaps inner 7
+gaps inner 4
 gaps outer 1
 smart_gaps on  # don't show gaps for only one window
 
 # borders from https://github.com/swaywm/sway/issues/6946#issuecomment-1182012140
-default_border pixel 7
-default_floating_border pixel 7
+default_border pixel 4
+default_floating_border pixel 4
 font pango:monospace 0
 titlebar_padding 1
 titlebar_border_thickness 0
