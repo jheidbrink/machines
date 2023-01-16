@@ -57,7 +57,7 @@ in
     pkgs.bemenu
     pkgs.iwgtk
     pkgs.kanshi
-    pkgs.i3status
+    pkgs.waybar
     pkgs.j4-dmenu-desktop
     pkgs.wdisplays
     pkgs.wlr-randr

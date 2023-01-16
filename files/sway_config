@@ -195,7 +195,7 @@ bindsym $mod+r mode "resize"
 #    #}
 #}
 bar {
-    status_command i3status
+    swaybar_command waybar
 }
 
 # Import the WAYLAND_DISPLAY env var from sway into the systemd user session.
