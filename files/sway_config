@@ -49,9 +49,9 @@ titlebar_border_thickness 0
 include "$HOME/.cache/wal/sway-colors"
 
 # from https://github.com/Iss-in/dotfiles-v2/blob/a20a3981bb513e0f7f90ed4f43f8473c5577bc06/.config/sway/config_latest#L95-L99
-#client.<class> <border> <background> <text> <indicator> <child_border> 
-client.focused "#23242a" "#2b2b2b" "#888888" "#000000" "#000000"
-client.focused_inactive "#23242a" "#2b2b2b" "#888888" "#000000" "#000000"
+#client.<class> <border> <background> <text> <indicator> <child_border>
+client.focused "#b3b4ba" "#2b2b2b" "#888888" "#23242a" "#23242a"
+client.focused_inactive "#93949a" "#2b2b2b" "#888888" "#23242a" "#23242a"
 client.unfocused "#2c2c2c" "#2b2b2b" "#888888" "#000000" "#000000"
 
 # _JAVA_AWT_WM_NONREPARENTING=1 needed to make java apps
