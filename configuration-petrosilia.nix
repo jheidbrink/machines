@@ -100,6 +100,8 @@ in
   hardware.bluetooth.hsphfpd.enable = true;  # https://discourse.nixos.org/t/is-pipewire-ready-for-using/11578/6
   services.blueman.enable = true;
 
+  fonts.fonts = [ pkgs.font-awesome ];
+
   services.pipewire  = { # https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
     enable = true;
     alsa.enable = true;
