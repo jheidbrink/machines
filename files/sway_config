@@ -20,6 +20,17 @@ set $mod Mod4
 
 bindsym $mod+Return exec $term
 
+gaps inner 12
+gaps outer 5
+smart_gaps on
+
+# borders from https://github.com/swaywm/sway/issues/6946#issuecomment-1182012140
+default_border pixel 2
+default_floating_border pixel 2
+font pango:monospace 0
+titlebar_padding 1
+titlebar_border_thickness 0
+
 #### colors
 #
 #set $Background        #282a36
