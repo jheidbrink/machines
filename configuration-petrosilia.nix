@@ -108,6 +108,7 @@ in
     emacs-all-the-icons-fonts
     font-awesome
   ];
+  # Also take a look at https://github.com/millipedes/NixOS_dot_files/blob/1a3607310fc5649323c9b2b756d18530cc77549f/configuration.nix#L171-L176
 
   services.pipewire  = { # https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
     enable = true;
