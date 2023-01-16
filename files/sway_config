@@ -7,8 +7,6 @@ input "type:keyboard" {
     xkb_options caps:escape
 }
 
-output eDP-1 scale 1.2
-
 no_focus [title="zoom" class="zoom"]
 # The following is a "negative lookahead assertion" (https://faq.i3wm.org/question/2067/focus-on-a-window-of-a-certain-class-unless-it-has-a-certain-title.1.html)
 for_window [class="^zoom$" title="^.*(?<!Zoom Meeting)$"] floating enable
@@ -234,4 +232,5 @@ exec swayidle -w \
 exec configure-gtk Adwaita
 
 # run kanshi which handles display hotswapping
-exec_always "pkill kanshi; kanshi -c /etc/nixos/host_specific_config_kanshi"
+exec_always "pkill kanshi; kanshi --config /etc/kanshi.conf"
+

@@ -115,6 +115,16 @@ in
         ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
       }
     '';
+    "kanshi.conf".text = ''
+      {
+        output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1307 scale 1.2
+      }
+
+      {
+        output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1307 scale 1.2
+        output "Dell Inc. DELL U2719D 2XSLSS2 (DP-5)" enable mode 2560x1440@59.951000Hz position 0,0 scale 1.1
+      }
+    '';
   };
 
   i18n.extraLocaleSettings = {
