@@ -100,7 +100,14 @@ in
   hardware.bluetooth.hsphfpd.enable = true;  # https://discourse.nixos.org/t/is-pipewire-ready-for-using/11578/6
   services.blueman.enable = true;
 
-  fonts.fonts = [ pkgs.font-awesome ];
+  # from https://github.com/starcraft66/os-config/blob/c9b78eef47e2f42f8c37dec024c0631bc7104096/hosts/helia/configuration.nix#L155-L161
+  fonts.fontDir.enable = true;
+  fonts.fonts = with pkgs; [
+    nerdfonts
+    noto-fonts
+    emacs-all-the-icons-fonts
+    font-awesome
+  ];
 
   services.pipewire  = { # https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
     enable = true;
