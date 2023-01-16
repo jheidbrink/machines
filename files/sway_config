@@ -219,6 +219,11 @@ mode "$mode_system" {
 
 bindsym $mod+y mode "$mode_system"
 
+# on swaybar and i3status, the cursor size is different than on windows.
+# I tried the following line from https://github.com/swaywm/sway/issues/6931#issue-1195906269
+# # but it didn't help:
+#seat seat0 xcursor_theme Adwaita
+
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
