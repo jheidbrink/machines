@@ -66,6 +66,7 @@ in
 
   environment.etc = {
     "sway/config".source = ./files/sway_config;
+    "sway/colorschemes/base16-default-dark".source = ./files/sway_base16_default_dark.colorscheme;
   };
 
   services.pipewire = {

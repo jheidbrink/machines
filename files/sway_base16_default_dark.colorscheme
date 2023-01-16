@@ -1,6 +1,8 @@
 ## Base16 Default Dark
 # Author: Chris Kempson (http://chriskempson.com)
 
+# Copied from https://github.com/rkubosz/base16-sway/blob/29a578699774330c43239fb42bdde80cd9b3eb22/themes/base16-default-dark.config
+
 set $base00 #181818
 set $base01 #282828
 set $base02 #383838
