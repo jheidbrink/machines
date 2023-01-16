@@ -133,7 +133,6 @@ in
     ncdu
     kbfs  # Keybase filesystem, this also brings the git-remote-keybase binary
     keybase-gui
-    xclip  # needed also for neovim clipboard support
     vscode
     vagrant
     sqlite
@@ -327,6 +326,7 @@ in
           tagbar
           vim-colors-solarized
           vim-surround
+          vim-css-color
         ];
       };
     };

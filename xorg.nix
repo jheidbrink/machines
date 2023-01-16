@@ -9,5 +9,6 @@
     pkgs.xorg.xmodmap
     pkgs.xorg.xdpyinfo
     pkgs.xcalib
+    pkgs.xclip  # needed also for neovim clipboard support
   ];
 }
