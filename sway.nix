@@ -61,6 +61,7 @@ in
     pkgs.j4-dmenu-desktop
     pkgs.wdisplays
     pkgs.wlr-randr
+    pkgs.waypipe
   ];
 
 
