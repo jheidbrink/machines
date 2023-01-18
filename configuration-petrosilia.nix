@@ -136,6 +136,11 @@ in
         output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1307 scale 1.2
         output "Dell Inc. DELL U2719D 2XSLSS2" enable mode 2560x1440@59.951000Hz position 0,0 scale 1.1
       }
+
+      {
+        output eDP-1 enable mode 1920x1080@59.999001Hz position 0,0 scale 1.2
+        output "Dell Inc. DELL U2715H GH85D89F11KS" enable mode 2560x1440@59.951000Hz position 1920,0 scale 1.1
+      }
     '';
   };
 
