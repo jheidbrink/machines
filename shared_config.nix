@@ -238,6 +238,7 @@ in
     programs.qemu_nographic
     html-tidy
     programs.nixs
+    pstree
   ];
 
   programs.java.enable = true;
