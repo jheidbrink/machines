@@ -62,6 +62,8 @@ in
     pkgs.wdisplays
     pkgs.wlr-randr
     pkgs.waypipe
+    pkgs.wev
+    pkgs.xorg.xkbcomp
   ];
 
 
@@ -102,6 +104,35 @@ in
         export MOZ_ENABLE_WAYLAND=1
         systemctl --user import-environment
       '';
+  };
+
+  services.xserver.extraLayouts = {
+    # us-gerextra copied from https://github.com/bendlas/nixos-config/blob/7820c4fe53e8bc4db4be0f5a8bd858a66ce24248/desktop.nix#L85-L109
+    us-gerextra = {
+      description = ''
+        English layout with german umlauts on AltGr
+      '';
+      languages = [ "eng" "ger" ];
+      keycodesFile = pkgs.writeText "us-gerextra-keycodes" ''
+        xkb_keycodes "us-gerextra" { include "evdev+aliases(qwerty)" };
+      '';
+      geometryFile = pkgs.writeText "us-gerextra-geometry" ''
+        xkb_geometry "us-gerextra" { include "pc(pc104)" };
+      '';
+      typesFile = pkgs.writeText "us-gerextra-types" ''
+        xkb_types "us-gerextra" { include "complete" };
+      '';
+      symbolsFile = pkgs.writeText "us-gerextra-symbols" ''
+        xkb_symbols "us-gerextra" {
+          key <AD03> { [ e, E, EuroSign ] };
+          key <AD07> { [ u, U, udiaeresis, Udiaeresis ] };
+          key <AD09> { [ o, O, odiaeresis, Odiaeresis ] };
+          key <AC01> { [ a, A, adiaeresis, Adiaeresis ] };
+          key <AC02> { [ s, S, ssharp, U1E9E ] };
+          augment "pc+us+inet(evdev)+ctrl(nocaps)+level3(ralt_switch)"
+        };
+      '';
+    };
   };
 
 }
