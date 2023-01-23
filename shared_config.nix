@@ -337,10 +337,6 @@ in
   services.openssh.forwardX11 = true;
   services.pcscd.enable = true;  # for Yubikey
   services.keybase.enable = true;  # it seems this doesn't give keybase-gui yet
-  services.gitolite = {
-    enable = true;
-    adminPubkey = builtins.readFile ./pubkeys/id_rsa_jan_at_toastbrot.pub;
-  };
 
   # Minimal configuration for NFS support with Vagrant. (from NixOS Wiki)
   services.nfs.server.enable = true;
