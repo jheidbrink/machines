@@ -107,6 +107,7 @@ in
   };
 
   # TODO: Look at https://github.com/bqv/rc/blob/nixos/profiles/graphical/xkb/default.nix for interesting keyboard layout options
+  # The us-gerextra layout is referenced in sway config
   services.xserver.extraLayouts = {
     # us-gerextra copied from https://github.com/bendlas/nixos-config/blob/7820c4fe53e8bc4db4be0f5a8bd858a66ce24248/desktop.nix#L85-L109
     us-gerextra = {
