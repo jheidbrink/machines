@@ -317,6 +317,7 @@ in
   services.openssh.forwardX11 = true;
   services.pcscd.enable = true;  # for Yubikey
   services.keybase.enable = true;  # it seems this doesn't give keybase-gui yet
+  services.earlyoom.enable = true;  # Kills processses before the OOMKiller and hopefully before the system becomes unbearably slow
 
   # Minimal configuration for NFS support with Vagrant. (from NixOS Wiki)
   services.nfs.server.enable = true;
