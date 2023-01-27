@@ -1,12 +1,5 @@
 { config, pkgs, lib, ... }:
 let
-  unstable = import (
-    builtins.fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/0d68d7c857fe301d49cdcd56130e0beea4ecd5aa.tar.gz";  # 2022-06-19 nixos-unstable branch
-      sha256 = "1lq2lirv5mkx74aly30xfhdwz7jq9hv4nrs49j693pv96z0p63gf";
-    }
-  ) { config = config.nixpkgs.config; };
-
   programs = (import programs/programs.nix) { inherit pkgs lib; };
 
 in
@@ -184,7 +177,7 @@ in
     terraform
     dropbox
     wine
-    unstable.youtube-dl  # doesn't work, even from unstable. I think this is because the youtube-dl maintainers don't do proper releases
+    yt-dlp  # Fork of youtube-dlc which I think is an inactive fork of youtube-dl. I'm using it because the youtube-dl release is so old that it doesn't work for Youtube.
     nix-index
     gcc
     openvpn
