@@ -38,6 +38,9 @@ let
         '';
   };
 
+  px = pkgs.writers.writeDashBin "px" ''
+    pwd | ${pkgs.wl-clipboard}/bin/wl-copy
+  '';
 
 in
 {
@@ -64,6 +67,7 @@ in
     pkgs.waypipe
     pkgs.wev
     pkgs.xorg.xkbcomp
+    px
   ];
 
 
