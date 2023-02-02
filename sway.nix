@@ -44,6 +44,8 @@ let
 
 in
 {
+  imports = [ ./graphical.nix ];
+
   environment.systemPackages = [
     dbus-sway-environment
     configure-gtk
