@@ -77,6 +77,8 @@ bindsym $mod+Shift+d exec iwgtk; exec pavucontrol; exec blueman-manager
 
 bindsym $mod+c exec grim  -g "$(slurp)" /tmp/$(date +'%H:%M:%S.png')
 
+bindsym $mod+Control+c exec gsimplecal
+
 # Kill focused window
 bindsym $mod+Shift+q kill
 

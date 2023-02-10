@@ -70,6 +70,7 @@ in
     pkgs.wev
     pkgs.xorg.xkbcomp
     px
+    pkgs.gsimplecal  # Used in shortcut
   ];
 
 
