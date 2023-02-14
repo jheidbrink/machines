@@ -97,7 +97,7 @@ in
   networking.hostName = "petrosilia"; # Define your hostname.
 
   hardware.bluetooth.enable = true;
-  hardware.bluetooth.hsphfpd.enable = true;  # https://discourse.nixos.org/t/is-pipewire-ready-for-using/11578/6
+  hardware.bluetooth.hsphfpd.enable = false;  # `true` seems to conflict with Wireplumber which is activated somehow
   services.blueman.enable = true;
 
   # from https://github.com/starcraft66/os-config/blob/c9b78eef47e2f42f8c37dec024c0631bc7104096/hosts/helia/configuration.nix#L155-L161
