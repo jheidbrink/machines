@@ -208,7 +208,6 @@ in
     traceroute
     zip
     easyeffects
-    helvum
     redshift
     gh
     ltrace
