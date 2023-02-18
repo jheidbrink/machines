@@ -58,4 +58,11 @@ rec {
     export NIX_SHELL_INFO=$1
     nix-shell -p $1 --run zsh
   '';
+  # fd output is hard to read on light terminal backgrounds. By setting LS_COLORS, even to an empty string,
+  # fd uses the same colors that ls uses which work better.
+  # See https://github.com/sharkdp/fd/issues/1031
+  fd = pkgs.writers.writeDashBin "fd" ''
+    export LS_COLORS=""
+    ${pkgs.fd}/bin/fd "$@"
+  '';
 }

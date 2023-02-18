@@ -231,7 +231,7 @@ in
     html-tidy
     programs.nixs
     pstree
-    fd  # supposedly faster and more user-friendly find replacement
+    programs.fd  # supposedly faster and more user-friendly find replacement
   ];
 
   programs.java.enable = true;
