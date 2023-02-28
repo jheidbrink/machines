@@ -16,3 +16,11 @@ then
 fi
 
 file "$binary_location"
+
+if [[ $(wc -l < "$binary_location") -lt 15 ]]
+then
+  echo ""
+  echo "Contents:"
+  echo ""
+  cat "$binary_location"
+fi
