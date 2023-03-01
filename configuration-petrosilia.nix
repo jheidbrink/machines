@@ -91,6 +91,7 @@ in
     (import "${home-manager}/nixos")
     ./retiolum.nix
     ./sway.nix
+    ./petrosilia-private.nix
   ];
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/45cd0923-da26-433c-a7ad-5564e90ce9cb";
 
