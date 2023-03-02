@@ -18,21 +18,31 @@ rec {
     rev = "1d804bbb01eab5c07d42f6eb4917e1d643e3c4b3";
     sha256 = "spAI/eF+U5VMTj7ac7s01xZ5wEfyHAQ6jFyCvcEU6mE=";
   };
-  selenized = pkgs.fetchFromGitHub {
+  alacritty_base16_schemes = pkgs.fetchFromGitHub {  # TODO: build from definitions with Nix
+    owner = "aarowill";
+    repo = "base16-alacritty";
+    rev = "63d8ae5dfefe5db825dd4c699d0cdc2fc2c3eaf7";
+    sha256 = "sha256-Adwx9yP70I6mJrjjODOgZJjt4OPPe8gJu7UuBboXO4M=";
+  };
+  selenized_colorschemes = pkgs.fetchFromGitHub {
     owner = "jan-warchol";
     repo = "selenized";
     rev = "df1c7f1f94f22e2c717f8224158f6f4097c5ecbe";
     sha256 = "3dZ2LMv0esbzJvfrtWWbO9SFotXj3UeizjMxO6vs73M=";
   };
-  alacritty-config-selenized = pkgs.writeText "alacritty-selenized.yml" ''
+  alacritty_selenized_scheme = "${selenized_colorschemes}/terminals/alacritty/selenized-light.yml";
+  alacritty_solarized_256_scheme = "${alacritty_base16_schemes}/jj";
+  alacritty-config = colorscheme_location: pkgs.writeText "alacritty.yml" ''
     font:
       size: 10
-
     import:
-      - ${selenized}/terminals/alacritty/selenized-light.yml
+      - ${colorscheme_location}
   '';
   alacritty-light = pkgs.writers.writeDashBin "alacritty" ''
-    ${pkgs.alacritty}/bin/alacritty --config-file ${alacritty-config-selenized}
+    ${pkgs.alacritty}/bin/alacritty --config-file ${alacritty-config alacritty_selenized_scheme}
+  '';
+  alacritty-solarized = pkgs.writers.writeDashBin "alacritty-solarized" ''
+    ${pkgs.alacritty}/bin/alacritty --config-file ${alacritty-config alacritty_solarized_256_scheme}
   '';
   ansible-playbook-grapher = pkgs.python310Packages.buildPythonApplication {
     pname = "ansible-playbook-grapher";
@@ -64,5 +74,9 @@ rec {
   fd = pkgs.writers.writeDashBin "fd" ''
     export LS_COLORS=""
     ${pkgs.fd}/bin/fd "$@"
+  '';
+  print256colors = pkgs.writeShellScriptBin "print256colors" (builtins.readFile ./print256colors.sh);
+  bat = pkgs.writers.writeDashBin "bat" ''
+    ${pkgs.bat}/bin/bat --theme=ansi $@
   '';
 }

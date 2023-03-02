@@ -147,7 +147,7 @@ in
     pcmanfm
     pavucontrol
     mpv
-    bat
+    programs.bat  # wrapper around bat with ANSI colortheme
     gnumake
     mupdf
     docker-compose
@@ -232,6 +232,8 @@ in
     programs.nixs
     pstree
     programs.fd  # supposedly faster and more user-friendly find replacement
+    programs.print256colors
+    programs.alacritty-solarized
   ];
 
   programs.java.enable = true;
