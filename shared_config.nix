@@ -150,7 +150,6 @@ in
     programs.bat  # wrapper around bat with ANSI colortheme
     gnumake
     mupdf
-    docker-compose
     comma
     gdb
     lldb
