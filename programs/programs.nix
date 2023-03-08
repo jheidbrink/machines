@@ -76,6 +76,7 @@ rec {
     ${pkgs.fd}/bin/fd "$@"
   '';
   print256colors = pkgs.writeShellScriptBin "print256colors" (builtins.readFile ./print256colors.sh);
+  print_ansi_colors = pkgs.writers.writePython3Bin "print_ansi_colors" { flakeIgnore = [ "E265" "E501" ]; } (builtins.readFile ./print_ansi_colors.py);
   bat = pkgs.writers.writeDashBin "bat" ''
     ${pkgs.bat}/bin/bat --theme=ansi $@
   '';

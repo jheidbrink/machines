@@ -231,6 +231,7 @@ in
     pstree
     programs.fd  # supposedly faster and more user-friendly find replacement
     programs.print256colors
+    programs.print_ansi_colors
     programs.alacritty-solarized
   ];
 
