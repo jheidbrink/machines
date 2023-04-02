@@ -189,7 +189,7 @@ in
     mosh
     frp
     tmux
-    tdesktop
+    tdesktop  # Telegram
     signal-desktop
     socat
     jiq
