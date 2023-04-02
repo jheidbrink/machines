@@ -123,7 +123,7 @@ in
     pass
     yubikey-manager
     zoom-us
-    ncdu
+    dua # disk usage analyzer inspired by ncdu. ncdu2 crashes on my machine
     kbfs  # Keybase filesystem, this also brings the git-remote-keybase binary
     keybase-gui
     vscode
