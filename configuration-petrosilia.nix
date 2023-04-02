@@ -35,7 +35,7 @@ let
     };
     services.dunst.enable = true;
     programs.zsh = {
-      enable = false;
+      enable = false;  # I manage zsh with regular dotfiles
       plugins = [
         {
           name = "zsh-histdb";

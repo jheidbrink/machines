@@ -1,3 +1,6 @@
+# TODO: This file is not used, use it or remove it
+
+
 # doc {{{
 # --- autoload ---
 # The flags -z and -k mark the function to be autoloaded in native or ksh emulation,
