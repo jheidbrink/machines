@@ -18,6 +18,8 @@ let
       '';
   };
 
+  programs = (import programs/programs.nix) { inherit pkgs lib; };
+
   # currently, there is some friction between sway and gtk:
   # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
   # the suggested way to set gtk settings is with gsettings
@@ -71,6 +73,7 @@ in
     pkgs.xorg.xkbcomp
     px
     pkgs.gsimplecal  # Used in shortcut
+    # programs.wlr-which-key   # currently doesn't build
   ];
 
 

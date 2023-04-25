@@ -80,4 +80,5 @@ rec {
   bat = pkgs.writers.writeDashBin "bat" ''
     ${pkgs.bat}/bin/bat --theme=ansi $@
   '';
+  wlr-which-key = (import ./wlr-which-key.nix) { inherit pkgs lib; };
 }

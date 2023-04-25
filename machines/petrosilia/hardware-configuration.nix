@@ -11,7 +11,7 @@
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.r8168 ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.r8168 ];  # See https://bbs.archlinux.org/viewtopic.php?id=268745
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/844037f9-47ca-46d6-903e-8d5eb15ab360";
