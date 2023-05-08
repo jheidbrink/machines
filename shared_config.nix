@@ -106,6 +106,8 @@ in
     nixos-shell
     wget
     firefox
+    gopass # for gopassbridge firefox plugin
+    gopass-jsonapi # for gopassbridge firefox plugin
     tree
     jq
     curl
