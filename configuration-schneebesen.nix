@@ -2,13 +2,22 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 { config, pkgs, ... }:
+
+let
+
+  hm = import ./home-manager-stuff.nix { inherit pkgs; };
+
+in
+
 {
   imports =
     [ # Include the results of the hardware scan.
       ./machines/schneebesen/hardware-configuration.nix
-      <home-manager/nixos>  # we have to configure a home-manager channel for root user
-      ./shared_config.nix
-      ./xorg.nix
+    (import "${hm.home-manager}/nixos")
+      ./modules/shared_config.nix
+      ./modules/laptop.nix
+      ./modules/graphical.nix
+      ./modules/xorg.nix
     ];
 
   # instead of the stianlagstad.no way, I take the following two lines https://nixos.org/manual/nixos/stable/index.html#sec-luks-file-systems
@@ -18,32 +27,7 @@
 
   networking.hostName = "schneebesen"; # Define your hostname.
 
-  home-manager.users.jan = { pkgs, ...}: {
-    home.packages = [ pkgs.httpie ];
-    programs.neovim = {
-      enable = true;
-      withPython3 = true;
-      extraPackages = [ ];
-      plugins = with pkgs.vimPlugins; [
-        fzf-vim
-        undotree
-        ultisnips
-        vim-snippets
-        ale
-        vim-better-whitespace
-        vim-fugitive
-        vim-nix
-        vim-go
-        deoplete-nvim
-        deoplete-clang
-        deoplete-jedi
-        tagbar
-        vim-colors-solarized
-      ];
-      extraConfig = builtins.readFile ./dotfiles/init.vim;
-    };
-    programs.alacritty.enable = true;
-  };
+  home-manager.users.jan = hm.standard_user_hm_config;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

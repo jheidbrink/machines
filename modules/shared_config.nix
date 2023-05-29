@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  programs = (import programs/programs.nix) { inherit pkgs lib; };
+  programs = (import ../programs/programs.nix) { inherit pkgs lib; };
 
 in
 {
@@ -29,9 +29,6 @@ in
     nix --extra-experimental-features nix-command store diff-closures $(ls -dv /nix/var/nix/profiles/system-*-link/|tail -2)
   '';
 
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # not sure what wireless.enable does, but seems orthogonal or even conflicting with networkmanager, and I want networkmanager
-
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
@@ -59,38 +56,17 @@ in
   services.tlp.enable = true; # TLP power management daemon
   services.thermald.enable = true;
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  #services.xserver.desktopManager.gnome.enable = true;
-
   # Enable pipewire. Copied this block from https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
   security.rtkit.enable = true; # rtkit is optional but recommended
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
-  # Prevent tap-clicking: (from https://www.reddit.com/r/NixOS/comments/dwvtvz/disable_touchpad_clicking/f7ocis6/)
-  services.xserver.libinput.touchpad.clickMethod = "clickfinger";
-  services.xserver.libinput.touchpad.tapping = false;
-  services.xserver.libinput.touchpad.disableWhileTyping = true;
-
-  # needed for store VSCode auth token
-  services.gnome.gnome-keyring.enable = true;
-
-  services.redshift.enable = true;  # this is a user service that still needs to be enabled by the respective users
-  services.redshift.temperature.day = 4800;
-
-  # location info is used by redshift
-  location.latitude = 52.5;
-  location.longitude = 13.4;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jan = {
     isNormalUser = true;
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "video" "docker" "lxd" ]; # wheel enables ‘sudo’ for the user. video allows to control brightess via `light`
+    openssh.authorizedKeys.keys = [
+      (builtins.readFile ../pubkeys/id_rsa_jan_at_toastbrot.pub)
+    ];
   };
 
   users.users.heidbrij = {
@@ -285,7 +261,7 @@ in
   programs.neovim = {
     enable = true;
     configure = {
-      customRC = (builtins.readFile ./dotfiles/init.vim);
+      customRC = (builtins.readFile ../dotfiles/init.vim);
       packages.myVimPackage = with pkgs.vimPlugins; {
         start = [
           fzf-vim
@@ -309,8 +285,14 @@ in
     };
   };
 
-  services.openssh.enable = true;
-  services.openssh.forwardX11 = true;
+  services.openssh = {
+    enable = true;
+    forwardX11 = true;
+    # require public key authentication for better security
+    passwordAuthentication = false;
+    kbdInteractiveAuthentication = false;
+    permitRootLogin = "no";
+  };
   services.pcscd.enable = true;  # for Yubikey
   services.keybase.enable = true;  # it seems this doesn't give keybase-gui yet
   services.earlyoom.enable = true;  # Kills processses before the OOMKiller and hopefully before the system becomes unbearably slow
@@ -322,14 +304,7 @@ in
   '';
   networking.firewall.allowedTCPPorts = [ 5678 ];
 
-  #virtualisation.docker.enable = true;
-  #virtualisation.docker.extraOptions = "--insecure-registry 192.168.60.1:5678";   #  Virtualbox network for magma VM
-
   virtualisation.lxd.enable = true;
-
-  #services.dockerRegistry.enable = true;
-  #services.dockerRegistry.listenAddress = "192.168.60.1";  # Virtualbox network for magma VM
-  #services.dockerRegistry.port = 5678;
 
   virtualisation.virtualbox.host.enable = true;  # Note that I had to reboot before I could actually use Virtualbox. Or maybe     virtualisation.virtualbox.host.addNetworkInterface would have helped?
   users.extraGroups.vboxusers.members = [ "jan" "heidbrij" ];

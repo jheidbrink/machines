@@ -3,115 +3,42 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
+
 let
-  home-manager = builtins.fetchTarball {
-    url = "https://github.com/nix-community/home-manager/archive/89a8ba0b5b43b3350ff2e3ef37b66736b2ef8706.tar.gz";  # 2022-12-28 release-22.11 branch
-    sha256 = "sha256:0p5n9dflr37rd5fl5wag8dyzxrx270lv1vm3991798ba0vq5p9n5";
-  };
-  standard_user_hm_config = {
-    home.stateVersion = "22.05";
-    xdg.mimeApps = {
-      # look at https://github.com/Mic92/dotfiles/blob/master/nixpkgs-config/modules/default-apps.nix
-      # and https://github.com/lovesegfault/nix-config/blob/master/users/bemeurer/graphical/firefox.nix
-      enable = true;
-      #associations.added = {
-      #  "application/pdf" = ["mupdf.desktop"];
-      #  "application/zip" = ["lxqt-archiver.desktop"];
-      #};
-      defaultApplications = {
-        "application/pdf" = ["mupdf.desktop"];
-        "application/zip" = ["lxqt-archiver.desktop"];
-        "application/x-extension-htm" = "firefox.desktop";
-        "application/x-extension-html" = "firefox.desktop";
-        "application/x-extension-shtml" = "firefox.desktop";
-        "application/x-extension-xht" = "firefox.desktop";
-        "application/x-extension-xhtml" = "firefox.desktop";
-        "application/xhtml+xml" = "firefox.desktop";
-        "text/html" = "firefox.desktop";
-        "x-scheme-handler/chrome" = "firefox.desktop";
-        "x-scheme-handler/http" = "firefox.desktop";
-        "x-scheme-handler/https" = "firefox.desktop";
-      };
-    };
-    services.dunst.enable = true;
-    programs.zsh = {
-      enable = false;  # I manage zsh with regular dotfiles
-      plugins = [
-        {
-          name = "zsh-histdb";
-          src = pkgs.fetchFromGitHub {
-            owner = "larkery";
-            repo = "zsh-histdb";
-            rev = "30797f0c50c31c8d8de32386970c5d480e5ab35d";
-            sha256 = "1f7xz4ykbdhmjwzcc3yakxwjb0bkn2zlm8lmk6mbdy9kr4bha0ix";
-          };
-        }
-        {
-          name = "zsh-histdb-fzf";
-          src = pkgs.fetchFromGitHub {
-            owner = "jheidbrink";
-            repo = "zsh-histdb-fzf";
-            rev = "d61040cbc11179614f2cfc1239906d62b0f7b734";
-            sha256 = "0rvxyi30cwc9hsf8gb1x9s35di8vb63yfxzpr0r9va721yyn7402";
-          };
-          file = "fzf-histdb.zsh";
-        }
-        # fzf-tab
-      ];
-      history.share = false;
-      enableAutosuggestions = true;
-      initExtra = ''
-        # zsh-histdb {{{
-        export PATH=$PATH:${pkgs.sqlite}/bin
-        autoload -Uz add-zsh-hook
-        # zsh-histdb }}}
 
-        bindkey '^R' histdb-fzf-widget
+  hm = import ./home-manager-stuff.nix { inherit pkgs; };
 
-        # zsh-histdb-with-zsh-autosuggestions {{{
-        _zsh_autosuggest_strategy_histdb_top_here() {
-            local query="select commands.argv from
-        history left join commands on history.command_id = commands.rowid
-        left join places on history.place_id = places.rowid
-        where places.dir LIKE '$(sql_escape $PWD)%'
-        and commands.argv LIKE '$(sql_escape $1)%'
-        group by commands.argv order by count(*) desc limit 1"
-            suggestion=$(_histdb_query "$query")
-        }
-        ZSH_AUTOSUGGEST_STRATEGY=histdb_top_here
-        # zsh-histdb-with-zsh-autosuggestions }}}
-      '';
-    };
-  };
 in
+
 {
   imports = [
-    ./shared_config.nix
-    ./machines/petrosilia/hardware-configuration.nix
-    (import "${home-manager}/nixos")
-    ./retiolum.nix
-    ./sway.nix
-    ./petrosilia-private.nix
+      ./machines/petrosilia/hardware-configuration.nix
+      (import "${hm.home-manager}/nixos")
+      ./modules/shared_config.nix
+      ./modules/retiolum.nix
+      ./modules/laptop.nix
+      ./modules/graphical.nix
+      ./modules/sway.nix
+      ./modules/petrosilia-private.nix
   ];
+
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/45cd0923-da26-433c-a7ad-5564e90ce9cb";
 
-  networking.hostName = "petrosilia"; # Define your hostname.
+  networking.hostName = "petrosilia";
+
+  users.users.jan.openssh.authorizedKeys.keys = [
+    (builtins.readFile ./pubkeys/id_rsa_jan_at_petrosilia.pub)
+    (builtins.readFile ./pubkeys/id_rsa_heidbrij_at_petrosilia.pub)
+  ];
+
+  users.users.heidbrij.openssh.authorizedKeys.keys = [
+    (builtins.readFile ./pubkeys/id_rsa_jan_at_petrosilia.pub)
+    (builtins.readFile ./pubkeys/id_rsa_heidbrij_at_petrosilia.pub)
+  ];
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.hsphfpd.enable = false;  # `true` seems to conflict with Wireplumber which is activated somehow
   services.blueman.enable = true;
-
-  # from https://github.com/starcraft66/os-config/blob/c9b78eef47e2f42f8c37dec024c0631bc7104096/hosts/helia/configuration.nix#L155-L161
-  # and https://github.com/millipedes/NixOS_dot_files/blob/1a3607310fc5649323c9b2b756d18530cc77549f/configuration.nix#L171-L176
-  fonts.fontDir.enable = true;
-  fonts.fonts = with pkgs; [
-    nerdfonts
-    noto-fonts
-    emacs-all-the-icons-fonts
-    font-awesome
-    fira-code                     # Most Stuff (kitty, GTK, etc.)
-    powerline-fonts               # Neovim etc.
-  ];
 
   services.pipewire  = { # https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
     enable = true;
@@ -163,8 +90,8 @@ in
   };
   services.system-config-printer.enable = true;
 
-  home-manager.users.jan = standard_user_hm_config;
-  home-manager.users.heidbrij = standard_user_hm_config;
+  home-manager.users.jan = hm.standard_user_hm_config;
+  home-manager.users.heidbrij = hm.standard_user_hm_config;
 
   networking.retiolum.ipv4 = "10.243.143.11";
   networking.retiolum.ipv6 = "42:0:3c46:2dfc:6991:79ff:a57a:9984";
@@ -192,4 +119,5 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "21.11"; # Did you read the comment?
+
 }
