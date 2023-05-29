@@ -20,6 +20,10 @@ in
 
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/76c62054-71a1-486d-ae85-fe852830b1f0";
 
+  # Debug failures in bootloader stage 1 with a shell - https://discourse.nixos.org/t/unable-to-boot-from-a-usb-device-with-a-luks-partition/26516/2:
+  boot.kernelParams = [ "boot.shell_on_fail" ];
+  boot.loader.systemd-boot.consoleMode = "auto";
+
   networking.hostName = "grill";
 
   users.users.jan.openssh.authorizedKeys.keys = [
