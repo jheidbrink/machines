@@ -248,3 +248,6 @@ exec configure-gtk Adwaita
 # run kanshi which handles display hotswapping
 exec_always "pkill kanshi; kanshi --config /etc/kanshi.conf"
 
+# automount USB devices
+exec udiskie --tray
+

@@ -73,6 +73,7 @@ in
     pkgs.xorg.xkbcomp
     px
     pkgs.gsimplecal  # Used in shortcut
+    pkgs.udiskie
     # programs.wlr-which-key   # currently doesn't build
   ];
 
@@ -89,6 +90,9 @@ in
     pulse.enable = true;
   };
 
+  # for automounting USB devices. I guess the service runs as privileged user and manages
+  # udiskie invocations from users
+  services.udisks2.enable = true;
 
   # xdg-desktop-portal works by exposing a series of D-Bus interfaces
   # known as portals under a well-known name
