@@ -24,6 +24,8 @@ in
       ./modules/retiolum.nix
       ./modules/graphical.nix
       ./modules/sway.nix
+      ./modules/cuda.nix
+      #./modules/cuda_danielbarter.nix
     ];
 
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/76c62054-71a1-486d-ae85-fe852830b1f0";
