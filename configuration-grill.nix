@@ -6,6 +6,8 @@
 
 let
 
+  variables = import ./variables.nix;
+
   hm = import ./home-manager-stuff.nix { inherit pkgs; };
 
 in
@@ -25,6 +27,15 @@ in
   boot.loader.systemd-boot.consoleMode = "auto";
 
   networking.hostName = "grill";
+
+  networking.interfaces.enp14s0.ipv4.addresses = [
+    {
+      address = variables.cuisine_ipv4_addresses.grill;
+      prefixLength = 24;
+    }
+  ];
+  networking.defaultGateway = "192.168.195.1";
+  networking.nameservers =  [ "192.168.195.1" ];
 
   users.users.jan.openssh.authorizedKeys.keys = [
     (builtins.readFile ./pubkeys/id_rsa_jan_at_petrosilia.pub)

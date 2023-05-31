@@ -1,5 +1,8 @@
 { config, pkgs, lib, ... }:
 let
+
+  variables = import ../variables.nix;
+
   programs = (import ../programs/programs.nix) { inherit pkgs lib; };
 
   nixpkgs2305 = import (
@@ -47,8 +50,11 @@ in
   #networking.interfaces.enp0s31f6.useDHCP = true;
   #networking.interfaces.wlp4s0.useDHCP = true;
 
+  # TODO: What happens if I define this elsewhere as well? Failure? String concatenation? What about lists and sets?
+  # TODO: Write a function that generates hosts and read the data from a map
   networking.extraHosts =
     ''
+      ${variables.cuisine_ipv4_addresses.grill} grill.cuisine grill
       127.0.0.2 bazel.cache
     '';
 
