@@ -16,6 +16,7 @@ in
   imports = [
       ./machines/grill/hardware-configuration.nix
       ./modules/shared_config.nix
+      ./modules/retiolum.nix
       ./modules/graphical.nix
       ./modules/sway.nix
     ];
@@ -36,6 +37,12 @@ in
   ];
   networking.defaultGateway = "192.168.195.1";
   networking.nameservers =  [ "192.168.195.1" ];
+
+  networking.retiolum.ipv6 = "42:0:6a0a:c4b1:2d6c:1f3f:a3c6:9d96";
+  services.tinc.networks.retiolum = {
+    rsaPrivateKeyFile = "/var/secrets/retiolum/rsa_key.priv";
+    ed25519PrivateKeyFile = "/var/secrets/retiolum/ed25519_key.priv";
+  };
 
   users.users.jan.openssh.authorizedKeys.keys = [
     (builtins.readFile ./pubkeys/id_rsa_jan_at_petrosilia.pub)

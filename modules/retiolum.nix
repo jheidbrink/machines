@@ -10,7 +10,7 @@ let
   retiolum = pkgs.fetchgit {
     url = "https://github.com/krebs/retiolum.git";
     rev = "da984ffd1ed84c5718eb21bca0696957a6dacbcb";
-    sha256 = fakeSha256;
+    sha256 = "sha256-x0hMjchfbJVjQbdC6a0e52ggB6xPuO05an0tgqDOYD4=";
   };
 
 in {
