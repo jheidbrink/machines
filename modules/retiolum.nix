@@ -15,6 +15,13 @@ let
 
 in {
   options = {
+    networking.retiolum.ipv4 = mkOption {
+      type = with types; nullOr str;
+      description = ''
+        own ipv4 address
+      '';
+      default = null;
+    };
     networking.retiolum.ipv6 = mkOption {
       type = types.str;
       description = ''
@@ -36,8 +43,7 @@ in {
       name = cfg.nodename;
       extraConfig = ''
         LocalDiscovery = yes
-        AutoConnect = no
-        ConnectTo = prism
+        AutoConnect = yes
       '';
     };
     systemd.services."tinc.${netname}" = {
@@ -59,8 +65,12 @@ in {
       "${netname}".extraConfig = ''
         [Match]
         Name = tinc.${netname}
+
         [Network]
         Address=${cfg.ipv6}/16
+      ''
+      ++ optional (cfg.ipv4 != null) ''
+        Adress=${cfg.ipv4}/12
       '';
     };
   };
