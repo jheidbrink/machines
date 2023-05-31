@@ -93,7 +93,6 @@ in
   home-manager.users.jan = hm.standard_user_hm_config;
   home-manager.users.heidbrij = hm.standard_user_hm_config;
 
-  networking.retiolum.ipv4 = "10.243.143.11";
   networking.retiolum.ipv6 = "42:0:3c46:2dfc:6991:79ff:a57a:9984";
   services.tinc.networks.retiolum = {
     rsaPrivateKeyFile = "/var/secrets/retiolum/rsa_key.priv";

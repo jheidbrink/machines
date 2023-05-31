@@ -15,12 +15,6 @@ let
 
 in {
   options = {
-    networking.retiolum.ipv4 = mkOption {
-      type = types.str;
-      description = ''
-        own ipv4 address
-      '';
-    };
     networking.retiolum.ipv6 = mkOption {
       type = types.str;
       description = ''
@@ -66,7 +60,6 @@ in {
         [Match]
         Name = tinc.${netname}
         [Network]
-        Address=${cfg.ipv4}/12
         Address=${cfg.ipv6}/16
       '';
     };
