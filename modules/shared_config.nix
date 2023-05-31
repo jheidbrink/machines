@@ -225,6 +225,7 @@ in
     programs.print_ansi_colors
     programs.alacritty-solarized
     nixpkgs2305.dracut  # for lsinitrd
+    weechat
   ];
 
   programs.java.enable = true;
