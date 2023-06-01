@@ -152,6 +152,7 @@ in
     gnome.seahorse
     act
     nodejs
+    nodePackages.typescript
     rclone
     ldns  # drill
     programs.vim.myvim
