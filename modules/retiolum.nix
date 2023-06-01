@@ -68,9 +68,8 @@ in {
 
         [Network]
         Address=${cfg.ipv6}/16
-      ''
-      ++ optional (cfg.ipv4 != null) ''
-        Adress=${cfg.ipv4}/12
+      '' + optionalString (cfg.ipv4 != null) ''
+        Address=${cfg.ipv4}/12
       '';
     };
   };
