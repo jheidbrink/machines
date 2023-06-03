@@ -22,7 +22,7 @@ in
       ./machines/grill/hardware-configuration.nix
       ./modules/shared_config.nix
       ./modules/retiolum.nix
-      ./modules/graphical.nix
+      #./modules/graphical.nix
       ./modules/sway.nix
       ./modules/cuda.nix
       #./modules/cuda_danielbarter.nix
