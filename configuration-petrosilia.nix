@@ -122,6 +122,23 @@ in
     nixpkgs2305.teams
   ];
 
+  # Minimal configuration for NFS support with Vagrant. (from NixOS Wiki)
+  services.nfs.server.enable = true;
+  networking.firewall.extraCommands = ''
+    ip46tables -I INPUT 1 -i vboxnet+ -p tcp -m tcp --dport 2049 -j ACCEPT
+  '';
+  networking.firewall.allowedTCPPorts = [ 5678 ];
+
+  virtualisation.lxd.enable = true;
+
+  virtualisation.virtualbox.host.enable = true;  # Note that I had to reboot before I could actually use Virtualbox. Or maybe     virtualisation.virtualbox.host.addNetworkInterface would have helped?
+  users.extraGroups.vboxusers.members = [ "jan" "heidbrij" ];
+  environment.etc."vbox/networks.conf".text = ''
+    * 3001::/64
+    * 192.168.0.0/16
+  '';
+
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
