@@ -6,14 +6,23 @@
 
 let
 
-  hm = import ./home-manager-stuff.nix { inherit pkgs; };
+  home-manager-tarball = builtins.fetchTarball {
+    url = "https://github.com/nix-community/home-manager/archive/89a8ba0b5b43b3350ff2e3ef37b66736b2ef8706.tar.gz";  # 2022-12-28 release-22.11 branch
+    sha256 = "sha256:0p5n9dflr37rd5fl5wag8dyzxrx270lv1vm3991798ba0vq5p9n5";
+  };
+
+  standard-user-hm-config = import ./standard-user-hm-config.nix { inherit pkgs; };
+
+  package_sources = import ./package_sources.nix;
+
+  nixpkgs2305 = (import package_sources.nixpkgs2305_source) { config = { allowUnfree = true; }; };
 
 in
 
 {
   imports = [
       ./machines/petrosilia/hardware-configuration.nix
-      (import "${hm.home-manager}/nixos")
+      (import "${home-manager-tarball}/nixos")
       ./modules/shared_config.nix
       ./modules/retiolum.nix
       ./modules/laptop.nix
@@ -90,9 +99,8 @@ in
   };
   services.system-config-printer.enable = true;
 
-  home-manager.users.jan = hm.standard_user_hm_config;
-  home-manager.users.heidbrij = hm.standard_user_hm_config;
-
+  home-manager.users.jan = standard-user-hm-config  // { home.stateVersion = "22.05"; };  # I believe the stateVersion is the version of home-manager that was first installed on that system
+  home-manager.users.heidbrij = standard-user-hm-config  // { home.stateVersion = "22.05"; };  # I believe the stateVersion is the version of home-manager that was first installed on that system
 
   networking.retiolum.ipv4 = "10.243.143.11";
   networking.retiolum.ipv6 = "42:0:3c46:2dfc:6991:79ff:a57a:9984";
