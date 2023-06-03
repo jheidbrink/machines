@@ -299,12 +299,14 @@ in
 
   services.openssh = {
     enable = true;
-    forwardX11 = true;
-    # require public key authentication for better security
-    passwordAuthentication = false;
-    kbdInteractiveAuthentication = false;
-    permitRootLogin = "no";
+    settings = {
+      X11Forwarding = true;
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      PermitRootLogin = "no";
+    };
   };
+
   services.pcscd.enable = true;  # for Yubikey
   services.keybase.enable = true;  # it seems this doesn't give keybase-gui yet
   services.earlyoom.enable = true;  # Kills processses before the OOMKiller and hopefully before the system becomes unbearably slow
