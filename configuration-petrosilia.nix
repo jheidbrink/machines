@@ -111,6 +111,7 @@ in
     pkgs.rustup
     pkgs.bazel_5
     pkgs.aptly
+    nixpkgs2305.teams
   ];
 
   # This value determines the NixOS release from which the default
