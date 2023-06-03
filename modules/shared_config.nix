@@ -100,8 +100,8 @@ in
     python310Packages.virtualenvwrapper  # loaded by my zshrc
     python310Packages.ipython
     python310Packages.pip-tools
-    python310Packages.poetry
     python310Packages.pylint
+    poetry
     programs.alacritty-light  # associated with windows+t shortcut in i3
     gitAndTools.diff-so-fancy  # git is configured to use it
     stow  # needed by my dotfiles managing script
