@@ -111,7 +111,7 @@ in
 
   environment.systemPackages = [
     pkgs.meld
-    pkgs.jetbrains.idea-ultimate
+    nixpkgs2305.jetbrains.idea-ultimate
     pkgs.pulseaudio  # this gives me pactl but doesn't run pulseaudio
     pkgs.lxqt.lxqt-archiver
     pkgs.pantheon.evince
