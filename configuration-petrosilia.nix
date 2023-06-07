@@ -125,6 +125,7 @@ in
     pkgs.bazel_5
     pkgs.aptly
     nixpkgs2305.teams
+    pkgs.bluetuith
   ];
 
   # Minimal configuration for NFS support with Vagrant. (from NixOS Wiki)
