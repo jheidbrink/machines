@@ -223,6 +223,7 @@ in
     programs.alacritty-solarized
     nixpkgs2305.dracut  # for lsinitrd
     weechat
+    nil  # Nix language server
   ];
 
   programs.java.enable = true;
@@ -292,6 +293,7 @@ in
           vim-colors-solarized
           vim-surround
           vim-css-color
+          nvim-lspconfig
         ];
       };
     };
