@@ -1,0 +1,28 @@
+2023-06-03 Upgrade grill
+------------------------
+
+# Home-Manager is not installed here yet, so nothing to upgrade yet
+
+[root@grill:~]# nix-channel --list
+nixos https://nixos.org/channels/nixos-22.11
+
+[root@grill:~]# nix-channel --add 'https://channels.nixos.org/nixos-23.05' nixos
+
+[root@grill:~]# nix-channel --list
+nixos https://channels.nixos.org/nixos-23.0
+
+nixos-rebuild switch --upgrade
+
+
+
+2023-06-08 Upgrade petrosilia
+-----------------------------
+* update home-manager rev and replace hash by fakeSha256
+* remove nixpkgs2305 and replace by pkgs
+* remove package_sources.nix with only 23_05
+* sync config to /etc/nixos
+* as root:
+  nix-channel --add 'https://nixos.org/channels/nixos-23.05' nixos
+  nix-channel --update  # I try to combine channel upgrade with config upgrade. If I woud just do `nixos-rebuild switch --upgrade`, it would do that with my 22.05 config
+  nixos-rebuild --switch --upgrade
+  * and got infinite recursion error: https://discourse.nixos.org/t/installing-home-manager-as-a-module-in-23-05-leads-to-infinite-recursion/28892
