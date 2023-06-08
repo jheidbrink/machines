@@ -82,6 +82,7 @@ in
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableNvidia = true;
+  hardware.opengl.driSupport32Bit = true; # required for docker.enableNvidia
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
