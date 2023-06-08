@@ -5,6 +5,9 @@ let
 
   programs = (import ../programs/programs.nix) { inherit pkgs lib; };
 
+  package_sources = import ../package_sources.nix;
+
+  nixpkgs2305 = (import package_sources.nixpkgs2305_source) {};
 in
 {
   nixpkgs.config.allowUnfree = true;
@@ -218,7 +221,7 @@ in
     programs.print256colors
     programs.print_ansi_colors
     programs.alacritty-solarized
-    dracut  # for lsinitrd
+    nixpkgs2305.dracut  # for lsinitrd
     weechat
     nil  # Nix language server
   ];
