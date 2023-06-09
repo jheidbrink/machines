@@ -27,7 +27,7 @@ in
       ./modules/retiolum.nix
       ./modules/laptop.nix
       ./modules/graphical.nix
-      ./modules/xorg.nix
+      ./modules/sway.nix
       ./modules/petrosilia-private.nix
   ];
 
@@ -49,13 +49,12 @@ in
   hardware.bluetooth.hsphfpd.enable = false;  # `true` seems to conflict with Wireplumber which is activated somehow
   services.blueman.enable = true;
 
-  # pipewire conflicts with gnome?
-  #services.pipewire  = { # https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
-  #  enable = true;
-  #  alsa.enable = true;
-  #  alsa.support32Bit = true;
-  #  pulse.enable = true;
-  #};
+  services.pipewire  = { # https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
   environment.etc = { # https://nixos.wiki/wiki/PipeWire#Bluetooth_Configuration
     "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
       bluez_monitor.properties = {

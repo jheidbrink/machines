@@ -62,7 +62,7 @@ in
   };
 
   services.upower.enable = true;
-  #services.tlp.enable = true; # TLP power management daemon. Conflicts with Gnome
+  services.tlp.enable = true; # TLP power management daemon
   services.thermald.enable = true;
 
   # Enable pipewire. Copied this block from https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
