@@ -38,5 +38,6 @@
     font-awesome
     fira-code                     # Most Stuff (kitty, GTK, etc.)
     powerline-fonts               # Neovim etc.
+    networkmanagerapplet
   ];
 }
