@@ -43,6 +43,7 @@ in
   networking.defaultGateway = "192.168.195.1";
   networking.nameservers =  [ "192.168.195.1" ];
 
+  networking.retiolum.ipv4 = "10.243.217.217";
   networking.retiolum.ipv6 = "42:0:6a0a:c4b1:2d6c:1f3f:a3c6:9d96";
   services.tinc.networks.retiolum = {
     rsaPrivateKeyFile = "/var/secrets/retiolum/rsa_key.priv";
