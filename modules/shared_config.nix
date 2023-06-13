@@ -5,7 +5,6 @@ let
 
   programs = (import ../programs/programs.nix) { inherit pkgs lib; };
 
-  nixpkgs2305 = (import package_sources.nixpkgs2305_source) {};
 in
 {
   nixpkgs.config.allowUnfree = true;
