@@ -7,15 +7,11 @@
 let
 
   home-manager-tarball = builtins.fetchTarball {
-    url = "https://github.com/nix-community/home-manager/archive/89a8ba0b5b43b3350ff2e3ef37b66736b2ef8706.tar.gz";  # 2022-12-28 release-22.11 branch
-    sha256 = "sha256:0p5n9dflr37rd5fl5wag8dyzxrx270lv1vm3991798ba0vq5p9n5";
+    url = "https://github.com/nix-community/home-manager/archive/e753d659c64c7d158433d87ef7d6151ca1d1817a.tar.gz";  # 2023-06-12 release-23.05 branch
+    sha256 = pkgs.lib.fakeSha256;
   };
 
   standard-user-hm-config = import ./standard-user-hm-config.nix { inherit pkgs; };
-
-  package_sources = import ./package_sources.nix;
-
-  nixpkgs2305 = (import package_sources.nixpkgs2305_source) { config = { allowUnfree = true; }; };
 
 in
 
@@ -124,7 +120,7 @@ in
     pkgs.rustup
     pkgs.bazel_5
     pkgs.aptly
-    nixpkgs2305.teams
+    pkgs.teams
     pkgs.bluetuith
   ];
 

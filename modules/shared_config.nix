@@ -5,8 +5,6 @@ let
 
   programs = (import ../programs/programs.nix) { inherit pkgs lib; };
 
-  package_sources = import ../package_sources.nix;
-
   nixpkgs2305 = (import package_sources.nixpkgs2305_source) {};
 in
 {
