@@ -6,11 +6,6 @@
 
 let
 
-  home-manager-tarball = builtins.fetchTarball {
-    url = "https://github.com/nix-community/home-manager/archive/e753d659c64c7d158433d87ef7d6151ca1d1817a.tar.gz";  # 2023-06-12 release-23.05 branch
-    sha256 = pkgs.lib.fakeSha256;
-  };
-
   standard-user-hm-config = import ./standard-user-hm-config.nix { inherit pkgs; };
 
 in
@@ -18,7 +13,7 @@ in
 {
   imports = [
       ./machines/petrosilia/hardware-configuration.nix
-      (import "${home-manager-tarball}/nixos")
+      <home-manager/nixos>
       ./modules/shared_config.nix
       ./modules/retiolum.nix
       ./modules/laptop.nix
