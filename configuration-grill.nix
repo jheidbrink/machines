@@ -34,22 +34,6 @@ in
   boot.kernelParams = [ "boot.shell_on_fail" ];
   boot.loader.systemd-boot.consoleMode = "auto";
 
-  # decryption key on usb stick (https://nixos.wiki/wiki/Full_Disk_Encryption#Option_2:_Copy_Key_as_file_onto_a_vfat_usb_stick)
-  # Kernel modules needed for mounting USB VFAT devices in initrd stage
-  boot.initrd.kernelModules = [ "uas" "usbcore" "usb_storage" "vfat" "nls_cp437" "nls_iso8859_1" ];
-
-  # Mount USB key before trying to decrypt root filesystem
-  boot.initrd.postDeviceCommands = pkgs.lib.mkBefore ''
-    mkdir -m 0755 -p /key
-    sleep 2 # To make sure the usb key has been loaded
-    mount -n -t vfat -o ro `findfs UUID=0012-C721` /key || mount -n -t vfat -o ro `findfs UUID=76E8-CACF` /key
-  '';
-
-  boot.initrd.luks.devices.crypted = {
-    keyFile = "/key/keyfile";
-    preLVM = false;  # If this is true the decryption is attempted before the postDeviceCommands can run
-  };
-
   networking.hostName = "grill";
 
   networking.interfaces.enp14s0.ipv4.addresses = [
