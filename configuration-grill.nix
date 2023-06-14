@@ -23,10 +23,32 @@ in
       ./modules/shared_config.nix
       ./modules/retiolum.nix
       #./modules/graphical.nix
-      #./modules/sway.nix
+      ./modules/sway.nix
       ./modules/cuda.nix
       #./modules/cuda_danielbarter.nix
     ];
+
+  boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/76c62054-71a1-486d-ae85-fe852830b1f0";
+
+  # Debug failures in bootloader stage 1 with a shell - https://discourse.nixos.org/t/unable-to-boot-from-a-usb-device-with-a-luks-partition/26516/2:
+  boot.kernelParams = [ "boot.shell_on_fail" ];
+  boot.loader.systemd-boot.consoleMode = "auto";
+
+  # decryption key on usb stick (https://nixos.wiki/wiki/Full_Disk_Encryption#Option_2:_Copy_Key_as_file_onto_a_vfat_usb_stick)
+  # Kernel modules needed for mounting USB VFAT devices in initrd stage
+  boot.initrd.kernelModules = [ "uas" "usbcore" "usb_storage" "vfat" "nls_cp437" "nls_iso8859_1" ];
+
+  # Mount USB key before trying to decrypt root filesystem
+  boot.initrd.postDeviceCommands = pkgs.lib.mkBefore ''
+    mkdir -m 0755 -p /key
+    sleep 2 # To make sure the usb key has been loaded
+    mount -n -t vfat -o ro `findfs UUID=0012-C721` /key || mount -n -t vfat -o ro `findfs UUID=76E8-CACF` /key
+  '';
+
+  boot.initrd.luks.devices.crypted = {
+    keyFile = "/key/keyfile";
+    preLVM = false;  # If this is true the decryption is attempted before the postDeviceCommands can run
+  };
 
   networking.hostName = "grill";
 
