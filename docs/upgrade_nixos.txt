@@ -45,3 +45,23 @@ nixos-rebuild switch --upgrade
      * sudo nix-channel --update
      * adapt config
      * sudo rsync --recursive --exclude=.mypy_cache --exclude=.git '--exclude=.*.swp' ./ /etc/nixos/
+     * now I get
+```
+error: attribute 'extend' missing
+
+       at /nix/var/nix/profiles/per-user/root/channels/home-manager/modules/lib/stdlib-extended.nix:7:4:
+
+            6| let mkHmLib = import ./.;
+            7| in nixpkgsLib.extend (self: super: {
+             |    ^
+            8|   hm = mkHmLib { lib = self; };
+       Did you mean extends?
+(use '--show-trace' to show detailed location information)
+```
+
+2023-06-14
+----------
+* Can I just disable home-manager?
+  * There is code for zsh setup which is currently unused
+  * There is xdg.mimeApps.defaultApplications -> that's not nicely integrated with Nix anyway, perfectly fine to do this with static dotfiles
+  * There is services.dunst.enable -> I currently rely on this
