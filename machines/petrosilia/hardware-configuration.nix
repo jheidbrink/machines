@@ -11,7 +11,8 @@
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.r8168 ];  # See https://bbs.archlinux.org/viewtopic.php?id=268745
+  # commented out because that package is marked as broken and it didn't help anyway (was an attempt to make Linux detect when an ethernet cable is plugged in)
+  #boot.extraModulePackages = [ config.boot.kernelPackages.r8168 ];  # See https://bbs.archlinux.org/viewtopic.php?id=268745
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/844037f9-47ca-46d6-903e-8d5eb15ab360";

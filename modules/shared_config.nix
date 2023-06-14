@@ -218,7 +218,7 @@ in
     programs.print256colors
     programs.print_ansi_colors
     programs.alacritty-solarized
-    nixpkgs2305.dracut  # for lsinitrd
+    dracut  # for lsinitrd
     weechat
     nil  # Nix language server
   ];
