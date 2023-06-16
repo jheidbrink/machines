@@ -69,7 +69,7 @@ in
   users.users.jan = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "video" "docker" "lxd" ]; # wheel enables ‘sudo’ for the user. video allows to control brightess via `light`
+    extraGroups = [ "wheel" "video" "docker" ]; # wheel enables ‘sudo’ for the user. video allows to control brightess via `light`
     openssh.authorizedKeys.keys = [
       (builtins.readFile ../pubkeys/id_rsa_jan_at_toastbrot.pub)
     ];
@@ -78,7 +78,7 @@ in
   users.users.heidbrij = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "video" "docker" "lxd" ];
+    extraGroups = [ "wheel" "video" "docker" ];
   };
 
   # List packages installed in system profile. To search, run:

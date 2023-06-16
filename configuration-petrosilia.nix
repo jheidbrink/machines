@@ -126,8 +126,6 @@ in
   '';
   networking.firewall.allowedTCPPorts = [ 5678 ];
 
-  virtualisation.lxd.enable = true;
-
   virtualisation.virtualbox.host.enable = true;  # Note that I had to reboot before I could actually use Virtualbox. Or maybe     virtualisation.virtualbox.host.addNetworkInterface would have helped?
   users.extraGroups.vboxusers.members = [ "jan" "heidbrij" ];
   environment.etc."vbox/networks.conf".text = ''
