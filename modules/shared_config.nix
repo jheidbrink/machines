@@ -62,9 +62,6 @@ in
   services.tlp.enable = true; # TLP power management daemon
   services.thermald.enable = true;
 
-  # Enable pipewire. Copied this block from https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
-  security.rtkit.enable = true; # rtkit is optional but recommended
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jan = {
     isNormalUser = true;

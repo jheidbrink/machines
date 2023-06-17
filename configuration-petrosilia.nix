@@ -37,45 +37,39 @@ in
   ];
 
   hardware.bluetooth.enable = true;
-  hardware.bluetooth.hsphfpd.enable = false;  # `true` seems to conflict with Wireplumber which is activated somehow
   services.blueman.enable = true;
 
+  # Enable pipewire. Copied this block from (among others) https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire and https://discourse.nixos.org/t/is-pipewire-ready-for-using/11578/16
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true; # rtkit is optional but recommended
   services.pipewire  = { # https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire
     enable = true;
+    wireplumber.enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
   };
-  environment.etc = { # https://nixos.wiki/wiki/PipeWire#Bluetooth_Configuration
-    "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
-      bluez_monitor.properties = {
-        ["bluez5.enable-sbc-xq"] = true,
-        ["bluez5.enable-msbc"] = true,
-        ["bluez5.enable-hw-volume"] = true,
-        ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
-      }
-    '';
-    "kanshi.conf".text = ''
-      {
-        output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1307 scale 1.2
-      }
 
-      {
-        output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1307 scale 1.2
-        output "Dell Inc. DELL U2719D 2XSLSS2" enable mode 2560x1440@59.951000Hz position 0,0 scale 1.1  # on desk at home
-      }
+  environment.etc."kanshi.conf".text = ''
+    {
+      output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1307 scale 1.2
+    }
 
-      {
-        output eDP-1 enable mode 1920x1080@59.999001Hz position 0,0 scale 1.2
-        output "Dell Inc. DELL U2715H GH85D89F11KS" enable mode 2560x1440@59.951000Hz position 1920,0 scale 1.1  # in my room
-      }
+    {
+      output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1307 scale 1.2
+      output "Dell Inc. DELL U2719D 2XSLSS2" enable mode 2560x1440@59.951000Hz position 0,0 scale 1.1  # on desk at home
+    }
 
-      {
-        output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1440 scale 1.2
-        output "Dell Inc. DELL U2722D H4Z87H3" enable mode 2560x1440@59.951000Hz position 0,0 scale 1.1  # office
-      }
-    '';
-  };
+    {
+      output eDP-1 enable mode 1920x1080@59.999001Hz position 0,0 scale 1.2
+      output "Dell Inc. DELL U2715H GH85D89F11KS" enable mode 2560x1440@59.951000Hz position 1920,0 scale 1.1  # in my room
+    }
+
+    {
+      output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1440 scale 1.2
+      output "Dell Inc. DELL U2722D H4Z87H3" enable mode 2560x1440@59.951000Hz position 0,0 scale 1.1  # office
+    }
+  '';
 
   i18n.extraLocaleSettings = {
     LC_COLLATE = "C.UTF-8";
