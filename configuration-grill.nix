@@ -8,13 +8,6 @@ let
 
   variables = import ./variables.nix;
 
-  #home-manager-tarball = builtins.fetchTarball {
-  #  url = "https://github.com/nix-community/home-manager/archive/89a8ba0b5b43b3350ff2e3ef37b66736b2ef8706.tar.gz";  # 2022-12-28 release-22.11 branch
-  #  sha256 = "sha256:0p5n9dflr37rd5fl5wag8dyzxrx270lv1vm3991798ba0vq5p9n5";
-  #};
-
-  #standard-user-hm-config = import ./standard-user-hm-config.nix { inherit pkgs; };
-
 in
 
 {
@@ -52,22 +45,12 @@ in
     ed25519PrivateKeyFile = "/var/secrets/retiolum/ed25519_key.priv";
   };
 
-  users.users.jan.openssh.authorizedKeys.keys = [
-    (builtins.readFile ./pubkeys/id_rsa_jan_at_petrosilia.pub)
-    (builtins.readFile ./pubkeys/id_rsa_jan_at_toastbrot.pub)
-    (builtins.readFile ./pubkeys/id_rsa_heidbrij_at_petrosilia.pub)
-  ];
-
-  users.users.jan.extraGroups = [ "docker" ];
-
   # Disable the GNOME3/GDM auto-suspend feature that cannot be disabled in GUI!
   # If no user is logged in, the machine will power down after 20 minutes.
   systemd.targets.sleep.enable = false;
   systemd.targets.suspend.enable = false;
   systemd.targets.hibernate.enable = false;
   systemd.targets.hybrid-sleep.enable = false;
-
-  #home-manager.users.jan = standard_user_hm_config;  // { home.stateVersion = "23.05"; };  # I believe the stateVersion is the version of home-manager that was first installed on that system. Home-manager is not installed on Grill yet, will start with NixOS 23.05
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 22 ];
