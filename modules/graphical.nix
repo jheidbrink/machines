@@ -9,6 +9,7 @@
 
   environment.systemPackages = [
     pkgs.nomacs  # Image viewer, I've used it for cropping. See also shotwell or gthumb. gthumb is nicer for cycling through all images in a directory
+    pkgs.networkmanagerapplet
   ];
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -38,6 +39,5 @@
     font-awesome
     fira-code                     # Most Stuff (kitty, GTK, etc.)
     powerline-fonts               # Neovim etc.
-    networkmanagerapplet
   ];
 }
