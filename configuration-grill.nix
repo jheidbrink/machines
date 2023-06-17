@@ -45,6 +45,14 @@ in
     ed25519PrivateKeyFile = "/var/secrets/retiolum/ed25519_key.priv";
   };
 
+  users.users.root.openssh.authorizedKeys.keys = [
+    (builtins.readFile ./pukeys/id_rsa_jan_at_petrosilia.pub)
+    (builtins.readFile ./pukeys/id_rsa_jan_at_toastbrot.pub)
+    (builtins.readFile ./pukeys/id_rsa_heidbrij_at_petrosilia.pub)
+  ];
+
+  services.openssh.permitRootLogin = true;  # Hopefully this overrides permitRootLogin = false from shared_config.nix
+
   # Disable the GNOME3/GDM auto-suspend feature that cannot be disabled in GUI!
   # If no user is logged in, the machine will power down after 20 minutes.
   systemd.targets.sleep.enable = false;
