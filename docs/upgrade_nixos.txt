@@ -65,3 +65,19 @@ error: attribute 'extend' missing
   * There is code for zsh setup which is currently unused
   * There is xdg.mimeApps.defaultApplications -> that's not nicely integrated with Nix anyway, perfectly fine to do this with static dotfiles
   * There is services.dunst.enable -> I currently rely on this
+
+2023-06-17
+----------
+* grill repeatedly doesn't boot correctly - the screen stays completely blank, no BIOS etc
+  -> having to enter the encryption key is really cumbersome
+  * I don't currently want to store anything confidential (besides auth to Github which would be nice),
+    so just go without encryption and don't setup my user account with passwords, keys etc
+    - scp partition_unencrypted.sh ...
+      grill: ./partition_unencrypted.sh /dev/nvme0n1 64G
+    - create scripts/install_new_system_unencrypted.sh
+    - scp -r machines grill:machines_repo
+      grill: machines_repo: scripts/install_new_system_unencrypted.sh grill
+    - when the prompt comes, scp grill:machines_repo/machines/grill/hardware-configuration.nix machines/grill/hardware-configuration.nix
+      press enter to install...
+
+

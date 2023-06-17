@@ -18,9 +18,9 @@ sleep 3
 echo "creating fat filesystem for boot partition ${device}p1"
 mkfs.fat -F 32 -n boot "${device}p1"
 
-echo "creating volume group an logical volumes on physical volume /dev/${device}p2"
-pvcreate "/dev/${device}p2"
-vgcreate encvg "/dev/${device}p2"
+echo "creating volume group an logical volumes on physical volume ${device}p2"
+pvcreate "${device}p2"
+vgcreate encvg "${device}p2"
 lvcreate --size "$swap_size" --name swap encvg
 lvcreate --extents '100%FREE' --name root encvg
 echo "synchronizing cached writes and sleeping 5 seconds"
