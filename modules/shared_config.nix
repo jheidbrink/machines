@@ -150,7 +150,6 @@ in
     programs.syncrepos
     black
     ripgrep
-    fzf
     awscli2
     pciutils
     parted
