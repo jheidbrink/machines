@@ -87,3 +87,9 @@ error: attribute 'extend' missing
 * just ditch LVM
 scripts/partition_unencrypted_nolvm_noswap.sh /dev/nvme0n1
 scripts/install_new_system_unencrypted.sh grill
+...set root password...
+reboot
+
+PASSWORD_STORE_DIR=~/repositories/machine_secrets pass grill/retiolum/ed25519_key.priv | ssh root@grill 'mkdir -p /var/secrets/retiolum && tee /var/secrets/retiolum/ed25519_key.priv'
+PASSWORD_STORE_DIR=~/repositories/machine_secrets pass grill/retiolum/rsa_key.priv | ssh root@grill 'mkdir -p /var/secrets/retiolum && tee /var/secrets/retiolum/rsa_key.priv'
+ssh root@grill chmod go-rwx /var/secrets
