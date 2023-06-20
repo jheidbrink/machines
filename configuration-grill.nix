@@ -46,9 +46,9 @@ in
   };
 
   users.users.root.openssh.authorizedKeys.keys = [
-    (builtins.readFile ./pukeys/id_rsa_jan_at_petrosilia.pub)
-    (builtins.readFile ./pukeys/id_rsa_jan_at_toastbrot.pub)
-    (builtins.readFile ./pukeys/id_rsa_heidbrij_at_petrosilia.pub)
+    (builtins.readFile ./pubkeys/id_rsa_jan_at_petrosilia.pub)
+    (builtins.readFile ./pubkeys/id_rsa_jan_at_toastbrot.pub)
+    (builtins.readFile ./pubkeys/id_rsa_heidbrij_at_petrosilia.pub)
   ];
 
   services.openssh.permitRootLogin = true;  # Hopefully this overrides permitRootLogin = false from shared_config.nix
