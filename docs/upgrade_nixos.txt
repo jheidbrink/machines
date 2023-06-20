@@ -81,3 +81,9 @@ error: attribute 'extend' missing
       press enter to install...
 
 
+2023-06-20
+----------
+* the unencrypted installation with LVM doesn't find the LVM volumes in initrd
+* just ditch LVM
+scripts/partition_unencrypted_nolvm_noswap.sh /dev/nvme0n1
+scripts/install_new_system_unencrypted.sh grill
