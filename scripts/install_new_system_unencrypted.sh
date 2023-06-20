@@ -25,6 +25,6 @@ echo "when done, press enter"
 read -r
 
 echo "Copying config and running nixos-install"
-cp -r ./* /mnt/etc/nixos/
+rsync --recursive --exclude=.mypy_cache --exclude=.git --exclude=.*.swp ./ /mnt/etc/nixos/
 ln -sf "configuration-${target_hostname}.nix" /mnt/etc/nixos/configuration.nix
 nixos-install
