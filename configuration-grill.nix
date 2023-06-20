@@ -51,7 +51,7 @@ in
     (builtins.readFile ./pubkeys/id_rsa_heidbrij_at_petrosilia.pub)
   ];
 
-  services.openssh.permitRootLogin = "prohibit-password";  # Hopefully this overrides permitRootLogin = "no" from shared_config.nix
+  services.openssh.permitRootLogin = pkgs.lib.mkForce "prohibit-password";  # Hopefully this overrides permitRootLogin = "no" from shared_config.nix
 
   # Disable the GNOME3/GDM auto-suspend feature that cannot be disabled in GUI!
   # If no user is logged in, the machine will power down after 20 minutes.
