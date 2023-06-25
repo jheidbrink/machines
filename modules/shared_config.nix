@@ -285,6 +285,7 @@ in
           tagbar
           vim-colors-solarized
           vim-surround
+          vim-repeat  # also from tpope, makes . correctly repeat the last vim-surround
           vim-css-color
           nvim-lspconfig
         ];
