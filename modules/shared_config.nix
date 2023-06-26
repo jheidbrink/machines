@@ -217,6 +217,7 @@ in
     dracut  # for lsinitrd
     weechat
     nil  # Nix language server
+    sox  # The swiss army knife of audio manipulation
   ];
 
   programs.java.enable = true;
