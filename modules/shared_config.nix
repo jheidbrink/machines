@@ -218,6 +218,8 @@ in
     weechat
     nil  # Nix language server
     sox  # The swiss army knife of audio manipulation
+    git
+    git-filter-repo
   ];
 
   programs.java.enable = true;
@@ -257,7 +259,6 @@ in
   };
   programs.zsh.enable = true;
   programs.fish.enable = true;
-  programs.git.enable = true;
   programs.iotop.enable = true;
   programs.iftop.enable = true;
   programs.sysdig.enable = true;
