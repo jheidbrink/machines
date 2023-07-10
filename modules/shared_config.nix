@@ -221,6 +221,7 @@ in
     sox  # The swiss army knife of audio manipulation
     git
     git-filter-repo
+    bfg-repo-cleaner
   ];
 
   programs.java.enable = true;
