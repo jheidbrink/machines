@@ -151,6 +151,7 @@ in
     black
     ripgrep
     awscli2
+    ssm-session-manager-plugin
     pciutils
     parted
     shellcheck  # should be used by Vim if Ale is installed
