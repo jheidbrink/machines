@@ -253,3 +253,7 @@ exec udiskie --tray
 
 exec nm-applet --indicator
 
+# The touchpad sometimes lets the mousecursor jump around.
+# This is especially annoying when it makes the cursor shift the window focus while typing,
+# thus disable the touchpad entirely and rely on the trackpoint instead
+exec swaymsg input type:touchpad events disabled
