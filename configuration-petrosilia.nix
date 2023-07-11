@@ -111,6 +111,7 @@ in
     pkgs.aptly
     pkgs.teams
     pkgs.bluetuith
+    pkgs.kubectl
   ];
 
   # Minimal configuration for NFS support with Vagrant. (from NixOS Wiki)
