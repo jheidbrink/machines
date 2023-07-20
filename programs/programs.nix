@@ -30,6 +30,7 @@ rec {
     rev = "df1c7f1f94f22e2c717f8224158f6f4097c5ecbe";
     sha256 = "3dZ2LMv0esbzJvfrtWWbO9SFotXj3UeizjMxO6vs73M=";
   };
+  alacritty_my_light_scheme = ./alacritty-light-colors.yml;
   alacritty_selenized_scheme = "${selenized_colorschemes}/terminals/alacritty/selenized-light.yml";
   alacritty_solarized_256_scheme = "${alacritty_base16_schemes}/jj";
   alacritty-config = colorscheme_location: pkgs.writeText "alacritty.yml" ''
@@ -38,11 +39,14 @@ rec {
     import:
       - ${colorscheme_location}
   '';
-  alacritty-light = pkgs.writers.writeDashBin "alacritty" ''
+  alacritty-selenized-light = pkgs.writers.writeDashBin "alacritty" ''
     ${pkgs.alacritty}/bin/alacritty --config-file ${alacritty-config alacritty_selenized_scheme}
   '';
   alacritty-solarized = pkgs.writers.writeDashBin "alacritty-solarized" ''
     ${pkgs.alacritty}/bin/alacritty --config-file ${alacritty-config alacritty_solarized_256_scheme}
+  '';
+  alacritty-light = pkgs.writers.writeDashBin "alacritty" ''
+    ${pkgs.alacritty}/bin/alacritty --config-file ${alacritty-config alacritty_my_light_scheme}
   '';
   ansible-playbook-grapher = pkgs.python310Packages.buildPythonApplication {
     pname = "ansible-playbook-grapher";

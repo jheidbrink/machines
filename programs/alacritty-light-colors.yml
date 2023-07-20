@@ -1,13 +1,15 @@
-# Colors (Selenized light)
+# Colors (Based on Selenized light)
+# Background is slightly lighter and grayer
+# Some fonts are slightly darker, especially yellow
 colors:
   primary:
-    background: '0xfbf3db'
+    background: '0xfdf7e4'
     foreground: '0x53676d'
   normal:
     black:   '0xece3cc'
     red:     '0xd2212d'
     green:   '0x489100'
-    yellow:  '0xad8900'
+    yellow:  '0xa08000'
     blue:    '0x0072d4'
     magenta: '0xca4898'
     cyan:    '0x009c8f'
