@@ -103,6 +103,7 @@ in
     fzf  # needed at least for zsh history search
     pass
     yubikey-manager
+    yubikey-manager-qt
     zoom-us
     dua # disk usage analyzer inspired by ncdu. ncdu2 crashes on my machine
     kbfs  # Keybase filesystem, this also brings the git-remote-keybase binary
