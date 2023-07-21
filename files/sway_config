@@ -257,3 +257,5 @@ exec nm-applet --indicator
 # This is especially annoying when it makes the cursor shift the window focus while typing,
 # thus disable the touchpad entirely and rely on the trackpoint instead
 exec swaymsg input type:touchpad events disabled
+
+exec wl-paste --primary --watch autoprocess_clipboard

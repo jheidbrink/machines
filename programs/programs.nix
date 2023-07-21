@@ -85,4 +85,5 @@ rec {
     ${pkgs.bat}/bin/bat --theme=ansi $@
   '';
   wlr-which-key = (import ./wlr-which-key.nix) { inherit pkgs lib; };
+  autoprocess_clipboard = pkgs.writers.writePython3Bin "autoprocess_clipboard" { flakeIgnore = [ "E265" "E501" ]; } (builtins.readFile ./autoprocess_clipboard.py);
 }

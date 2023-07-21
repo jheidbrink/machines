@@ -18,7 +18,7 @@ let
       '';
   };
 
-  programs = (import programs/programs.nix) { inherit pkgs lib; };
+  programs = (import ../programs/programs.nix) { inherit pkgs lib; };
 
   # currently, there is some friction between sway and gtk:
   # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
@@ -73,6 +73,7 @@ in
     pkgs.gsimplecal  # Used in shortcut
     pkgs.udiskie
     # programs.wlr-which-key   # currently doesn't build
+    programs.autoprocess_clipboard
   ];
 
 
