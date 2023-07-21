@@ -109,7 +109,6 @@ in
     pkgs.rustup
     pkgs.bazel_5
     pkgs.aptly
-    pkgs.teams
     pkgs.bluetuith
     pkgs.kubectl
     pkgs.direnv
