@@ -19,11 +19,12 @@ import pathlib
 import subprocess
 
 contents = sys.stdin.read()
+processed = contents.replace('-', '')
 
-if re.match(r"\d{12}", contents):
+if re.match(r"\d{12}", processed):
     # aws-accounts.json is created with `mkdir -p ~/.cache/autoprocess_clipboard && aws organizations list-accounts > ~/.cache/autoprocess_clipboard/aws-accounts.json`
     with open(pathlib.Path('~/.cache/autoprocess_clipboard/aws-accounts.json').expanduser(), encoding='utf8') as fh:
         accounts = json.load(fh)
     for account in accounts["Accounts"]:
-        if account["Id"] == contents:
+        if account["Id"] == processed:
             subprocess.run(["notify-send", f"{account['Id']}: {account['Name']}"], check=True)
