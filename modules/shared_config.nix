@@ -90,11 +90,12 @@ in
     tree
     jq
     curl
-    python310Packages.argcomplete  # sourced from shell
-    python310Packages.virtualenvwrapper  # loaded by my zshrc
-    python310Packages.ipython
-    python310Packages.pip-tools
-    python310Packages.pylint
+    (python3.withPackages (ps: [ ps.pyyaml ps.ipython ]))  # putting ipython and yaml in the same environment so that I can `import yaml' from an ipython session
+    python3Packages.argcomplete  # sourced from shell
+    python3Packages.virtualenvwrapper  # loaded by my zshrc
+    python3Packages.pip-tools
+    python3Packages.pylint
+    python3Packages.mypy
     poetry
     programs.alacritty-light  # associated with windows+t shortcut in i3
     gitAndTools.diff-so-fancy  # git is configured to use it
@@ -147,7 +148,6 @@ in
     rclone
     ldns  # drill
     programs.vim.myvim
-    python39Packages.mypy
     programs.syncrepos
     black
     ripgrep
