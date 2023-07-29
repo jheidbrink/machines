@@ -222,6 +222,7 @@ in
     sox  # The swiss army knife of audio manipulation
     git
     git-filter-repo
+    git-lfs
     bfg-repo-cleaner
   ];
 
