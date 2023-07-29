@@ -96,6 +96,7 @@ in
     python3Packages.pip-tools
     python3Packages.pylint
     python3Packages.mypy
+    python3Packages.pip
     poetry
     programs.alacritty-light  # associated with windows+t shortcut in i3
     gitAndTools.diff-so-fancy  # git is configured to use it
