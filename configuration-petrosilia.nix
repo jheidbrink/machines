@@ -37,6 +37,7 @@ in
   ];
 
   hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = false;  # zero-click remote code execution vulnerabilities were discovered in the Linux Bluetooth stack in the past
   services.blueman.enable = true;
 
   # Enable pipewire. Copied this block from (among others) https://nixos.wiki/wiki/PipeWire#Enabling_PipeWire and https://discourse.nixos.org/t/is-pipewire-ready-for-using/11578/16
