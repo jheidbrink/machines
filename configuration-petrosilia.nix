@@ -2,10 +2,11 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
 
+  programs = (import ./programs/programs.nix) { inherit pkgs lib; };
   standard-user-hm-config = import ./standard-user-hm-config.nix { inherit pkgs; };
 
 in
@@ -115,6 +116,7 @@ in
     pkgs.bluetuith
     pkgs.kubectl
     pkgs.direnv
+    programs.aws_ssm_ssh
   ];
 
   # Minimal configuration for NFS support with Vagrant. (from NixOS Wiki)

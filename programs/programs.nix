@@ -86,4 +86,8 @@ rec {
   '';
   wlr-which-key = (import ./wlr-which-key.nix) { inherit pkgs lib; };
   autoprocess_clipboard = pkgs.writers.writePython3Bin "autoprocess_clipboard" { flakeIgnore = [ "E265" "E501" ]; } (builtins.readFile ./autoprocess_clipboard.py);
+  aws_ssm_ssh = pkgs.writers.writeBashBin "aws_ssm_ssh" ''
+    export PATH=${lib.makeBinPath [ pkgs.awscli2 ]};
+    ${(builtins.readFile ./aws_ssh_with_ssm_and_instanceconnect.sh)}
+  '';
 }
