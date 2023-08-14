@@ -118,6 +118,8 @@ in
     pkgs.kubectl
     pkgs.direnv
     programs.aws_ssm_ssh
+    pkgs.kustomize
+    pkgs.jsonnet
   ];
 
   # Minimal configuration for NFS support with Vagrant. (from NixOS Wiki)
