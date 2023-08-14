@@ -21,6 +21,7 @@ in
       ./modules/graphical.nix
       ./modules/sway.nix
       ./modules/petrosilia-private.nix
+      ./modules/k3s-server.nix
   ];
 
   boot.initrd.luks.devices.crypted.device = "/dev/disk/by-uuid/45cd0923-da26-433c-a7ad-5564e90ce9cb";
