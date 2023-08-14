@@ -225,6 +225,8 @@ in
     git-filter-repo
     git-lfs
     bfg-repo-cleaner
+    ethtool
+    lsof
   ];
 
   programs.java.enable = true;
