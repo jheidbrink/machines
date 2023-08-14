@@ -183,4 +183,8 @@ nmap <leader>t :TagbarToggle<CR>
 " majutsushi/tagbar {{{
 
 
+" This is probably lua?
+" require("lspconfig").nil_ls.setup({})
+
+
 " vim: set foldmethod=marker tabstop=2 :
