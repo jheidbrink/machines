@@ -26,6 +26,8 @@ in
 
   networking.hostName = "petrosilia";
 
+  networking.usePredictableInterfaceNames = false;  # use the ambiguous wlan0 instead of the stable wlp3s0
+
   users.users.jan.openssh.authorizedKeys.keys = [
     (builtins.readFile ./pubkeys/id_rsa_jan_at_petrosilia.pub)
     (builtins.readFile ./pubkeys/id_rsa_heidbrij_at_petrosilia.pub)
