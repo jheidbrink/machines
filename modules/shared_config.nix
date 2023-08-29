@@ -183,6 +183,7 @@ in
     speechd # for spd-say as notification in shell scripts
     haskellPackages.git-annex
     qemu
+    quickemu
     gparted
     binutils  # ar, ld, readelf, strings, ...
     powertop
