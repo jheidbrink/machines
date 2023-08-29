@@ -121,6 +121,7 @@ in
     pkgs.kustomize
     pkgs.jsonnet
     pkgs.kubecfg
+    pkgs.k9s
   ];
 
   # Minimal configuration for NFS support with Vagrant. (from NixOS Wiki)
