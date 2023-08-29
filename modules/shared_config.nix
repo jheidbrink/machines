@@ -227,6 +227,7 @@ in
     bfg-repo-cleaner
     ethtool
     lsof
+    qrencode
   ];
 
   programs.java.enable = true;
