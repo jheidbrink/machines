@@ -77,6 +77,7 @@ in
 
   environment.systemPackages = [
     pkgs.conda
+    pkgs.ninja  # for building trocr
   ];
 
   # This value determines the NixOS release from which the default
