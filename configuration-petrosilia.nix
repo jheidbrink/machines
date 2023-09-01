@@ -122,6 +122,7 @@ in
     pkgs.jsonnet
     pkgs.kubecfg
     pkgs.k9s
+    pkgs.steampipe
   ];
 
   # Minimal configuration for NFS support with Vagrant. (from NixOS Wiki)
