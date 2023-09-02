@@ -57,12 +57,18 @@ in
 
   environment.etc."kanshi.conf".text = ''
     {
-      output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1307 scale 1.2
+      output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1307 scale 1.2   # 14″ internal screen
     }
 
     {
       output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1307 scale 1.2
-      output "Dell Inc. DELL U2719D 2XSLSS2" enable mode 2560x1440@59.951000Hz position 0,0 scale 1.1  # on desk at home
+      output "Dell Inc. DELL U2719D 2XSLSS2" enable mode 2560x1440@59.951000Hz position 0,0 scale 1.1  # 27″ screen at home
+    }
+
+    {
+      output eDP-1 enable mode 1920x1080@59.999001Hz position 860,2820 scale 1.2
+      output "Dell Inc. DELL U2719D 2XSLSS2" enable mode 2560x1440@59.951000Hz position 210,1380 scale 1.1  # 27″ screen at home
+      output "Dell Inc. DELL U2414H 9TG464A56K4L" enable mode 1920x1080@60Hz position 2780,2300 scale 1.1  # 24" screen at home
     }
 
     {
