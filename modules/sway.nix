@@ -63,7 +63,6 @@ in
     pkgs.iwgtk
     pkgs.kanshi
     pkgs.waybar
-    pkgs.j4-dmenu-desktop
     pkgs.wdisplays
     pkgs.wlr-randr
     pkgs.waypipe
@@ -74,6 +73,8 @@ in
     pkgs.udiskie
     # programs.wlr-which-key   # currently doesn't build
     programs.autoprocess_clipboard
+    pkgs.tesseract
+    pkgs.xdg-user-dirs
   ];
 
 

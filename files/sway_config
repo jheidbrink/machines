@@ -69,13 +69,15 @@ set $menu _JAVA_AWT_WM_NONREPARENTING=1 bemenu-run \
 
 
 # Start menu
-bindsym $mod+shift+m exec $menu
-bindsym $mod+m exec j4-dmenu-desktop
+bindsym $mod+m exec $menu
 
 # Start control panels
 bindsym $mod+Shift+d exec iwgtk; exec pavucontrol; exec blueman-manager
 
-bindsym $mod+c exec grim  -g "$(slurp)" /tmp/$(date +'%H:%M:%S.png')
+bindsym $mod+p exec grim $(xdg-user-dir PICTURES)/$(date +'screenshot_%Y-%m-%d-%H%M%S.png')
+bindsym $mod+o exec slurp | grim -g - $(xdg-user-dir PICTURES)/$(date +'screenshot_%Y-%m-%d-%H%M%S.png')
+bindsym $mod+c exec slurp | grim -g - - | wl-copy
+bindsym $mod+t exec slurp | grim -g - - | tesseract stdin stdout -l eng+deu | wl-copy
 
 bindsym $mod+Control+c exec gsimplecal
 
