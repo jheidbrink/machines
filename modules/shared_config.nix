@@ -229,6 +229,7 @@ in
     ethtool
     lsof
     qrencode
+    imagemagick
   ];
 
   programs.java.enable = true;
