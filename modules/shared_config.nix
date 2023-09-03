@@ -230,6 +230,7 @@ in
     lsof
     qrencode
     imagemagick
+    steam-run
   ];
 
   programs.java.enable = true;
