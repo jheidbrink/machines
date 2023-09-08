@@ -231,6 +231,7 @@ in
     qrencode
     imagemagick
     steam-run
+    tldr
   ];
 
   programs.java.enable = true;
