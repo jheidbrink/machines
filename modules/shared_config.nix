@@ -232,6 +232,7 @@ in
     imagemagick
     steam-run
     tldr
+    dogdns
   ];
 
   programs.java.enable = true;
