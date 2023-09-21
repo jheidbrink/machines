@@ -233,6 +233,9 @@ in
     steam-run
     tldr
     dogdns
+    debootstrap
+    usbutils
+    feh
   ];
 
   programs.java.enable = true;
