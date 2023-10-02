@@ -236,6 +236,7 @@ in
     debootstrap
     usbutils
     feh
+    diffuse  # diff an arbitrary amount of files
   ];
 
   programs.java.enable = true;
