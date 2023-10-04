@@ -129,6 +129,7 @@ in
     pkgs.kubecfg
     pkgs.k9s
     pkgs.steampipe
+    pkgs.microsoft-edge
   ];
 
   # Minimal configuration for NFS support with Vagrant. (from NixOS Wiki)
