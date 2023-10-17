@@ -75,6 +75,7 @@ in
     programs.autoprocess_clipboard
     pkgs.tesseract
     pkgs.xdg-user-dirs
+    pkgs.rofi-wayland
   ];
 
 
