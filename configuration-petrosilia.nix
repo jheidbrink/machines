@@ -132,6 +132,8 @@ in
     pkgs.microsoft-edge
   ];
 
+  services.hardware.bolt.enable = true;
+
   # Minimal configuration for NFS support with Vagrant. (from NixOS Wiki)
   services.nfs.server.enable = true;
   networking.firewall.extraCommands = ''
