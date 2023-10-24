@@ -128,6 +128,7 @@ in
     pkgs.jsonnet
     pkgs.kubecfg
     pkgs.k9s
+    pkgs.kubectx
     pkgs.steampipe
     pkgs.microsoft-edge
   ];
