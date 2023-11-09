@@ -131,6 +131,7 @@ in
     pkgs.kubectx
     pkgs.steampipe
     pkgs.microsoft-edge
+    programs.ende
   ];
 
   services.hardware.bolt.enable = true;

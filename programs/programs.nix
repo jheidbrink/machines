@@ -90,4 +90,6 @@ rec {
     export PATH=${lib.makeBinPath [ pkgs.awscli2 ]};
     ${(builtins.readFile ./aws_ssh_with_ssm_and_instanceconnect.sh)}
   '';
+  ende-full = (import ./stardict-ende.nix { inherit pkgs lib; }).ende-full;
+  ende = (import ./stardict-ende.nix { inherit pkgs lib; }).ende;
 }
