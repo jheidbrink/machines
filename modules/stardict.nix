@@ -1,5 +1,5 @@
-# Picked from https://github.com/kmein/niveum/blob/master/configs/stardict.nix
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
+
 let dictionaries = {
     englishGerman = {
       Etymonline = pkgs.fetchzip {
@@ -176,7 +176,12 @@ let dictionaries = {
     ${toString sdcvPruneTags} | less -FR
   '';
 
-in {
-  ende-full = makeStardict "ende-full" dictionaries.englishGerman;
-  ende = makeStardictNonInteractive "ende" dictionaries.HandwoerterbuchEnglischDeutsch;
+in
+
+{
+  environment.systemPackages = [
+    pkgs.sdcv
+  ];
+
+  environment.etc.stardict.source = makeStardictDataDir dictionaries.englishGerman;
 }

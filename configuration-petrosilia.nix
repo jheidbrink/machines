@@ -20,6 +20,7 @@ in
       ./modules/laptop.nix
       ./modules/graphical.nix
       ./modules/sway.nix
+      ./modules/stardict.nix
       ./modules/petrosilia-private.nix
       #./modules/k3s-server.nix
   ];
@@ -132,6 +133,8 @@ in
     pkgs.steampipe
     pkgs.microsoft-edge
     programs.ende
+    programs.ende-full
+    pkgs.sdcv
   ];
 
   services.hardware.bolt.enable = true;
