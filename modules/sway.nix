@@ -54,7 +54,7 @@ in
     pkgs.glib                      # gsettings
     pkgs.dracula-theme             # gtk theme
     pkgs.gnome3.adwaita-icon-theme # default gnome cursors
-    pkgs.swaylock
+    pkgs.swaylock-effects
     pkgs.swayidle
     pkgs.grim                      # screenshot functionality
     pkgs.slurp                     # screenshot functionality

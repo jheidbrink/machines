@@ -14,7 +14,11 @@ for_window [class="^zoom$" title="^.*(?<!Zoom Meeting)$"] floating enable
 
 set $editor gvim
 set $term alacritty
+set $baseLocker 'swaylock -f -c 000000'
 set $Locker 'swaylock -f -c 000000'
+set $gracefulLocker 'swaylock --screenshots --clock --indicator --indicator-radius 100 --indicator-thickness 7 --effect-blur 7x5 --effect-vignette 0.5:0.5 --ring-color bb00cc --key-hl-color 880033 --line-color 00000000 --inside-color 00000088 --separator-color 00000000 --grace 2 --fade-in 0.2'
+
+
 
 set $mod Mod4
 
@@ -239,10 +243,10 @@ bindsym $mod+y mode "$mode_system"
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 exec swayidle -w \
-         timeout 600 $Locker \
+         timeout 600 $gracefulLocker \
          timeout 600 'swaymsg "output * dpms off"' \
               resume 'swaymsg "output * dpms on"' \
-         before-sleep $Locker
+         before-sleep $baseLocker
 
 # set gtk settings
 exec configure-gtk Adwaita
