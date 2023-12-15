@@ -90,7 +90,7 @@ in
     tree
     jq
     curl
-    (python3.withPackages (ps: [ ps.pyyaml ps.ipython ps.numpy ]))  # putting ipython and yaml in the same environment so that I can `import yaml' from an ipython session
+    (python3.withPackages (ps: [ ps.pyyaml ps.ipython ps.numpy ps.requests ]))  # putting ipython and yaml in the same environment so that I can `import yaml' from an ipython session
     python3Packages.argcomplete  # sourced from shell
     python3Packages.virtualenvwrapper  # loaded by my zshrc
     python3Packages.pip-tools
@@ -237,6 +237,7 @@ in
     usbutils
     feh
     diffuse  # diff an arbitrary amount of files
+    zbar
   ];
 
   programs.java.enable = true;
