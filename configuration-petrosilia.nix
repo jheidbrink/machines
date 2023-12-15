@@ -83,6 +83,10 @@ in
       output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1440 scale 1.2
       output "Dell Inc. DELL U2722D H4Z87H3" enable mode 2560x1440@59.951000Hz position 0,0 scale 1.1  # office
     }
+    {
+      output eDP-1 enable mode 1920x1080@59.999001Hz position 0,1440 scale 1.0
+      output "Dell Inc. DELL U2722D D5Z87H3" enable mode 2560x1440@59.951000Hz position 0,0 scale 1.0  # office
+    }
   '';
 
   i18n.extraLocaleSettings = {
