@@ -1,5 +1,8 @@
 { pkgs }:
 {
+  # see https://discourse.nixos.org/t/home-manager-not-upgrading/36444/3
+  manual.html.enable = false;
+  manual.manpages.enable = false;
   xdg.mimeApps = {
     # look at https://github.com/Mic92/dotfiles/blob/master/nixpkgs-config/modules/default-apps.nix
     # and https://github.com/lovesegfault/nix-config/blob/master/users/bemeurer/graphical/firefox.nix

@@ -18,6 +18,17 @@
       fsType = "ext4";
     };
 
+  fileSystems."/usr/bin" =
+    { device = "none";
+      fsType = "fuse.envfs";
+    };
+
+  fileSystems."/bin" =
+    { device = "/usr/bin";
+      fsType = "none";
+      options = [ "bind" ];
+    };
+
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/DE09-3FFF";
       fsType = "vfat";
@@ -30,12 +41,15 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp2s0f0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp6s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp8s0f3u1u1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-0f26d481bbbf.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-93e2c21e1599.useDHCP = lib.mkDefault true;
+  # networking.interfaces.docker0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.eth0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.eth1.useDHCP = lib.mkDefault true;
   # networking.interfaces.tinc.retiolum.useDHCP = lib.mkDefault true;
   # networking.interfaces.vboxnet0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp3s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth56aebf8.useDHCP = lib.mkDefault true;
+  # networking.interfaces.wlan0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wwan0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

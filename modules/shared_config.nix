@@ -35,14 +35,6 @@ in
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking.useDHCP = false;
-  # comment out the following because I had very long wait times at startup, so maybe this is the problem? Might be done by networkmanager anyway
-  #networking.interfaces.enp0s31f6.useDHCP = true;
-  #networking.interfaces.wlp4s0.useDHCP = true;
-
   # TODO: What happens if I define this elsewhere as well? Failure? String concatenation? What about lists and sets?
   # TODO: Write a function that generates hosts and read the data from a map
   networking.extraHosts =
@@ -197,7 +189,6 @@ in
     cachix
     _1password-gui
     programs.bininfo
-    dhcp
     tcpdump
     wireshark
     programs.git-merge-keep-theirs
