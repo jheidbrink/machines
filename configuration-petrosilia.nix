@@ -41,6 +41,8 @@ in
     (builtins.readFile ./pubkeys/id_rsa_heidbrij_at_petrosilia.pub)
   ];
 
+  services.fwupd.enable = true;
+
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = false;  # zero-click remote code execution vulnerabilities were discovered in the Linux Bluetooth stack in the past
   services.blueman.enable = true;
