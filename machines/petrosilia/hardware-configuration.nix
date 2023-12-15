@@ -18,17 +18,6 @@
       fsType = "ext4";
     };
 
-  fileSystems."/usr/bin" =
-    { device = "none";
-      fsType = "fuse.envfs";
-    };
-
-  fileSystems."/bin" =
-    { device = "/usr/bin";
-      fsType = "none";
-      options = [ "bind" ];
-    };
-
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/DE09-3FFF";
       fsType = "vfat";
