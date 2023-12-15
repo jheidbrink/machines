@@ -78,6 +78,7 @@ bindsym $mod+m exec $menu
 # Start control panels
 bindsym $mod+Shift+d exec iwgtk; exec pavucontrol; exec blueman-manager
 
+# TODO - visual confirmation for screenshots?
 bindsym $mod+p exec         grim $(xdg-user-dir PICTURES)/$(date +'screenshot_%Y-%m-%d-%H%M%S.png')
 bindsym $mod+o exec slurp | grim -g - $(xdg-user-dir PICTURES)/$(date +'screenshot_%Y-%m-%d-%H%M%S.png')
 bindsym $mod+c exec slurp | grim -g - - | wl-copy
