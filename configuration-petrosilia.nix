@@ -141,6 +141,7 @@ in
     programs.ende
     programs.ende-full
     pkgs.sdcv
+    pkgs.chatgpt-cli
   ];
 
   services.hardware.bolt.enable = true;
