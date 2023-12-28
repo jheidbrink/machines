@@ -32,12 +32,12 @@
   # from https://github.com/starcraft66/os-config/blob/c9b78eef47e2f42f8c37dec024c0631bc7104096/hosts/helia/configuration.nix#L155-L161
   # and https://github.com/millipedes/NixOS_dot_files/blob/1a3607310fc5649323c9b2b756d18530cc77549f/configuration.nix#L171-L176
   fonts.fontDir.enable = true;
-  fonts.fonts = with pkgs; [
-    nerdfonts
-    noto-fonts
-    emacs-all-the-icons-fonts
-    font-awesome
-    fira-code                     # Most Stuff (kitty, GTK, etc.)
-    powerline-fonts               # Neovim etc.
+  fonts.packages = [
+    pkgs.nerdfonts
+    pkgs.noto-fonts
+    pkgs.emacs-all-the-icons-fonts
+    pkgs.font-awesome
+    pkgs.fira-code                     # Most Stuff (kitty, GTK, etc.)
+    pkgs.powerline-fonts               # Neovim etc.
   ];
 }

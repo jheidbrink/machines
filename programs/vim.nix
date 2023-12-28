@@ -2,7 +2,7 @@
 
 let
 
-vim-colors-github = pkgs.vimUtils.buildVimPluginFrom2Nix {
+vim-colors-github = pkgs.vimUtils.buildVimPlugin {
     pname = "vim-colors-github";
     version = "0.1";
     src = pkgs.fetchFromGitHub {
@@ -13,7 +13,7 @@ vim-colors-github = pkgs.vimUtils.buildVimPluginFrom2Nix {
     };
   };
 
-  vim-colors-ericbn-solarized = pkgs.vimUtils.buildVimPluginFrom2Nix {
+  vim-colors-ericbn-solarized = pkgs.vimUtils.buildVimPlugin {
     pname = "vim-colors-ericbn-solarized";
     version = "0.1";
     src = pkgs.fetchFromGitHub {
@@ -24,7 +24,7 @@ vim-colors-github = pkgs.vimUtils.buildVimPluginFrom2Nix {
     };
   };
 
-  vim-colors-dim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+  vim-colors-dim = pkgs.vimUtils.buildVimPlugin {
     pname = "vim-colors-dim";
     version = "0.1";
     src = pkgs.fetchFromGitHub {
@@ -35,7 +35,7 @@ vim-colors-github = pkgs.vimUtils.buildVimPluginFrom2Nix {
     };
   };
 
-  vim-colors-noctu = pkgs.vimUtils.buildVimPluginFrom2Nix {
+  vim-colors-noctu = pkgs.vimUtils.buildVimPlugin {
     pname = "vim-colors-noctu";
     version = "0.1";
     src = pkgs.fetchFromGitHub {
