@@ -16,7 +16,6 @@ in
       ./machines/petrosilia/hardware-configuration.nix
       <home-manager/nixos>
       ./modules/shared_config.nix
-      ./modules/retiolum.nix
       ./modules/laptop.nix
       ./modules/graphical.nix
       ./modules/sway.nix
@@ -109,13 +108,6 @@ in
 
   home-manager.users.jan = standard-user-hm-config  // { home.stateVersion = "22.05"; };  # I believe the stateVersion is the version of home-manager that was first installed on that system
   home-manager.users.heidbrij = standard-user-hm-config  // { home.stateVersion = "22.05"; };  # I believe the stateVersion is the version of home-manager that was first installed on that system
-
-  networking.retiolum.ipv4 = "10.243.143.11";
-  networking.retiolum.ipv6 = "42:0:3c46:2dfc:6991:79ff:a57a:9984";
-  services.tinc.networks.retiolum = {
-    rsaPrivateKeyFile = "/var/secrets/retiolum/rsa_key.priv";
-    ed25519PrivateKeyFile = "/var/secrets/retiolum/ed25519_key.priv";
-  };
 
   environment.systemPackages = [
     pkgs.meld
