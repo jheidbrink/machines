@@ -134,6 +134,7 @@ in
     programs.ende-full
     pkgs.sdcv
     pkgs.chatgpt-cli
+    pkgs.dante  # for socksify
   ];
 
   services.hardware.bolt.enable = true;
